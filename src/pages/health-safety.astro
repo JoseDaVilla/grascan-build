@@ -1,0 +1,71 @@
+---
+/**
+ * HEALTH & SAFETY — subsecciones de la estructura del documento.
+ * TODO (cliente): el documento no incluye texto para "COR / ISO 45001", "Employee Safety Portal"
+ * ni "Grascan Build Policies & Resources". Se muestran como "en preparación" hasta recibirlo.
+ */
+import { u } from '@/lib/url';
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import SplitText from '@/components/SplitText.astro';
+import Button from '@/components/Button.astro';
+import { safety, safetyTopics as t } from '@/data/services';
+
+type Block = { title: string; lead?: string; text: string };
+const sections: { id: string; title: string; blocks?: Block[]; pending?: string }[] = [
+  { id: 'cor', title: 'Certificate of Recognition (COR™) / ISO 45001', pending: 'Certification details for Grascan Build are being prepared and will be published here.' },
+  { id: 'preparedness', title: 'Safety & Emergency Preparedness', blocks: [t.management, t.training, t.emergency] },
+  { id: 'portal', title: 'Employee Safety Portal', pending: 'The employee safety portal is being set up. Access details will be shared with Grascan Build employees.' },
+  { id: 'subcontractors', title: 'Subcontractor Safety', blocks: [t.subcontractor] },
+  { id: 'site-safety', title: 'Construction Site Safety', blocks: [t.site] },
+  { id: 'quality', title: 'Quality Management', blocks: [t.quality] },
+  { id: 'environmental', title: 'Environmental & Hazard Management', blocks: [t.environmental] },
+  { id: 'policies', title: 'Grascan Build Policies & Resources', pending: 'Grascan Build policies and resources will be available here.' },
+];
+---
+
+<Base title="Health & Safety" description={`${safety.intro[0]} ${safety.intro[1]}`}>
+  <PageHero eyebrow="Health & safety" title="Safety is|how we build." accent={['build.']} lead={safety.intro[0]}>
+    <p class="mt-6 max-w-2xl text-ink/70" data-reveal style="--d:4">{safety.intro[1]}</p>
+    <nav aria-label="Health & Safety" class="mt-12 grid max-w-4xl border-t border-ink/10 sm:grid-cols-2" data-reveal style="--d:5">
+      {sections.map((s) => <a href={`#${s.id}`} class="border-b border-ink/10 py-3 pr-4 font-semibold text-ink/80 transition-colors hover:text-signal">{s.title}</a>)}
+    </nav>
+  </PageHero>
+
+  {
+    sections.map((s, i) => (
+      <section id={s.id} class:list={['scroll-mt-24 py-16 md:py-24', i % 2 === 1 && 'bg-concrete']}>
+        <div class="container-x grid gap-10 lg:grid-cols-12">
+          <div class="lg:col-span-5">
+            <Eyebrow class="mb-6 text-mute">{String(i + 1).padStart(2, '0')}</Eyebrow>
+            <h2 class="font-wide text-[clamp(1.4rem,2.6vw,2.4rem)] leading-tight" data-reveal>{s.title}</h2>
+          </div>
+          <div class="lg:col-span-6 lg:col-start-7">
+            {s.blocks &&
+              s.blocks.map((b, k) => (
+                <article class:list={['border-t border-ink/10 py-7', k === s.blocks!.length - 1 && 'border-b']} data-reveal style={`--d:${k}`}>
+                  {s.blocks!.length > 1 && <h3 class="font-semiwide text-xl font-bold text-signal">{b.title}</h3>}
+                  {b.lead && <p class="mt-3 font-semibold text-ink">{b.lead}</p>}
+                  <p class:list={['text-lg text-ink/75', (s.blocks!.length > 1 || b.lead) && 'mt-3']}>{b.text}</p>
+                </article>
+              ))}
+            {s.pending && (
+              <div class="border border-dashed border-ink/25 p-7" data-reveal>
+                <p class="eyebrow text-mute">Coming soon</p>
+                <p class="mt-3 text-ink/75">{s.pending}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="on-dark bg-ink py-24 text-bone md:py-32">
+    <div class="container-x flex flex-col items-start justify-between gap-10 md:flex-row md:items-end">
+      <SplitText text={safety.closing} class="max-w-3xl font-wide text-title" />
+      <div data-reveal style="--d:2"><Button href={u('/contact?topic=safety#form')}>Contact our team</Button></div>
+    </div>
+  </section>
+</Base>

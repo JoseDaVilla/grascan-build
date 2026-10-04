@@ -1,94 +1,90 @@
 /**
  * Configuración central del sitio Grascan Build.
- * Contenido basado en grascan.com (historia, servicios, proyectos, oficinas).
- * Los valores marcados con TODO deben confirmarse con el cliente.
+ * Estructura y textos según el documento "Website GRASCAN BUILD".
+ * Los datos de contacto (email, teléfono, dirección) están PENDIENTES de que el cliente los envíe
+ * ("waiting for info" en el documento). Cuando lleguen, rellenar `email` / `phone` / `office`.
  */
 
 export const site = {
-  name: 'Grascan',
+  name: 'Grascan Build',
   legalName: 'Grascan Build',
-  tagline: 'Building Southern Ontario since 1987.',
+  tagline: 'Building on experience.',
   description:
-    'Grascan Build brings nearly four decades of Grascan experience in complex, high-profile construction across Southern Ontario to private-sector clients.',
+    'Backed by the experience of Grascan Construction, Grascan Build delivers commercial, industrial and institutional buildings with the same commitment to safety, quality and performance that has defined Grascan since 1987.',
   founded: 1987,
-  email: 'info@grascanbuild.com', // TODO: confirmar email general
-  phone: '416-644-8858',
-  tollFree: '1-888-929-4727',
-  fax: '416-644-8864',
-  estimatingEmail: 'estimating@grascanbuild.com', // TODO: confirmar
-  safetyEmail: 'safety@grascan.com',
-  careersEmail: 'hr@grascanbuild.com', // TODO: confirmar
-  social: [
-    { label: 'LinkedIn', href: 'https://ca.linkedin.com/company/grascan-construction-ltd-' },
-  ],
+  /** TODO: pendiente del cliente ("waiting for info"). Vacío = no se muestra. */
+  email: '',
+  /** TODO: pendiente del cliente ("waiting for info"). Vacío = no se muestra. */
+  phone: '',
+  social: [] as { label: string; href: string }[],
   /**
    * Endpoint de formularios. GitHub Pages no procesa formularios: poner aquí la URL
    * de Formspree / Basin / API propia. Vacío = Netlify Forms (si se aloja en Netlify).
    */
   formEndpoint: '',
-} as const;
+};
 
+/** Menú principal: secciones del documento (Contact va como botón). */
 export const nav = [
-  { label: 'About', href: '/about' },
   { label: 'Services', href: '/services' },
+  { label: 'Health & Safety', href: '/health-safety' },
   { label: 'Projects', href: '/projects' },
-  { label: 'Estimating', href: '/estimating' },
-  { label: 'News', href: '/news' },
-  { label: 'Media', href: '/media' },
+  { label: 'About', href: '/about' },
+  { label: 'Careers', href: '/careers' },
   { label: 'Contact', href: '/contact' },
 ] as const;
 
-export const stats = [
-  { value: new Date().getFullYear() - 1987, suffix: '', label: 'Years building', note: 'Incorporated in 1987' },
-  { value: 300, prefix: '$', suffix: 'M+', label: 'Tender capacity', note: 'Single-project bid capacity' },
-  { value: 29, suffix: '', label: 'GO Stations upgraded', note: 'Early Stations design-build' },
-  { value: 18, suffix: ' mo', label: 'Ahead of schedule', note: 'Gardiner Expressway Section 2' },
-] as const;
-
-export const offices = [
+/** Mapa del sitio completo (footer), tal como la estructura del documento. */
+export const sitemap = [
   {
-    city: 'Toronto',
-    label: 'Main Office & Facility',
-    address: ['61 Steinway Blvd.', 'Toronto, ON M9W 6H6'],
-    phone: '416-644-8858',
-    phones: [
-      { label: 'Tel', value: '416-644-8858' },
-      { label: 'Fax', value: '416-644-8864' },
-      { label: 'Toll free', value: '1-888-929-4727' },
+    label: 'Health & Safety',
+    href: '/health-safety',
+    children: [
+      { label: 'COR™ / ISO 45001', href: '/health-safety#cor' },
+      { label: 'Safety & Emergency Preparedness', href: '/health-safety#preparedness' },
+      { label: 'Employee Safety Portal', href: '/health-safety#portal' },
+      { label: 'Subcontractor Safety', href: '/health-safety#subcontractors' },
+      { label: 'Construction Site Safety', href: '/health-safety#site-safety' },
+      { label: 'Environmental & Hazard Management', href: '/health-safety#environmental' },
+      { label: 'Policies & Resources', href: '/health-safety#policies' },
     ],
-    email: 'info@grascanbuild.com', // TODO: confirmar
-    hours: 'Monday to Friday, 7 am to 5 pm', // TODO: confirmar horario
-    // posición relativa (0–100) en el mapa estilizado del GTA
-    map: { x: 46, y: 40 },
-    coords: '43.7440° N, 79.5940° W',
   },
   {
-    city: 'Brampton',
-    label: 'EHS, Human Resources & Overflow Facility',
-    address: ['85 Devon Rd.', 'Brampton, ON L6T 5A4'],
-    phone: '416-213-8766',
-    phones: [{ label: 'Tel', value: '416-213-8766' }],
-    email: 'safety@grascan.com',
-    hours: 'Monday to Friday, 7 am to 5 pm', // TODO: confirmar horario
-    map: { x: 30, y: 30 },
-    coords: '43.7110° N, 79.7000° W',
+    label: 'About',
+    href: '/about',
+    children: [
+      { label: 'About Grascan Build', href: '/about' },
+      { label: 'Our Approach', href: '/about#approach' },
+      { label: 'Our People', href: '/about#people' },
+      { label: 'News & Insights', href: '/news' },
+    ],
+  },
+  {
+    label: 'Careers',
+    href: '/careers',
+    children: [
+      { label: 'Why Grascan Build', href: '/careers#why' },
+      { label: 'Career Opportunities', href: '/careers#opportunities' },
+    ],
   },
 ] as const;
 
-/** Categorías de proyecto (filtros). */
-export const sectors = ['Bridges & Structures', 'Rail & Transit', 'Roads & Highways', 'Infrastructure'] as const;
+/** Statement bajo el hero. */
+export const highlights = [
+  { label: 'Established 1987', value: 'Grascan experience' },
+  { label: 'Ontario', value: 'Building & construction' },
+  { label: 'Safety', value: 'Quality & accountability' },
+  { label: 'Complex projects', value: 'Delivered with precision' },
+] as const;
+
+/** Oficinas: el documento sólo confirma la región. Dirección, teléfono y email pendientes. */
+export const office = {
+  region: 'Ontario',
+  city: 'Toronto, Ontario, Canada',
+  note: 'Serving clients and projects across Ontario.',
+};
+
+/** Categorías de proyecto (filtros), según "What We Build". */
+export const sectors = ['Commercial', 'Industrial', 'Institutional', 'Healthcare', 'Residential & Mixed-Use', 'Building Rehabilitation'] as const;
 
 export type Sector = (typeof sectors)[number];
-
-/** Organizaciones para las que Grascan ha sido invitada a licitar (grascan.com). */
-export const clients = [
-  'Metrolinx (GO Transit)',
-  'City of Toronto',
-  'Ministry of Transportation Ontario',
-  'Toronto Transit Commission',
-  'CN Railway',
-  'CP Rail',
-  'Waterfront Toronto',
-  'GTAA',
-  'Regional Municipalities',
-] as const;

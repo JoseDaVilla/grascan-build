@@ -1,101 +1,94 @@
 ---
+/**
+ * ABOUT: About Grascan Build · Our Approach · Our People · News & Insights
+ * TODO (cliente): el documento no incluye texto ni perfiles para "Our People".
+ */
 import { u } from '@/lib/url';
+import { getCollection } from 'astro:content';
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
 import SplitText from '@/components/SplitText.astro';
 import Media from '@/components/Media.astro';
 import Button from '@/components/Button.astro';
-import EstimatingCTA from '@/components/EstimatingCTA.astro';
-import { site, stats } from '@/site.config';
-import { values, timeline, leadership, awards } from '@/data/services';
+import NewsCard from '@/components/NewsCard.astro';
+import { story, foundation, newChapter, buildingOnExperience as boe, approach, commitment, newsCopy } from '@/data/services';
+
+const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
 ---
 
-<Base title="About" description={`${site.legalName}: building Southern Ontario since ${site.founded}. Our history, culture, leadership and commitment to safety.`}>
-  <PageHero
-    index="01"
-    eyebrow="About us"
-    title={`Builders since|${site.founded}.`}
-    accent={[`${site.founded}.`]}
-    lead="Grascan has been servicing the construction needs of Southern Ontario since 1987. Approaching our 40th anniversary, we continue to leverage our experience, expertise and innovative spirit to deliver complicated projects."
-  />
+<Base title="About" description={story.paragraphs[0]}>
+  <PageHero eyebrow="About Grascan Build" title="Built on experience.|Focused on|what comes next." accent={['next.']} lead={story.paragraphs[0]} />
 
-  <!-- Historia -->
+  <!-- About Grascan Build -->
   <section class="py-24 md:py-36">
     <div class="container-x grid gap-14 lg:grid-cols-12">
       <div class="lg:col-span-6">
-        <Eyebrow class="mb-8 text-mute">Our story</Eyebrow>
-        <SplitText text="From roadwork|to landmark|projects." accent={["projects."]} class="font-wide text-title font-extrabold uppercase" />
+        <p class="font-wide text-[clamp(1.3rem,2.4vw,2.1rem)] leading-tight" data-reveal>{story.proposition}</p>
       </div>
       <div class="space-y-6 text-lg leading-relaxed text-ink/75 lg:col-span-5 lg:col-start-8" data-reveal>
-        <p>Grascan was incorporated in 1987 by owners <strong class="text-ink">Angelo Grassa and John Balazic</strong>. The company undertook basic roadwork when it launched, but it wasn't long before the founders decided to focus on more challenging, unique projects.</p>
-        <p>By 2000, Grascan had solidified its position as captains of industry, completing some of the most high-profile jobs in the City of Toronto, including dismantling the Gardiner Expressway, something no other contractor in Ontario had done before.</p>
-        <p>With over 36 years of experience completing Bid-Build projects, Grascan established an integrated Design-Build team that is successfully performing multiple major Design-Build projects for Metrolinx. <strong class="text-ink">Grascan Build</strong> now brings that experience to private construction.</p>
+        {story.paragraphs.slice(1).map((p) => <p>{p}</p>)}
       </div>
     </div>
 
-    <div class="container-x mt-20 grid gap-4 md:grid-cols-12">
-      <div class="md:col-span-8" data-reveal="mask"><Media seed="about-hero" variant="midrise" class="aspect-[16/10]" /></div>
-      <div class="grid gap-4 md:col-span-4" data-reveal="mask" style="--d:2">
-        <Media seed="about-team" variant="campus" class="aspect-[4/3] md:aspect-auto" />
-        <div class="on-dark flex flex-col justify-between bg-ink p-8">
-          <p class="eyebrow text-gray">Our commitment</p>
-          <p class="mt-6 font-semiwide text-2xl font-bold leading-tight">To be a model of innovation in the construction industry, delivering on time, on budget and safely.</p>
+    <div class="container-x mt-20 md:mt-28">
+      <Eyebrow class="mb-8 text-mute">Our foundation</Eyebrow>
+      <ol class="grid border-t border-ink/10 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          foundation.map((f, i) => (
+            <li class="border-b border-ink/10 py-8 sm:pr-8 sm:[&:nth-child(even)]:border-l sm:[&:nth-child(even)]:pl-8 lg:border-l lg:px-8 lg:first:border-l-0 lg:first:pl-0" data-reveal style={`--d:${i}`}>
+              <p class="font-wide text-3xl text-gray">{f.n}</p>
+              <h3 class="mt-6 font-wide text-xl uppercase text-signal">{f.title}</h3>
+              <p class="mt-4 font-semibold text-ink">{f.lead}</p>
+              {f.detail && <p class="mt-2 text-ink/65">{f.detail}</p>}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <div class="container-x mt-20 grid gap-4 md:mt-28 md:grid-cols-12">
+      <div class="md:col-span-7" data-reveal="mask"><Media seed="about-chapter" variant="campus" class="aspect-[16/10] md:aspect-auto md:h-full md:min-h-80" /></div>
+      <div class="on-dark flex flex-col justify-between gap-10 bg-ink p-8 md:col-span-5 md:p-12" data-reveal style="--d:2">
+        <h2 class="font-wide text-2xl leading-tight md:text-3xl">{newChapter.title}</h2>
+        <div class="space-y-4 text-bone/75 [&_strong]:font-semibold [&_strong]:text-bone">
+          {newChapter.paragraphs.map((p) => <p set:html={p} />)}
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Cifras -->
-  <section class="border-y border-ink/10">
-    <dl class="container-x grid grid-cols-2 lg:grid-cols-4">
-      {
-        stats.map((s, i) => (
-          <div class="border-ink/10 py-10 even:border-l even:pl-6 [&:nth-child(n+3)]:border-t lg:border-l lg:px-8 lg:first:border-l-0 lg:first:pl-0 lg:[&:nth-child(n+3)]:border-t-0" data-reveal style={`--d:${i}`}>
-            <dt class="eyebrow text-mute">{s.label}</dt>
-            <dd class="mt-3 whitespace-nowrap font-wide text-[clamp(1.9rem,8vw,3rem)] font-extrabold tracking-tight text-signal">
-              {'prefix' in s && s.prefix}<span data-count={s.value}>0</span><span class="text-gray">{s.suffix}</span>
-            </dd>
-          </div>
-        ))
-      }
-    </dl>
-  </section>
-
-  <!-- Valores -->
-  <section class="on-dark bg-ink py-24 text-bone md:py-36">
-    <div class="container-x">
-      <Eyebrow class="mb-8 text-bone/50">Culture</Eyebrow>
-      <SplitText text="What drives us." class="font-wide text-display font-extrabold uppercase" />
-      <div class="mt-16 grid gap-px overflow-hidden bg-bone/10 md:grid-cols-2 lg:grid-cols-4">
-        {
-          values.map((v, i) => (
-            <article class="group relative bg-ink p-8 transition-colors duration-500 hover:bg-steel md:p-10" data-reveal style={`--d:${i}`}>
-              <span class="block h-1 w-10 bg-signal" aria-hidden="true"></span>
-              <h3 class="mt-8 font-semiwide text-2xl font-bold">{v.title}</h3>
-              <p class="mt-4 text-bone/60">{v.text}</p>
-              <span class="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-signal transition-transform duration-700 ease-(--ease-expo) group-hover:scale-x-100" />
-            </article>
-          ))
-        }
+  <section class="border-y border-ink/10 bg-concrete py-20 md:py-28">
+    <div class="container-x grid gap-10 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-7">
+        <p class="eyebrow mb-6 text-signal-ink">{boe.eyebrow}</p>
+        <SplitText text="Building the places|that shape Ontario." accent={['Ontario.']} class="font-wide text-title" />
       </div>
+      <p class="text-lead text-ink/75 lg:col-span-5" data-reveal style="--d:2">{boe.text}</p>
     </div>
   </section>
 
-  <!-- Timeline -->
-  <section class="py-24 md:py-36">
+  <!-- Our Approach -->
+  <section id="approach" class="scroll-mt-24 py-24 md:py-36">
     <div class="container-x">
-      <Eyebrow class="mb-8 text-mute">Milestones</Eyebrow>
-      <SplitText text="Nearly four decades|of building." class="font-wide text-display font-extrabold uppercase" />
-      <ol class="timeline relative mt-20 grid gap-12 sm:grid-cols-2 md:grid-cols-4 lg:gap-8 xl:grid-cols-7 xl:gap-6" data-reveal="fade">
-        <span class="timeline-line absolute left-0 right-0 top-[0.55rem] hidden h-px origin-left bg-ink/20 xl:block"></span>
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-7">
+          <Eyebrow class="mb-8 text-mute">Our approach</Eyebrow>
+          <SplitText text="Built on experience.|Driven by execution." accent={['execution.']} class="font-wide text-title" />
+        </div>
+        <div class="space-y-4 text-ink/70 lg:col-span-5" data-reveal>
+          {approach.intro.map((p) => <p>{p}</p>)}
+        </div>
+      </div>
+
+      <ol class="mt-16 grid gap-px overflow-hidden border border-ink/10 bg-ink/10 md:mt-20 md:grid-cols-2 lg:grid-cols-4">
         {
-          timeline.map((t, i) => (
-            <li class="relative" data-reveal style={`--d:${i}`}>
-              <span class="relative z-10 block size-3 border-2 border-signal bg-bone" />
-              <p class="mt-6 font-wide text-4xl font-extrabold tracking-tight">{t.year}</p>
-              <p class="mt-3 font-semibold">{t.title}</p>
-              <p class="mt-2 text-sm text-ink/60">{t.text}</p>
+          approach.steps.map((s, i) => (
+            <li class="bg-bone p-8 md:p-10" data-reveal style={`--d:${i}`}>
+              <p class="eyebrow text-mute">Step {String(i + 1).padStart(2, '0')}</p>
+              <h3 class="mt-6 font-wide text-2xl text-signal">{s.title}</h3>
+              <p class="mt-5 font-semibold text-ink">{s.lead}</p>
+              <p class="mt-3 text-ink/65">{s.text}</p>
             </li>
           ))
         }
@@ -103,70 +96,57 @@ import { values, timeline, leadership, awards } from '@/data/services';
     </div>
   </section>
 
-  <!-- Liderazgo -->
-  <section class="bg-concrete py-24 md:py-36">
+  <section class="on-dark bg-ink py-24 text-bone md:py-36">
+    <div class="container-x">
+      <Eyebrow class="mb-8 text-bone/50">Our commitment</Eyebrow>
+      <div class="mt-4 grid gap-px overflow-hidden bg-bone/10 md:grid-cols-2 lg:grid-cols-3">
+        {
+          commitment.map((c, i) => (
+            <article class="bg-ink p-8 md:p-10" data-reveal style={`--d:${i % 3}`}>
+              <span class="block h-1 w-10 bg-signal" aria-hidden="true"></span>
+              <h3 class="mt-8 font-wide text-xl">{c.title}.</h3>
+              <p class="mt-4 text-bone/65">{c.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Our People -->
+  <section id="people" class="scroll-mt-24 py-24 md:py-36">
+    <div class="container-x grid gap-12 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-7">
+        <Eyebrow class="mb-8 text-mute">Our people</Eyebrow>
+        <SplitText text="One team.|One commitment|to the outcome." accent={['outcome.']} class="font-wide text-title" />
+      </div>
+      <div class="lg:col-span-5" data-reveal>
+        <p class="text-lg text-ink/75">One team focused on safety, quality, cost and schedule, bringing construction, engineering, project management and technical knowledge to every project.</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <Button href={u('/careers')} variant="dark">Careers</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- News & Insights -->
+  <section class="border-t border-ink/10 bg-concrete py-24 md:py-36">
     <div class="container-x">
       <div class="flex flex-wrap items-end justify-between gap-8">
         <div>
-          <Eyebrow class="mb-8 text-mute">Leadership</Eyebrow>
-          <SplitText text="The people|behind the work." class="font-wide text-title font-extrabold uppercase" />
+          <Eyebrow class="mb-8 text-mute">News & insights</Eyebrow>
+          <SplitText text="Perspectives from|the people building|what's next." accent={["next."]} class="font-wide text-title" />
         </div>
-        <div data-reveal><Button href={u('/contact#careers')} variant="dark">Join our team</Button></div>
+        <div data-reveal><Button href={u('/news')} variant="dark">Explore News & Insights</Button></div>
       </div>
-      <ul class="mt-12 grid grid-cols-2 gap-x-4 gap-y-10 md:mt-16 md:grid-cols-3 md:gap-x-6 md:gap-y-12">
-        {
-          leadership.map((p, i) => (
-            <li class="group" data-reveal style={`--d:${i % 3}`}>
-              <div class="relative aspect-[4/5] overflow-hidden bg-bone">
-                <div class="bg-grid absolute inset-0 text-signal/60" />
-                <svg viewBox="0 0 200 250" class="absolute inset-x-0 bottom-0 w-full text-gray/25 transition-transform duration-1000 ease-(--ease-expo) group-hover:scale-105" aria-hidden="true">
-                  <circle cx="100" cy="95" r="42" fill="currentColor" />
-                  <path d="M20 250c0-55 36-90 80-90s80 35 80 90z" fill="currentColor" />
-                </svg>
-                <span class="eyebrow absolute bottom-3 left-3 hidden text-mute sm:block">Portrait placeholder</span>
-              </div>
-              <p class="mt-4 font-semiwide text-base font-bold sm:text-xl md:mt-5">{p.name}</p>
-              <p class="text-sm text-mute sm:text-base">{p.role}</p>
-            </li>
-          ))
-        }
-      </ul>
+      <p class="mt-8 max-w-2xl text-ink/70" data-reveal>{newsCopy.intro[1]}</p>
+      {news.length === 1 ? (
+        <div class="mt-12"><NewsCard post={news[0]} feature /></div>
+      ) : (
+        <div class="mt-12 grid gap-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-8">
+          {news.map((post, i) => <NewsCard post={post} index={i} />)}
+        </div>
+      )}
     </div>
   </section>
-
-  <!-- Seguridad y sostenibilidad -->
-  <section class="py-24 md:py-36">
-    <div class="container-x grid gap-6 lg:grid-cols-2">
-      <article id="safety" class="on-dark relative overflow-hidden bg-ink p-10 text-bone md:p-14" data-reveal>
-        <p class="eyebrow text-signal">Health & safety</p>
-        <h3 class="relative z-10 mt-6 font-wide text-4xl font-extrabold uppercase leading-none md:text-5xl">COR™ certified since 2015.</h3>
-        <p class="relative z-10 mt-6 max-w-sm text-bone/65">During the COR audit process, overwhelming evidence of a strong safety culture was presented. All personnel expressed commitment to continual improvement, and senior management instills strong values into the fabric of our operation.</p>
-        <svg viewBox="0 0 200 200" class="draw absolute -bottom-20 -right-20 w-64 text-signal/50" fill="none" aria-hidden="true">
-          <path d="M100 20l70 30v50c0 45-30 75-70 90-40-15-70-45-70-90V50z" stroke="currentColor" stroke-width="1.5" pathLength="1" class="ln" />
-          <path d="M70 105l20 20 40-45" stroke="currentColor" stroke-width="1.5" pathLength="1" class="ln" style="--i:10" />
-        </svg>
-      </article>
-      <article id="recognition" class="relative overflow-hidden bg-concrete p-10 md:p-14" data-reveal style="--d:1">
-        <p class="eyebrow text-signal-ink">Awards & recognition</p>
-        <h3 class="relative z-10 mt-6 font-wide text-4xl font-extrabold uppercase leading-none md:text-5xl">Platinum. Best Managed.</h3>
-        <p class="relative z-10 mt-6 max-w-sm text-ink/65">In 2021 Grascan reached Platinum status after 7 years as one of Canada’s Best Managed Companies, certified by Deloitte. Owner Angelo Grassa credits the work ethic, dedication and innovative mindset of Grascan’s employees.</p>
-        <svg viewBox="0 0 200 200" class="draw absolute -bottom-20 -right-20 w-64 text-ink/25" fill="none" aria-hidden="true">
-          <circle cx="100" cy="80" r="50" stroke="currentColor" stroke-width="1.5" pathLength="1" class="ln" />
-          <path d="M75 120l-15 60 40-20 40 20-15-60" stroke="currentColor" stroke-width="1.5" pathLength="1" class="ln" style="--i:6" />
-          <path d="M100 55l7 15 16 2-12 11 3 16-14-8-14 8 3-16-12-11 16-2z" stroke="currentColor" stroke-width="1.5" pathLength="1" class="ln" style="--i:10" />
-        </svg>
-      </article>
-    </div>
-  </section>
-
-  <section class="border-y border-ink/10 bg-concrete py-16 md:py-20" aria-labelledby="awards-title">
-    <div class="container-x grid gap-10 lg:grid-cols-12">
-      <h2 id="awards-title" class="font-semiwide text-2xl font-bold leading-tight lg:col-span-4 md:text-3xl" data-reveal>Awards and certifications</h2>
-      <ul class="grid border-t border-ink/10 sm:grid-cols-2 lg:col-span-8">
-        {awards.map((a, i) => <li class="border-b border-ink/10 py-4 pr-6 font-medium text-signal" data-reveal style={`--d:${i % 2}`}>{a}</li>)}
-      </ul>
-    </div>
-  </section>
-
-  <EstimatingCTA />
 </Base>

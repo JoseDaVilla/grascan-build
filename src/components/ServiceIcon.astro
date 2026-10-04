@@ -4,17 +4,21 @@ import type { ServiceIcon } from '@/data/services';
 interface Props { name: ServiceIcon; class?: string }
 const { name, class: cls = 'size-14' } = Astro.props;
 const icons: Record<ServiceIcon, string[]> = {
-  bridge: ['M2 30h44', 'M2 34h44', 'M2 30q22-22 44 0', 'M10 34v10M38 34v10', 'M16 30v-8M24 30v-11M32 30v-8'],
-  dam: ['M6 8h14l8 34H6z', 'M28 42h16', 'M28 20q4 -3 8 0t8 0', 'M28 28q4 -3 8 0t8 0', 'M28 36q4 -3 8 0t8 0'],
+  building: ['M4 44h40', 'M12 44V8h24v36', 'M18 14h4M26 14h4M18 22h4M26 22h4M18 30h4M26 30h4', 'M21 44v-7h6v7'],
+  commercial: ['M4 44h40', 'M8 44V16h32v28', 'M8 16l4-8h24l4 8', 'M12 22h24v8H12z', 'M21 44v-8h6v8'],
+  industrial: ['M4 44h40', 'M6 44V24l10 6v-6l10 6v-6l10 6V10h6v34', 'M12 38h4M22 38h4M32 38h4'],
+  institutional: ['M4 44h40', 'M6 18L24 6l18 12z', 'M8 18h32', 'M12 22v18M20 22v18M28 22v18M36 22v18', 'M6 40h36'],
+  healthcare: ['M4 44h40', 'M8 44V12h32v32', 'M24 18v12M18 24h12', 'M20 44v-6h8v6'],
+  residential: ['M4 44h40', 'M8 44V20h14v24', 'M22 44V8h18v36', 'M12 26h6M12 34h6M27 14h8M27 22h8M27 30h8M27 38h8'],
+  rehab: ['M4 44h40', 'M10 44V14h20v30', 'M30 22h8v22', 'M14 20h4M22 20h4M14 28h4M22 28h4', 'M34 6v10M30 10h8'],
   designbuild: ['M6 6h20v20H6z', 'M22 22h20v20H22z', 'M6 6l20 20', 'M30 30l8 8M38 30l-8 8'],
-  environmental: ['M24 44V22', 'M24 30c-10 0-16-7-16-18 10 0 16 7 16 18z', 'M24 24c8 0 14-6 14-15-8 0-14 6-14 15z', 'M14 44h20'],
-  paving: ['M4 40h40', 'M8 32h18a6 6 0 0 1 6 6v2', 'M8 32v8', 'M30 26h10v14', 'M12 44h4M22 44h4M32 44h4'],
-  infrastructure: ['M6 42h36', 'M10 42V18h10v24', 'M28 42V10h10v32', 'M20 26h8', 'M14 24h2M14 30h2M14 36h2M32 16h2M32 22h2M32 28h2'],
-  landscaping: ['M14 44V30', 'M14 30a8 8 0 1 0 0-16 8 8 0 0 0 0 16z', 'M34 44V26', 'M34 26l-8 0 8-16 8 16z', 'M4 44h40'],
-  pm: ['M8 6h32v36H8z', 'M14 14h4M14 22h4M14 30h4', 'M22 14h12M22 22h12M22 30h8', 'M30 36l4 4 8-10'],
-  rail: ['M14 4L6 44M34 4l8 40', 'M12 12h24M10 22h28M8 32h32M7 40h34', 'M24 4v6'],
-  roads: ['M4 44L18 4M44 44L30 4', 'M24 6v6M24 18v7M24 31v9', 'M2 20h8M38 20h8'],
-  underground: ['M2 14h44', 'M2 14l4-6h36l4 6', 'M10 22h28v20H10z', 'M10 32h28', 'M24 14v8'],
+  cm: ['M8 6h32v36H8z', 'M14 14h4M14 22h4M14 30h4', 'M22 14h12M22 22h12M22 30h8', 'M30 36l4 4 8-10'],
+  precon: ['M6 40V8h36v32z', 'M6 16h36', 'M14 8v32', 'M20 24h16M20 32h10', 'M38 4l4 4-10 10h-4v-4z'],
+  gc: ['M4 44h40', 'M10 44V12', 'M10 12h30', 'M10 18l8-6', 'M32 12v10', 'M28 22h8v6h-8z', 'M18 44V30h10v14'],
+  interior: ['M4 42h40', 'M8 42V8h32v34', 'M8 30h32', 'M14 30v-8h10v8', 'M28 16h8v14', 'M14 14h6'],
+  envelope: ['M4 44h40', 'M10 44V10h28v34', 'M10 18h28M10 26h28M10 34h28', 'M19 10v34M29 10v34'],
+  concrete: ['M4 44h40', 'M8 44V36h32v8', 'M12 36V12h6v24M30 36V12h6v24', 'M8 12h32', 'M8 6h32v6H8z'],
+  site: ['M2 40h44', 'M2 40q10-10 20-4t24-8', 'M8 30h10l4 6', 'M10 30v-6h6l2 6', 'M30 44v-4M38 44v-4'],
 };
 ---
 <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" class:list={['service-icon draw', cls]} aria-hidden="true">

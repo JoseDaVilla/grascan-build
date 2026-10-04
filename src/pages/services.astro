@@ -1,27 +1,22 @@
 ---
+/** SERVICES: los 12 servicios de la estructura del documento, en su orden. */
 import { u } from '@/lib/url';
-import { getCollection } from 'astro:content';
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import ServiceIcon from '@/components/ServiceIcon.astro';
 import Media from '@/components/Media.astro';
 import SplitText from '@/components/SplitText.astro';
 import Button from '@/components/Button.astro';
-import EstimatingCTA from '@/components/EstimatingCTA.astro';
-import { services } from '@/data/services';
-import { variants } from '@/lib/blueprint';
+import { services, whatWeDo, contactCopy } from '@/data/services';
+import type { BlueprintVariant } from '@/lib/blueprint';
 
-const projects = await getCollection('projects');
-const related = (title: string) => projects.filter((p) => p.data.services.some((s) => title.includes(s) || s.includes(title))).slice(0, 2);
+// Ilustración de placeholder por servicio (sólo tipologías de edificación)
+const art: BlueprintVariant[] = ['tower', 'midrise', 'warehouse', 'campus', 'midrise', 'tower', 'campus', 'midrise', 'midrise', 'campus', 'tower', 'road'];
 ---
 
-<Base title="Services" description="Bridges and structures, dams and waterways, design/build, environmental, grading and paving, infrastructure, landscaping, project management, rapid transit and railway, roads and highways, and underground infrastructure.">
-  <PageHero
-    index="02"
-    eyebrow="Services"
-    title="Our|services."
-    lead="A full-service approach across eleven disciplines. We perform all associated civil work and coordinate trusted subcontractors to meet high demand and critical timing."
-  >
+<Base title="Services" description={`${services.map((s) => s.title).join(', ')}. ${whatWeDo.intro[0]}`}>
+  <PageHero eyebrow="Services" title="From planning|to completion." accent={['completion.']} lead={whatWeDo.intro[0]}>
+    <p class="mt-6 max-w-2xl text-ink/70" data-reveal style="--d:4">{whatWeDo.intro[1]}</p>
     <nav aria-label="Services" class="mt-12 grid max-w-4xl border-t border-ink/10 sm:grid-cols-2 lg:grid-cols-3" data-reveal style="--d:5">
       {services.map((s) => <a href={`#${s.slug}`} class="border-b border-ink/10 py-3 pr-4 font-semibold text-ink/80 transition-colors hover:text-signal">{s.title}</a>)}
     </nav>
@@ -29,7 +24,6 @@ const related = (title: string) => projects.filter((p) => p.data.services.some((
 
   {
     services.map((s, i) => {
-      const rel = related(s.title);
       const flip = i % 2 === 1;
       return (
         <section id={s.slug} class:list={['scroll-mt-24 py-16 md:py-28', i % 2 === 1 && 'bg-concrete']}>
@@ -38,25 +32,22 @@ const related = (title: string) => projects.filter((p) => p.data.services.some((
               <div data-reveal>
                 <ServiceIcon name={s.icon} class="size-14 text-signal" />
               </div>
-              <SplitText as="h2" text={s.title} class="mt-6 font-wide text-title font-extrabold uppercase" />
-              <p class="mt-6 max-w-xl text-lead text-ink/70" data-reveal style="--d:2">{s.description}</p>
-              <ul class="mt-10 grid gap-x-8 sm:grid-cols-2" data-reveal style="--d:3">
-                {s.capabilities.map((c) => (
-                  <li class="flex items-center gap-3 border-b border-ink/10 py-3.5">
-                    <span class="size-2 shrink-0 bg-signal" aria-hidden="true"></span>
-                    {c}
-                  </li>
-                ))}
-              </ul>
-              {rel.length > 0 && (
-                <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3" data-reveal style="--d:4">
-                  <span class="eyebrow text-mute">Related work</span>
-                  {rel.map((p) => <a href={u(`/projects/${p.id}`)} class="link-u font-semibold">{p.data.title}</a>)}
-                </div>
+              <SplitText as="h2" text={s.title} class="mt-6 font-wide text-title" />
+              {s.tagline && <p class="mt-5 text-lg font-semibold text-signal-ink" data-reveal style="--d:1">{s.tagline}</p>}
+              <p class="mt-5 max-w-xl text-lead text-ink/70" data-reveal style="--d:2">{s.text}</p>
+              {s.scope && (
+                <ul class="mt-10 grid gap-x-8 sm:grid-cols-2" data-reveal style="--d:3">
+                  {s.scope.map((c) => (
+                    <li class="flex items-center gap-3 border-b border-ink/10 py-3.5">
+                      <span class="size-2 shrink-0 bg-signal" aria-hidden="true"></span>
+                      {c}
+                    </li>
+                  ))}
+                </ul>
               )}
             </div>
             <div class:list={['lg:col-span-5', flip ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-8']} data-reveal="mask">
-              <Media seed={`service-${s.slug}`} variant={variants[(i * 3 + 1) % variants.length]} class="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5]" tone={i % 2 ? 'dark' : 'light'} />
+              <Media seed={`service-${s.slug}`} variant={art[i]} class="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5]" tone={i % 2 ? 'dark' : 'light'} />
             </div>
           </div>
         </section>
@@ -66,10 +57,11 @@ const related = (title: string) => projects.filter((p) => p.data.services.some((
 
   <section class="on-dark bg-ink py-24 text-bone md:py-32">
     <div class="container-x flex flex-col items-start justify-between gap-10 md:flex-row md:items-end">
-      <h2 class="max-w-3xl font-wide text-title font-extrabold uppercase" data-reveal>Have a project in mind?</h2>
-      <div data-reveal style="--d:2"><Button href={u('/contact')}>Talk to our team</Button></div>
+      <div class="max-w-3xl">
+        <h2 class="font-wide text-title" data-reveal>{contactCopy.start.lead}</h2>
+        <p class="mt-6 text-bone/70" data-reveal style="--d:1">{contactCopy.start.text}</p>
+      </div>
+      <div data-reveal style="--d:2"><Button href={u('/contact?topic=project#form')}>Start a project</Button></div>
     </div>
   </section>
-
-  <EstimatingCTA />
 </Base>

@@ -11,6 +11,14 @@
   font-stretch: 62% 125%;
   src: url("../assets/fonts/archivo.woff2") format("woff2-variations");
 }
+/* Zen Dots (Google Fonts, Yoshimichi Ohira): tipografía de títulos según el documento del cliente */
+@font-face {
+  font-family: "Zen Dots";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../assets/fonts/zen-dots.woff2") format("woff2");
+}
 @font-face {
   font-family: "JetBrains Mono";
   font-style: normal;
@@ -57,17 +65,18 @@
 
   /* ---------------- Tipografía, tamaños y curvas ---------------- */
   --font-sans: "Archivo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Zen Dots", "Archivo", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --text-mega: clamp(3.4rem, 11.5vw, 12rem);
-  --text-mega--line-height: 0.86;
-  --text-mega--letter-spacing: -0.035em;
-  --text-display: clamp(2.25rem, 7vw, 7rem);
-  --text-display--line-height: 0.9;
-  --text-display--letter-spacing: -0.03em;
-  --text-title: clamp(1.75rem, 4.4vw, 4.25rem);
-  --text-title--line-height: 0.95;
-  --text-title--letter-spacing: -0.025em;
+  --text-mega: clamp(2.6rem, 8vw, 8.5rem);
+  --text-mega--line-height: 1;
+  --text-mega--letter-spacing: 0;
+  --text-display: clamp(1.9rem, 4.8vw, 4.75rem);
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: 0;
+  --text-title: clamp(1.55rem, 3.1vw, 3rem);
+  --text-title--line-height: 1.08;
+  --text-title--letter-spacing: 0;
   --text-lead: clamp(1.15rem, 1.6vw, 1.5rem);
   --text-lead--line-height: 1.45;
 
@@ -90,13 +99,14 @@
 /* Sólo dispositivos con puntero fino: en táctil el contenido "hover" queda visible */
 @custom-variant can-hover (@media (hover: hover) and (pointer: fine));
 
-/* Mobile-first: en pantallas pequeñas el ancho es menor para que las palabras largas quepan */
+/* Títulos: Zen Dots (un único peso; font-synthesis evita la negrita falsa si hay font-bold/extrabold) */
 @utility font-wide {
-  font-stretch: 108%;
-  @media (min-width: 48rem) {
-    font-stretch: 125%;
-  }
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: 0;
 }
+/* Subtítulos y titulares de tarjetas: Archivo ensanchada */
 @utility font-semiwide {
   font-stretch: 100%;
   @media (min-width: 48rem) {
@@ -507,11 +517,10 @@
 }
 .prose h2 {
   margin-top: 2.2em;
-  font-size: 1.9rem;
-  line-height: 1.1;
-  font-weight: 700;
-  font-stretch: 112%;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  line-height: 1.15;
+  font-weight: 400;
   color: var(--color-ink);
 }
 .prose h3 {

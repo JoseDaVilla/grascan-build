@@ -13,7 +13,7 @@ const { eyebrow, title, lead, accent = [] } = Astro.props;
   <div class="bg-grid pointer-events-none absolute inset-0 text-signal/50"></div>
 
   <!-- Torres del logo en línea -->
-  <svg viewBox="100 -30 400 520" class="draw pointer-events-none absolute -bottom-6 right-[-3rem] hidden h-[115%] w-auto md:block lg:right-[4%]" fill="none" aria-hidden="true">
+  <svg viewBox="100 -30 440 520" class="draw pointer-events-none absolute bottom-0 right-[clamp(1rem,4vw,3.5rem)] top-[calc(var(--header-h)+2rem)] hidden h-[calc(100%-var(--header-h)-2rem)] w-auto max-w-[32%] lg:block" preserveAspectRatio="xMaxYMax meet" fill="none" aria-hidden="true">
     <path d="M60 461H540" class="ln stroke-ink/25" stroke-width="1" pathLength="1" style="--i:0" />
     <path d={logo.gray} class="ln stroke-gray" stroke-width="1.5" pathLength="1" style="--i:2" />
     <path d={logo.navy} class="ln stroke-signal" stroke-width="1.5" pathLength="1" style="--i:4" />
@@ -27,9 +27,11 @@ const { eyebrow, title, lead, accent = [] } = Astro.props;
   </svg>
 
   <div class="container-x relative">
+    <div class="lg:max-w-[62%]">
     <Eyebrow class="mb-6 text-mute">{eyebrow}</Eyebrow>
-    <SplitText as="h1" text={title} accent={accent} class="max-w-5xl font-wide text-display font-extrabold uppercase" />
+    <SplitText as="h1" text={title} accent={accent} class="max-w-5xl font-wide text-display" />
     {lead && <p class="mt-8 max-w-2xl text-lead text-ink/70 md:mt-10" data-reveal style="--d:4">{lead}</p>}
     <slot />
+    </div>
   </div>
 </section>

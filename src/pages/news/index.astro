@@ -4,14 +4,26 @@ import { getCollection } from 'astro:content';
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import NewsCard from '@/components/NewsCard.astro';
+import { newsCopy, newsCategories } from '@/data/services';
 
 const posts = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const [feature, ...rest] = posts;
-const categories = [...new Set(posts.map((p) => p.data.category))];
+const used = new Set(posts.map((p) => p.data.category));
+const categories = newsCategories.map((c) => c.title).filter((c) => used.has(c));
 ---
 
-<Base title="News & Updates" description="Company news, project milestones, safety achievements and community updates.">
-  <PageHero index="05" eyebrow="News & updates" title="From the|field." lead="Project milestones, company announcements, safety achievements and stories from our people and communities." />
+<Base title="News & Insights" description={newsCopy.intro[1]}>
+  <PageHero eyebrow="News & insights" title="Perspectives from|the people building|what's next." accent={["next."]} lead={newsCopy.intro[0]}>
+    <p class="mt-6 max-w-2xl text-ink/70" data-reveal style="--d:4">{newsCopy.intro[1]}</p>
+    <ul class="mt-12 grid border-t border-ink/10 sm:grid-cols-2 xl:grid-cols-3" data-reveal style="--d:5">
+      {newsCategories.map((c) => (
+        <li class="border-b border-ink/10 py-5 sm:pr-5">
+          <p class="font-semibold text-signal">{c.title}</p>
+          <p class="mt-1 text-sm text-ink/65">{c.text}</p>
+        </li>
+      ))}
+    </ul>
+  </PageHero>
 
   {
     feature && (
@@ -25,9 +37,11 @@ const categories = [...new Set(posts.map((p) => p.data.category))];
 
   <section class="py-16 md:py-24">
     <div class="container-x">
-      <div class="mb-10 border-t border-ink/10 pt-10 md:mb-12">
-        <FilterBar target="news-grid" label="Filter by category" items={categories.map((c) => ({ value: c, label: c }))} />
-      </div>
+      {rest.length > 0 && categories.length > 1 && (
+        <div class="mb-10 border-t border-ink/10 pt-10 md:mb-12">
+          <FilterBar target="news-grid" label="Filter by category" items={categories.map((c) => ({ value: c, label: c }))} />
+        </div>
+      )}
       <div id="news-grid" class="grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-16">
         {rest.map((post, i) => <div data-tags={post.data.category}><NewsCard post={post} index={i} /></div>)}
       </div>

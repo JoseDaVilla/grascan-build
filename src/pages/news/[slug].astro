@@ -30,9 +30,9 @@ const share = [
     <header class="relative bg-bone pt-[calc(var(--header-h)+4rem)] pb-14 text-ink md:pb-20">
       <div class="bg-grid pointer-events-none absolute inset-0 text-signal/50"></div>
       <div class="container-x relative max-w-5xl">
-        <a href={u('/news')} class="mb-10 inline-block text-sm font-semibold text-mute underline-offset-4 hover:text-ink hover:underline">Back to news</a>
+        <a href={u('/news')} class="mb-10 inline-block text-sm font-semibold text-mute underline-offset-4 hover:text-ink hover:underline">Back to News & Insights</a>
         <p class="text-mute" data-reveal><span class="font-semibold text-signal-ink">{d.category}</span>, <time datetime={d.date.toISOString()}>{date}</time></p>
-        <SplitText as="h1" text={d.title} class="mt-6 font-wide text-[clamp(2.2rem,5vw,4.75rem)] font-extrabold uppercase leading-[0.95] tracking-tight" />
+        <SplitText as="h1" text={d.title} class="mt-6 font-wide text-[clamp(1.8rem,3.8vw,3.6rem)] leading-[1.08]" />
         <p class="mt-8 max-w-3xl text-lead text-ink/70" data-reveal style="--d:3">{d.excerpt}</p>
       </div>
     </header>
@@ -59,17 +59,21 @@ const share = [
       <div class="prose lg:col-span-8 lg:col-start-5" data-reveal="fade">
         <Content />
         <hr class="my-12 border-ink/10" />
-        <p class="text-base text-mute">Media inquiries: <a href={`mailto:${site.email}`}>{site.email}</a></p>
+        <p class="text-base text-mute">Media inquiries: {site.email ? <a href={`mailto:${site.email}`}>{site.email}</a> : <a href={u('/contact?topic=general#form')}>contact our team</a>}</p>
       </div>
     </div>
   </article>
 
-  <section class="bg-concrete py-20 md:py-28">
-    <div class="container-x">
-      <Eyebrow class="mb-10 text-mute">Keep reading</Eyebrow>
-      <div class="grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8">
-        {others.map((p, i) => <NewsCard post={p} index={i} />)}
-      </div>
-    </div>
-  </section>
+  {
+    others.length > 0 && (
+      <section class="bg-concrete py-20 md:py-28">
+        <div class="container-x">
+          <Eyebrow class="mb-10 text-mute">Keep reading</Eyebrow>
+          <div class="grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8">
+            {others.map((p, i) => <NewsCard post={p} index={i} />)}
+          </div>
+        </div>
+      </section>
+    )
+  }
 </Base>

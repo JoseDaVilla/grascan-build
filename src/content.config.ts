@@ -42,7 +42,7 @@ const news = defineCollection({
       title: z.string(),
       excerpt: z.string(),
       date: z.coerce.date(),
-      category: z.enum(['Company', 'Projects', 'Safety', 'Community', 'Careers']),
+      category: z.enum(['Project Updates', 'Company News', 'Industry Insights', 'People & Culture', 'Community']),
       author: z.string().default('Communications Team'),
       cover: image().optional(),
       variant: variant.optional(),
