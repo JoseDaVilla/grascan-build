@@ -1,6 +1,6 @@
 ---
 import { u } from '@/lib/url';
-import { nav, site, offices } from '@/site.config';
+import { nav, site, office } from '@/site.config';
 import Logo from './Logo.astro';
 import Button from './Button.astro';
 interface Props { darkHero?: boolean }
@@ -21,7 +21,7 @@ const isActive = (href: string) => {
     </a>
 
     <nav aria-label="Main" class="hidden lg:block">
-      <ul class="flex items-center gap-7 text-[0.95rem] font-medium">
+      <ul class="flex items-center gap-6 text-[0.95rem] font-medium xl:gap-8">
         {
           nav.filter((n) => n.href !== '/contact').map((item) => (
             <li>
@@ -35,7 +35,7 @@ const isActive = (href: string) => {
     </nav>
 
     <div class="flex items-center gap-3">
-      <Button href={u('/contact')} variant="ghost" class="hidden !py-3 sm:inline-flex">Contact us</Button>
+      <Button href={u('/contact')} variant="ghost" class="hidden !py-3 sm:inline-flex">Contact</Button>
       <button
         id="menu-toggle"
         type="button"
@@ -60,8 +60,8 @@ const isActive = (href: string) => {
         {
           nav.map((item, i) => (
             <li class="overflow-hidden">
-              <a href={u(item.href)} class="mm-item block py-1.5 font-wide text-[clamp(2.2rem,9vw,3.5rem)] font-bold uppercase leading-none tracking-tight" style={`--i:${i}`} aria-current={isActive(item.href) ? 'page' : undefined}>
-                                {item.label}
+              <a href={u(item.href)} class="mm-item block py-2 font-wide text-[clamp(1.5rem,6.4vw,2.6rem)] uppercase leading-none" style={`--i:${i}`} aria-current={isActive(item.href) ? 'page' : undefined}>
+                {item.label}
               </a>
             </li>
           ))
@@ -70,13 +70,14 @@ const isActive = (href: string) => {
     </nav>
     <div class="container-x relative grid grid-cols-2 gap-6 border-t border-bone/10 py-8 text-sm text-bone/70">
       <div>
-        <p class="eyebrow mb-2 text-bone/40">Head office</p>
-        <p>{offices[0].address[0]}<br />{offices[0].address[1]}</p>
+        <p class="eyebrow mb-2 text-bone/40">{office.region}</p>
+        <p>{office.city}</p>
       </div>
       <div>
         <p class="eyebrow mb-2 text-bone/40">Talk to us</p>
-        <a href={`tel:${site.phone.replace(/[^+\d]/g, '')}`} class="block">{site.phone}</a>
-        <a href={`mailto:${site.email}`} class="block">{site.email}</a>
+        {site.phone && <a href={`tel:${site.phone.replace(/[^+\d]/g, '')}`} class="block">{site.phone}</a>}
+        {site.email && <a href={`mailto:${site.email}`} class="block">{site.email}</a>}
+        <a href={u('/contact?topic=project#form')} class="block underline underline-offset-4">Start a project</a>
       </div>
     </div>
   </div>

@@ -1,4 +1,9 @@
 ---
+/**
+ * Hero de la home (texto del documento "Website GRASCAN BUILD"):
+ * GRASCAN BUILD · Buildings & Development · Backed by Grascan Construction since 1987
+ * BUILT ON EXPERIENCE. READY FOR WHAT'S NEXT.
+ */
 import { u } from '@/lib/url';
 import { site } from '@/site.config';
 import { services } from '@/data/services';
@@ -9,9 +14,8 @@ import Button from './Button.astro';
 interface Props {
   /** Vídeo de fondo opcional (mp4/webm en /public). Si no se pasa, se usa la escena SVG. */
   video?: { src: string; poster?: string };
-  featured?: { title: string; href: string; meta: string };
 }
-const { video, featured } = Astro.props;
+const { video } = Astro.props;
 ---
 
 <section class="hero relative flex min-h-[100svh] flex-col overflow-hidden bg-bone text-ink" style="--intro: var(--intro-delay, 0ms)">
@@ -29,46 +33,40 @@ const { video, featured } = Astro.props;
     )
   }
 
-  <div class="container-x relative flex flex-1 flex-col justify-end pt-[calc(var(--header-h)+4rem)] pb-10 md:pb-14">
+  <div class="container-x relative flex flex-1 flex-col justify-end pt-[calc(var(--header-h)+3.5rem)] pb-10 md:pb-14">
+    <div class="hero-fade mb-8 flex flex-wrap items-center gap-x-5 gap-y-3 md:mb-10" style="--k:0">
+      <p class="border-l-4 border-signal pl-4">
+        <span class="block font-wide text-lg leading-tight text-signal md:text-xl">{site.legalName}</span>
+        <span class="eyebrow mt-1 block text-mute">Buildings & Development</span>
+      </p>
+      <p class="eyebrow border border-ink/15 px-3 py-2 text-ink/70">Backed by Grascan Construction since {site.founded}</p>
+    </div>
 
     <SplitText
       as="h1"
-      text="Built on|experience.|Driven to|deliver."
+      text="Built on|experience.|Ready for|what's next."
       accent={['experience.']}
       afterIntro
       delay={150}
-      class="max-w-[58%] font-wide text-[clamp(2.75rem,5.4vw,6rem)] leading-[0.9] tracking-[-0.035em] font-extrabold uppercase max-lg:max-w-none"
+      class="max-w-[60%] font-wide text-[clamp(2.1rem,4.6vw,4.9rem)] leading-[1.02] uppercase max-lg:max-w-none"
     />
 
-    <div class="mt-10 grid gap-10 md:mt-14 lg:grid-cols-12 lg:items-end">
+    <div class="mt-10 grid gap-10 md:mt-12 lg:grid-cols-12 lg:items-end">
       <div class="hero-fade lg:col-span-6 xl:col-span-5" style="--k:1">
-        <p class="max-w-md text-lead text-ink/70">{site.description}</p>
+        <p class="max-w-lg text-lead font-semibold text-ink">A new generation of building construction, backed by decades of experience delivering complex projects across Ontario.</p>
+        <p class="mt-4 max-w-lg text-ink/70">{site.description}</p>
         <div class="mt-8 flex flex-wrap gap-3">
-          <Button href={u('/projects')}>Explore our work</Button>
-          <Button href={u('/estimating')} variant="ghost">Bid opportunities</Button>
+          <Button href={u('/contact?topic=project#form')}>Start a project</Button>
+          <Button href={u('/services')} variant="ghost">Our services</Button>
         </div>
-      </div>
-
-      <div class="hero-fade flex flex-col gap-6 lg:col-span-6 lg:items-end xl:col-span-7" style="--k:2">
-        {
-          featured && (
-            <a href={u(featured.href)} class="group block w-full max-w-sm border-l-4 border-signal bg-bone py-3 pl-5 pr-4 transition-colors hover:bg-concrete">
-              <span>
-                <span class="eyebrow block text-mute">Featured project</span>
-                <span class="mt-1 block font-semibold group-hover:underline group-hover:underline-offset-4">{featured.title}</span>
-                <span class="block text-sm text-mute">{featured.meta}</span>
-              </span>
-            </a>
-          )
-        }
       </div>
     </div>
   </div>
 
-  <!-- Barra inferior: sectores en loop -->
+  <!-- Barra inferior: servicios en loop -->
   <div class="hero-fade relative border-t border-ink/10 bg-bone/70 backdrop-blur-sm" style="--k:3">
     <div class="container-x flex items-center gap-8 py-4">
-      <div class="marquee eyebrow flex-1 text-mute" style="--speed:30s; --gap:2.5rem">
+      <div class="marquee eyebrow flex-1 text-mute" style="--speed:40s; --gap:2.5rem">
         {[0, 1].map((k) => (
           <ul class="marquee-track" aria-hidden={k === 1 ? 'true' : undefined}>
             {services.map((s) => <li class="flex items-center gap-10 whitespace-nowrap"><span>{s.title}</span><span class="text-gray">/</span></li>)}

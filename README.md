@@ -4,7 +4,8 @@ Sitio corporativo de **Grascan Build** (construcción privada), construido con *
 
 - **Logo**: vectorizado a partir del original (sin fondo) en `src/lib/logo.ts`; componente `src/components/Logo.astro` con variantes `full`, `horizontal` y `mark`, y animación de construcción (las torres crecen y el wordmark se revela). Se usa en la intro, header, footer, favicon e imagen OG.
 - **Paleta**: exclusivamente la del logo — navy `#062E61`, gris `#72787F` y blanco — más sus variaciones claras/oscuras.
-- **Contenido**: tomado de grascan.com (historia, servicios, proyectos, cultura, seguridad, oficinas). Lo pendiente de confirmar está marcado con `TODO` en `src/site.config.ts` y `src/data/services.ts` (emails de Grascan Build, horarios, equipo directivo, licitaciones abiertas reales).
+- **Contenido y estructura**: según el documento del cliente *Website GRASCAN BUILD* (textos en `src/data/services.ts`). Pendiente del cliente (marcado con `TODO`): email, teléfono y dirección ("waiting for info"), textos de COR/ISO 45001, Employee Safety Portal, Policies & Resources, Our People, Careers y legales.
+- **Tipografía**: títulos en **Zen Dots** (Google Fonts, self-hosted en `src/assets/fonts/zen-dots.woff2`, utilidad `font-wide`); texto en Archivo.
 - Las fotos se sustituyen por ilustraciones tipo plano (SVG generadas en build) que desaparecen al añadir imágenes reales.
 
 ## Comandos
@@ -22,23 +23,22 @@ Para volver a ver la **intro** (sale una vez por sesión): abrir `/?intro`.
 
 | Ruta | Contenido |
 | --- | --- |
-| `/` | Home: intro animada, hero con escena SVG (grúa + torre), cifras, servicios, proyectos destacados, seguridad + vídeo, CTA proveedores, noticias, oficinas |
-| `/about` | Historia, misión, cifras, valores, timeline, liderazgo, seguridad y sostenibilidad, certificaciones |
-| `/services` | 6 servicios con capacidades y proyectos relacionados |
-| `/projects` | Portafolio filtrable por sector |
-| `/projects/[slug]` | Ficha de proyecto: hero, cifras clave, ficha técnica, texto, galería con lightbox, vídeo, siguiente proyecto |
-| `/estimating` | Proceso, licitaciones abiertas y **formulario de registro de proveedores** en 3 pasos con subida de documentos |
-| `/news` y `/news/[slug]` | Noticias con filtro por categoría y artículo |
-| `/media` | Vídeos (carga diferida) y galería de fotos filtrable con lightbox |
-| `/contact` | Formulario, departamentos, oficinas con mapa (carga al hacer clic) |
-| `/privacy`, `/thanks`, `404` | Legales, confirmación de formularios, error |
+| `/` | Home: Hero, Building on Experience (Our Foundation), What We Build, What We Do, Featured Projects, Our Approach, Safety & Quality, News & Insights, Contact / Offices |
+| `/services` | Los 12 servicios del documento |
+| `/health-safety` | COR / ISO 45001, Safety & Emergency Preparedness, Employee Safety Portal, Subcontractor Safety, Construction Site Safety, Quality, Environmental & Hazard Management, Policies & Resources |
+| `/projects` y `/projects/[slug]` | Listado (estado "coming soon" mientras `src/content/projects` no tenga `.md`) y ficha de proyecto |
+| `/about` | About Grascan Build, Our Approach, Our People, News & Insights |
+| `/careers` | Why Grascan Build, Career Opportunities (vacantes en `openings` de `src/pages/careers.astro`) |
+| `/news` y `/news/[slug]` | News & Insights |
+| `/contact` | Start a Project, General Inquiries, Offices, Building in Ontario + formulario (`?topic=project` preselecciona el tipo) |
+| `/privacy`, `/terms`, `/thanks`, `404` | Legales (placeholder), confirmación, error |
 
 ## Dónde se cambia el contenido
 
 | Qué | Archivo |
 | --- | --- |
-| Nombre, email, teléfono, redes, oficinas, cifras, sectores, menú | `src/site.config.ts` |
-| Servicios, valores, timeline, liderazgo, licitaciones, oficios | `src/data/services.ts` |
+| Nombre, email, teléfono, redes, oficina, menú, mapa del sitio, sectores | `src/site.config.ts` |
+| Todos los textos del documento (servicios, approach, safety, news, contact) | `src/data/services.ts` |
 | Proyectos (un `.md` por proyecto) | `src/content/projects/` |
 | Noticias (un `.md` por noticia) | `src/content/news/` |
 | **Paleta de colores** | `src/styles/global.css` → bloque `@theme` (ver abajo) |

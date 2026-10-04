@@ -1,6 +1,6 @@
 ---
 import { u } from '@/lib/url';
-import { nav, site, offices } from '@/site.config';
+import { site, sitemap, office } from '@/site.config';
 import { services } from '@/data/services';
 import { logo } from '@/lib/logo';
 import Logo from './Logo.astro';
@@ -14,37 +14,40 @@ const year = new Date().getFullYear();
     <div class="grid gap-14 lg:grid-cols-12">
       <div class="lg:col-span-4">
         <Logo variant="full" class="w-40 text-bone md:w-48" />
-        <p class="mt-8 max-w-sm text-bone/70">{site.tagline} Delivering time-sensitive, complicated and high-profile construction for nearly four decades.</p>
-        <a href={u('/contact')} class="btn btn-primary mt-8"><span>Start a conversation</span></a>
+        <p class="mt-8 font-wide text-lg">{site.legalName}</p>
+        <p class="mt-2 max-w-sm text-sm text-bone/70">Commercial Construction · Industrial Construction · Institutional Construction</p>
+        <p class="mt-5 font-wide text-signal">{site.tagline}</p>
+        <a href={u('/contact?topic=project#form')} class="btn btn-primary mt-8"><span>Start a project</span></a>
       </div>
 
-      <div class="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:col-span-8">
-        <div>
-          <p class="eyebrow mb-5 text-gray">Company</p>
-          <ul class="space-y-2.5 text-bone/80">
-            {nav.map((n) => <li><a class="link-u" href={u(n.href)}>{n.label}</a></li>)}
-          </ul>
-        </div>
-        <div>
-          <p class="eyebrow mb-5 text-gray">Services</p>
-          <ul class="space-y-2.5 text-sm text-bone/80">
+      <div class="grid grid-cols-2 gap-10 sm:grid-cols-3 xl:grid-cols-5 lg:col-span-8">
+        <div class="col-span-2 sm:col-span-1 sm:row-span-2 xl:row-span-1">
+          <p class="eyebrow mb-5"><a class="link-u text-gray" href={u('/services')}>Services</a></p>
+          <ul class="space-y-2 text-sm text-bone/80">
             {services.map((s) => <li><a class="link-u" href={u(`/services#${s.slug}`)}>{s.title}</a></li>)}
           </ul>
         </div>
-        <div class="col-span-2 sm:col-span-1">
-          <p class="eyebrow mb-5 text-gray">Offices</p>
-          <ul class="space-y-6 text-sm text-bone/80">
-            {
-              offices.map((o) => (
-                <li>
-                  <p class="font-semibold text-bone">{o.city}</p>
-                  <p class="mt-1 text-bone/60">{o.address.join(', ')}</p>
-                  {o.phones.map((p) => (
-                    <p class="text-bone/60">{p.label}: <a class="link-u" href={`tel:${p.value.replace(/[^+\d]/g, '')}`}>{p.value}</a></p>
-                  ))}
-                </li>
-              ))
-            }
+        {
+          sitemap.map((g) => (
+            <div>
+              <p class="eyebrow mb-5"><a class="link-u text-gray" href={u(g.href)}>{g.label}</a></p>
+              <ul class="space-y-2 text-sm text-bone/80">
+                {g.children.map((c) => <li><a class="link-u" href={u(c.href)}>{c.label}</a></li>)}
+              </ul>
+            </div>
+          ))
+        }
+        <div>
+          <p class="eyebrow mb-5"><a class="link-u text-gray" href={u('/projects')}>Projects</a></p>
+          <ul class="space-y-2 text-sm text-bone/80">
+            <li><a class="link-u" href={u('/projects')}>Project Listing</a></li>
+          </ul>
+          <p class="eyebrow mb-5 mt-10"><a class="link-u text-gray" href={u('/contact')}>Contact</a></p>
+          <ul class="space-y-2 text-sm text-bone/80">
+            <li><a class="link-u" href={u('/contact')}>Contact Us</a></li>
+            <li class="text-bone/60">{office.city}</li>
+            {site.email && <li><a class="link-u" href={`mailto:${site.email}`}>{site.email}</a></li>}
+            {site.phone && <li><a class="link-u" href={`tel:${site.phone.replace(/[^+\d]/g, '')}`}>{site.phone}</a></li>}
           </ul>
         </div>
       </div>
@@ -59,12 +62,9 @@ const year = new Date().getFullYear();
     <div class="mt-12 flex flex-col gap-6 border-t border-bone/10 pt-8 text-sm text-bone/50 md:flex-row md:items-center md:justify-between">
       <p>© {year} {site.legalName}. All rights reserved.</p>
       <ul class="flex flex-wrap gap-6">
+        <li><a class="link-u" href={u('/privacy')}>Privacy Policy</a></li>
+        <li><a class="link-u" href={u('/terms')}>Terms & Conditions</a></li>
         {site.social.map((s) => <li><a class="link-u" href={s.href} target="_blank" rel="noopener">{s.label}</a></li>)}
-        <li><a class="link-u" href={`mailto:${site.safetyEmail}`}>Health & Safety</a></li>
-      </ul>
-      <ul class="flex gap-6">
-        <li><a class="link-u" href={u('/privacy')}>Privacy</a></li>
-        <li><a class="link-u" href={u('/estimating')}>Suppliers</a></li>
         <li><a class="link-u" href="#top">Back to top ↑</a></li>
       </ul>
     </div>

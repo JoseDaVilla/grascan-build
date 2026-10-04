@@ -1,4 +1,9 @@
 ---
+/**
+ * HOME — secciones en el orden del documento:
+ * Hero · Building on Experience · What We Build · What We Do · Featured Projects ·
+ * Our Approach · Safety & Quality · News & Insights · Contact / Offices
+ */
 import { u } from '@/lib/url';
 import { getCollection } from 'astro:content';
 import Base from '@/layouts/Base.astro';
@@ -9,184 +14,351 @@ import Button from '@/components/Button.astro';
 import ProjectCard from '@/components/ProjectCard.astro';
 import NewsCard from '@/components/NewsCard.astro';
 import ServiceIcon from '@/components/ServiceIcon.astro';
-import EstimatingCTA from '@/components/EstimatingCTA.astro';
-import LocationsMap from '@/components/LocationsMap.astro';
-import VideoFacade from '@/components/VideoFacade.astro';
-import { stats, offices, clients } from '@/site.config';
-import { services } from '@/data/services';
+import ContactBlock from '@/components/ContactBlock.astro';
+import Media from '@/components/Media.astro';
+import Icon from '@/components/Icon.astro';
+import { highlights } from '@/site.config';
+import {
+  story,
+  foundation,
+  newChapter,
+  buildingOnExperience as boe,
+  whatWeBuild,
+  sectors,
+  whatWeDo,
+  capabilities,
+  projectsCopy,
+  approach,
+  commitment,
+  safety,
+  safetyTopics,
+  newsCopy,
+  newsCategories,
+  contactCopy,
+} from '@/data/services';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
-const featured = projects.filter((p) => p.data.featured).slice(0, 4);
+const featured = projects.filter((p) => p.data.featured).slice(0, 3);
 const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
-const statement =
-  'Since 1987, our ability to deliver time-sensitive, complicated and high-profile projects has made Grascan a preferred contractor for major road, bridge and rail construction in Southern Ontario.';
-const lead = featured[0];
-const homeServices = services.slice(0, 6);
+const safetyList = Object.values(safetyTopics);
 ---
 
 <Base intro>
-  <Hero featured={lead && { title: lead.data.title, href: `/projects/${lead.id}`, meta: `${lead.data.location}, ${lead.data.year}` }} />
+  <Hero />
 
-  <!-- Statement + cifras -->
-  <section id="discover" class="relative py-24 md:py-40">
-    <div class="container-x">
-      <Eyebrow class="mb-10 text-mute">Who we are</Eyebrow>
-      <p class="max-w-6xl font-semiwide text-[clamp(1.6rem,3.4vw,3.4rem)] font-semibold leading-[1.1] tracking-[-0.02em] text-ink">
-        {statement.split(' ').map((w) => <span class="scrub-word">{w} </span>)}
-      </p>
-      <div class="mt-12 flex flex-wrap items-center gap-6" data-reveal>
-        <Button href={u('/about')} variant="dark">Our history</Button>
-        <a href={u('/services')} class="link-u font-semibold">What we do</a>
+  <!-- Statement bajo el hero -->
+  <section aria-label="At a glance" class="on-dark bg-ink text-bone">
+    <dl class="container-x grid grid-cols-2 lg:grid-cols-4">
+      {
+        highlights.map((h, i) => (
+          <div class="border-bone/12 py-7 pr-4 even:border-l even:pl-5 [&:nth-child(n+3)]:border-t md:py-9 lg:border-l lg:px-7 lg:first:border-l-0 lg:first:pl-0 lg:[&:nth-child(n+3)]:border-t-0" data-reveal style={`--d:${i}`}>
+            <dt class="font-wide text-[clamp(0.85rem,1.5vw,1.15rem)] uppercase leading-tight text-signal">{h.label}</dt>
+            <dd class="eyebrow mt-2 text-bone/70">{h.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <!-- BUILDING ON EXPERIENCE -->
+  <section id="experience" class="py-24 md:py-36">
+    <div class="container-x grid gap-14 lg:grid-cols-12">
+      <div class="lg:col-span-6">
+        <Eyebrow class="mb-8 text-mute">Building on experience</Eyebrow>
+        <SplitText text="Built on experience.|Focused on|what comes next." accent={['next.']} class="font-wide text-title" />
       </div>
+      <div class="space-y-6 text-lg leading-relaxed text-ink/75 lg:col-span-5 lg:col-start-8" data-reveal>
+        {story.paragraphs.map((p) => <p>{p}</p>)}
+        <p class="border-l-4 border-signal pl-5 font-semibold text-ink">{story.proposition}</p>
+      </div>
+    </div>
 
-      <dl class="mt-20 grid grid-cols-2 border-t border-ink/10 md:mt-24 lg:grid-cols-4">
+    <!-- OUR FOUNDATION -->
+    <div class="container-x mt-20 md:mt-28">
+      <Eyebrow class="mb-8 text-mute">Our foundation</Eyebrow>
+      <ol class="grid border-t border-ink/10 sm:grid-cols-2 lg:grid-cols-4">
         {
-          stats.map((s, i) => (
-            <div class="relative border-b border-ink/10 py-8 pr-6 lg:border-b-0 [&:not(:last-child)]:lg:border-r lg:px-8 lg:first:pl-0" data-reveal style={`--d:${i}`}>
-              <dt class="eyebrow text-mute">{s.label}</dt>
-              <dd class="mt-4 whitespace-nowrap font-wide text-[clamp(2rem,3.6vw,3.9rem)] font-extrabold leading-none tracking-tight text-signal">
-                {'prefix' in s && s.prefix}
-                <span data-count={s.value} data-delay={i * 120}>0</span>
-                <span class="text-gray">{s.suffix}</span>
-              </dd>
-              <dd class="mt-3 text-sm text-mute">{s.note}</dd>
-            </div>
+          foundation.map((f, i) => (
+            <li class="border-b border-ink/10 py-8 sm:pr-8 sm:[&:nth-child(even)]:border-l sm:[&:nth-child(even)]:pl-8 lg:border-l lg:px-8 lg:first:border-l-0 lg:first:pl-0" data-reveal style={`--d:${i}`}>
+              <p class="font-wide text-3xl text-gray">{f.n}</p>
+              <h3 class="mt-6 font-wide text-xl uppercase text-signal">{f.title}</h3>
+              <p class="mt-4 font-semibold text-ink">{f.lead}</p>
+              {f.detail && <p class="mt-2 text-ink/65">{f.detail}</p>}
+            </li>
           ))
         }
-      </dl>
+      </ol>
+    </div>
+
+    <!-- A new chapter -->
+    <div class="container-x mt-20 grid gap-4 md:mt-28 md:grid-cols-12">
+      <div class="md:col-span-7" data-reveal="mask"><Media seed="new-chapter" variant="midrise" class="aspect-[16/10] md:aspect-auto md:h-full md:min-h-80" /></div>
+      <div class="on-dark flex flex-col justify-between gap-10 bg-ink p-8 md:col-span-5 md:p-12" data-reveal style="--d:2">
+        <h3 class="font-wide text-2xl leading-tight md:text-3xl">{newChapter.title}</h3>
+        <div class="space-y-4 text-bone/75 [&_strong]:font-semibold [&_strong]:text-bone">
+          {newChapter.paragraphs.map((p) => <p set:html={p} />)}
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Servicios -->
-  <section class="on-dark relative bg-ink py-24 text-bone md:py-36">
+  <!-- Banner: BUILDING ON EXPERIENCE (su subtítulo "Building the places that shape Ontario." abre What We Build) -->
+  <section class="relative overflow-hidden border-y border-ink/10 bg-concrete py-20 md:py-28">
+    <div class="container-x grid gap-10 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-7">
+        <SplitText text="Building on|experience." accent={['experience.']} class="font-wide text-display uppercase" />
+      </div>
+      <p class="text-lead text-ink/75 lg:col-span-5" data-reveal style="--d:2">{boe.text}</p>
+    </div>
+  </section>
+
+  <!-- WHAT WE BUILD -->
+  <section id="what-we-build" class="on-dark relative bg-ink py-24 text-bone md:py-36">
     <div class="bg-grid pointer-events-none absolute inset-0 text-bone/40"></div>
     <div class="container-x relative">
       <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
         <div class="lg:col-span-7">
-          <Eyebrow class="mb-8 text-bone/60">Services</Eyebrow>
-          <SplitText text="Full-service.|From the ground up." class="font-wide text-display font-extrabold uppercase" />
+          <Eyebrow class="mb-8 text-bone/60">What we build</Eyebrow>
+          <SplitText text="Building the places|that shape Ontario." class="font-wide text-title" />
         </div>
-        <p class="text-lead text-bone/70 lg:col-span-5" data-reveal>From bridges and rapid transit to underground services and landscaping, Grascan self-performs and coordinates every phase of complex construction.</p>
+        <div class="space-y-4 text-bone/70 lg:col-span-5" data-reveal>
+          {whatWeBuild.intro.map((p) => <p>{p}</p>)}
+        </div>
       </div>
 
-      <ul class="mt-16 border-t border-bone/12 md:mt-20">
+      <ul class="mt-16 grid gap-px overflow-hidden bg-bone/10 md:mt-20 md:grid-cols-2 lg:grid-cols-3">
         {
-          homeServices.map((s, i) => (
-            <li data-reveal style={`--d:${i % 3}`}>
-              <a href={u(`/services#${s.slug}`)} class="service-row group grid grid-cols-[auto_1fr] items-center gap-5 border-b border-bone/12 py-7 transition-colors hover:bg-ink-2 md:grid-cols-[auto_1fr_auto] md:gap-10 md:px-4 md:py-9">
-                                <ServiceIcon name={s.icon} class="size-11 text-signal md:size-14" />
-                <span>
-                  <span class="block font-semiwide text-[clamp(1.4rem,3vw,2.8rem)] font-bold leading-none tracking-tight transition-transform duration-700 ease-(--ease-expo) group-hover:translate-x-3">{s.title}</span>
-                  <span class="mt-3 block max-w-xl text-bone/55 md:hidden">{s.short}</span>
-                </span>
-                <span class="hidden max-w-xs text-right text-bone/55 transition-colors group-hover:text-bone xl:block">{s.short}</span>
-              </a>
+          sectors.map((s, i) => {
+            const inner = (
+              <>
+                <ServiceIcon name={s.icon} class="size-12 text-signal" />
+                <h3 class="mt-8 font-wide text-xl">{s.title}</h3>
+                <p class="mt-4 text-bone/65">{s.text}</p>
+              </>
+            );
+            return (
+              <li class="bg-ink" data-reveal style={`--d:${i % 3}`}>
+                {s.slug ? (
+                  <a href={u(`/services#${s.slug}`)} class="block h-full p-8 transition-colors duration-500 hover:bg-ink-2 md:p-10">{inner}</a>
+                ) : (
+                  <div class="h-full p-8 md:p-10">{inner}</div>
+                )}
+              </li>
+            );
+          })
+        }
+      </ul>
+      <p class="mt-12 font-wide text-lg text-signal md:text-2xl" data-reveal>{whatWeBuild.closing}</p>
+    </div>
+  </section>
+
+  <!-- WHAT WE DO -->
+  <section id="what-we-do" class="py-24 md:py-36">
+    <div class="container-x">
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-7">
+          <Eyebrow class="mb-8 text-mute">What we do</Eyebrow>
+          <SplitText text="From planning|to completion." accent={['completion.']} class="font-wide text-display" />
+        </div>
+        <div class="space-y-4 text-ink/70 lg:col-span-5" data-reveal>
+          {whatWeDo.intro.map((p) => <p>{p}</p>)}
+        </div>
+      </div>
+
+      <ul class="mt-16 border-t border-ink/10 md:mt-20">
+        {
+          capabilities.map((s, i) => {
+            const Tag = s.slug ? 'a' : 'div';
+            return (
+              <li data-reveal style={`--d:${i % 3}`}>
+                <Tag
+                  href={s.slug ? u(`/services#${s.slug}`) : undefined}
+                  class:list={['group grid grid-cols-[auto_1fr] gap-5 border-b border-ink/10 py-7 md:grid-cols-[auto_minmax(0,5fr)_minmax(0,6fr)] md:gap-10 md:px-4 md:py-9', s.slug && 'transition-colors hover:bg-concrete']}
+                >
+                  <ServiceIcon name={s.icon} class="size-11 text-signal md:size-12" />
+                  <span>
+                    <span class="block font-wide text-[clamp(1.1rem,2vw,1.6rem)] leading-tight">{s.title}</span>
+                    <span class="mt-2 block font-semibold text-signal-ink">{s.tagline}</span>
+                  </span>
+                  <span class="col-span-2 text-ink/70 md:col-span-1">{s.text}</span>
+                </Tag>
+              </li>
+            );
+          })
+        }
+      </ul>
+      <div class="mt-12" data-reveal><Button href={u('/services')} variant="dark">All services</Button></div>
+    </div>
+  </section>
+
+  <!-- FEATURED PROJECTS -->
+  <section id="projects" class="border-t border-ink/10 bg-concrete py-24 md:py-36">
+    <div class="container-x">
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-7">
+          <Eyebrow class="mb-8 text-mute">Featured projects</Eyebrow>
+          <SplitText text="Experience|you can see." accent={['see.']} class="font-wide text-display" />
+        </div>
+        <div class="space-y-4 text-ink/70 lg:col-span-5 [&_strong]:text-ink" data-reveal>
+          {projectsCopy.intro.map((p) => <p set:html={p} />)}
+        </div>
+      </div>
+
+      {
+        featured.length > 0 ? (
+          <div class="mt-16 grid gap-x-8 gap-y-16 md:mt-20 md:grid-cols-3">
+            {featured.map((p, i) => <ProjectCard project={p} index={i} />)}
+          </div>
+        ) : (
+          <div class="mt-16 grid gap-px overflow-hidden border border-ink/10 bg-ink/10 md:mt-20 md:grid-cols-3" data-reveal>
+            {(['tower', 'warehouse', 'campus'] as const).map((v, i) => (
+              <Media seed={`portfolio-${v}`} variant={v} class="aspect-[4/3]" label={false} tone={i === 1 ? 'dark' : 'light'} />
+            ))}
+          </div>
+        )
+      }
+
+      <div class="mt-12 grid gap-8 md:grid-cols-12 md:items-end" data-reveal>
+        <div class="md:col-span-7">
+          <h3 class="font-wide text-xl">{projectsCopy.ourProjects.title}</h3>
+          <p class="mt-4 max-w-2xl text-ink/70">{projectsCopy.ourProjects.text}</p>
+        </div>
+        <div class="md:col-span-5 md:text-right">
+          <a href={u('/projects')} class="inline-flex items-center gap-2 font-semibold uppercase tracking-wide text-signal"><span class="link-u">Explore all projects</span><Icon name="arrow" /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUR APPROACH -->
+  <section id="approach" class="py-24 md:py-36">
+    <div class="container-x">
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-7">
+          <Eyebrow class="mb-8 text-mute">Our approach</Eyebrow>
+          <SplitText text="Built on experience.|Driven by execution." accent={['execution.']} class="font-wide text-title" />
+        </div>
+        <div class="space-y-4 text-ink/70 lg:col-span-5" data-reveal>
+          {approach.intro.map((p) => <p>{p}</p>)}
+        </div>
+      </div>
+
+      <ol class="mt-16 grid gap-px overflow-hidden border border-ink/10 bg-ink/10 md:mt-20 md:grid-cols-2 lg:grid-cols-4">
+        {
+          approach.steps.map((s, i) => (
+            <li class="bg-bone p-8 md:p-10" data-reveal style={`--d:${i}`}>
+              <p class="eyebrow text-mute">Step {String(i + 1).padStart(2, '0')}</p>
+              <h3 class="mt-6 font-wide text-2xl text-signal">{s.title}</h3>
+              <p class="mt-5 font-semibold text-ink">{s.lead}</p>
+              <p class="mt-3 text-ink/65">{s.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="mt-20 grid gap-10 md:mt-28 lg:grid-cols-12">
+        <h3 class="font-wide text-2xl lg:col-span-4 md:text-3xl" data-reveal>Our Commitment</h3>
+        <dl class="grid gap-x-10 border-t border-ink/10 sm:grid-cols-2 lg:col-span-8">
+          {
+            commitment.map((c, i) => (
+              <div class="border-b border-ink/10 py-6" data-reveal style={`--d:${i % 2}`}>
+                <dt class="font-semiwide text-lg font-bold text-ink">{c.title}.</dt>
+                <dd class="mt-1 text-ink/65">{c.text}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAFETY & QUALITY -->
+  <section id="safety" class="on-dark relative bg-ink py-24 text-bone md:py-36">
+    <div class="bg-grid pointer-events-none absolute inset-0 text-bone/40"></div>
+    <div class="container-x relative">
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-6">
+          <Eyebrow class="mb-8 text-bone/60">Safety & quality</Eyebrow>
+          <SplitText text="Safety is|how we build." class="font-wide text-display" />
+        </div>
+        <div class="space-y-4 text-bone/70 lg:col-span-5 lg:col-start-8" data-reveal>
+          {safety.intro.map((p) => <p>{p}</p>)}
+        </div>
+      </div>
+
+      <ul class="mt-16 grid gap-px overflow-hidden bg-bone/10 md:mt-20 md:grid-cols-2 lg:grid-cols-3">
+        {
+          safetyList.map((t, i) => (
+            <li class:list={['bg-ink p-8 md:p-10', i === safetyList.length - 1 && 'lg:col-span-1 md:col-span-2']} data-reveal style={`--d:${i % 3}`}>
+              <span class="block h-1 w-10 bg-signal" aria-hidden="true"></span>
+              <h3 class="mt-6 font-wide text-lg">{t.title}</h3>
+              {'lead' in t && <p class="mt-4 font-semibold text-bone">{t.lead}</p>}
+              <p class="mt-3 text-bone/65">{t.text}</p>
+            </li>
+          ))
+        }
+        <li class="hidden bg-steel p-8 md:p-10 lg:flex lg:flex-col lg:justify-between lg:col-span-2">
+          <p class="font-wide text-2xl text-bone xl:text-3xl">{safety.closing}</p>
+          <a href={u('/health-safety')} class="mt-8 inline-flex items-center gap-2 font-semibold uppercase tracking-wide text-bone"><span class="link-u">Health & Safety</span><Icon name="arrow" /></a>
+        </li>
+      </ul>
+      <div class="mt-10 flex flex-wrap items-center justify-between gap-6 lg:hidden" data-reveal>
+        <p class="font-wide text-xl text-signal">{safety.closing}</p>
+        <Button href={u('/health-safety')}>Health & Safety</Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWS & INSIGHTS -->
+  <section id="news" class="py-24 md:py-36">
+    <div class="container-x">
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-7">
+          <Eyebrow class="mb-8 text-mute">News & insights</Eyebrow>
+          <SplitText text="Perspectives from|the people building|what's next." accent={["next."]} class="font-wide text-title" />
+        </div>
+        <div class="space-y-4 text-ink/70 lg:col-span-5" data-reveal>
+          {newsCopy.intro.map((p) => <p>{p}</p>)}
+        </div>
+      </div>
+
+      <ul class="mt-16 grid border-t border-ink/10 sm:grid-cols-2 lg:grid-cols-5 md:mt-20">
+        {
+          newsCategories.map((c, i) => (
+            <li class="border-b border-ink/10 py-7 sm:pr-6 lg:border-l lg:px-6 lg:first:border-l-0 lg:first:pl-0" data-reveal style={`--d:${i}`}>
+              <h3 class="font-semiwide text-lg font-bold text-signal">{c.title}</h3>
+              <p class="mt-2 text-sm text-ink/65">{c.text}</p>
             </li>
           ))
         }
       </ul>
-      <div class="mt-12 flex flex-wrap items-center justify-between gap-6" data-reveal>
-        <p class="max-w-2xl text-bone/60">+ {services.length - homeServices.length} more: {services.slice(homeServices.length).map((s) => s.title).join(', ')}.</p>
-        <Button href={u('/services')}>All {services.length} services</Button>
+
+      {
+        news.length > 0 && (
+          <div class="mt-16 grid gap-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-8">
+            {news.map((post, i) => <NewsCard post={post} index={i} />)}
+          </div>
+        )
+      }
+      <div class="mt-12" data-reveal>
+        <a href={u('/news')} class="inline-flex items-center gap-2 font-semibold uppercase tracking-wide text-signal"><span class="link-u">Explore News & Insights</span><Icon name="arrow" /></a>
       </div>
     </div>
   </section>
 
-  <!-- Proyectos destacados -->
-  <section class="py-24 md:py-36">
+  <!-- CONTACT / OFFICES -->
+  <section id="contact" class="border-t border-ink/10 bg-concrete py-24 md:py-36">
     <div class="container-x">
-      <div class="flex flex-wrap items-end justify-between gap-8">
-        <div>
-          <Eyebrow class="mb-8 text-mute">Featured projects</Eyebrow>
-          <SplitText text="Landmarks|we've delivered." accent={["delivered."]} class="font-wide text-display font-extrabold uppercase" />
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-6">
+          <Eyebrow class="mb-8 text-mute">Contact</Eyebrow>
+          <SplitText text="Let's build|what's next." accent={["next."]} class="font-wide text-display" />
         </div>
-        <div data-reveal><Button href={u('/projects')} variant="dark">All projects</Button></div>
-      </div>
-
-      <div class="mt-16 grid gap-x-8 gap-y-16 md:mt-24 md:grid-cols-12">
-        {featured[0] && <div class="md:col-span-7"><ProjectCard project={featured[0]} size="lg" eager /></div>}
-        {featured[1] && <div class="md:col-span-5 md:mt-40"><ProjectCard project={featured[1]} index={1} /></div>}
-        {featured[2] && <div class="md:col-span-5"><ProjectCard project={featured[2]} /></div>}
-        {featured[3] && <div class="md:col-span-7 md:mt-24"><ProjectCard project={featured[3]} size="lg" index={1} /></div>}
-      </div>
-    </div>
-  </section>
-
-  <!-- Organizaciones que invitan a licitar -->
-  <section class="border-y border-ink/10 bg-concrete py-16 md:py-24" aria-labelledby="clients-title">
-    <div class="container-x grid gap-10 lg:grid-cols-12">
-      <div class="lg:col-span-4">
-        <h2 id="clients-title" class="font-semiwide text-2xl font-bold leading-tight text-ink md:text-3xl" data-reveal>Invited to tender by Ontario's leading public owners.</h2>
-        <p class="mt-4 max-w-sm text-ink/70" data-reveal>One of the few approved Metrolinx (GO Transit), CN Rail and TTC contractors.</p>
-      </div>
-      <ul class="grid grid-cols-2 border-l border-t border-ink/10 bg-bone sm:grid-cols-3 lg:col-span-8">
-        {clients.map((c, i) => (
-          <li class="flex min-h-24 items-center border-b border-r border-ink/10 px-5 py-6 font-semiwide text-base font-bold leading-tight text-signal md:min-h-28 md:text-lg" data-reveal style={`--d:${i % 3}`}>{c}</li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <!-- Seguridad y cultura con vídeo -->
-  <section class="py-24 md:py-36">
-    <div class="container-x grid gap-14 lg:grid-cols-12 lg:items-center">
-      <div class="lg:col-span-5">
-        <Eyebrow class="mb-8 text-mute">Safety & culture</Eyebrow>
-        <SplitText text="Safety is|built into|everything." accent={['everything.']} class="font-wide text-title font-extrabold uppercase" />
-        <p class="mt-8 max-w-md text-lg text-ink/70" data-reveal>Grascan has developed a reputation for adopting leading-edge safety practices. Our COR™ audit found overwhelming evidence of a strong safety culture, with every person committed to continual improvement.</p>
-        <ul class="mt-10 grid grid-cols-2 gap-6" data-reveal style="--d:2">
-          <li class="border-l-2 border-signal pl-4"><p class="font-wide text-3xl font-extrabold text-signal">COR™</p><p class="text-sm text-mute">Certified since 2015, ISO 45001</p></li>
-          <li class="border-l-2 border-gray pl-4"><p class="font-wide text-3xl font-extrabold text-signal">Platinum</p><p class="text-sm text-mute">Canada’s Best Managed Companies</p></li>
-        </ul>
-      </div>
-      <div class="lg:col-span-7" data-reveal="mask">
-        <VideoFacade title="Building Southern Ontario since 1987" seed="company-film" variant="bridge" duration="02:00" />
-      </div>
-    </div>
-  </section>
-
-  <EstimatingCTA />
-
-  <!-- Noticias -->
-  <section class="py-24 md:py-36">
-    <div class="container-x">
-      <div class="flex flex-wrap items-end justify-between gap-8">
-        <div>
-          <Eyebrow class="mb-8 text-mute">News & updates</Eyebrow>
-          <SplitText text="Latest news." class="font-wide text-display font-extrabold uppercase" />
+        <div class="space-y-4 text-ink/70 lg:col-span-5 lg:col-start-8 [&_strong]:text-ink" data-reveal>
+          {contactCopy.intro.map((p) => <p set:html={p} />)}
         </div>
-        <div data-reveal><Button href={u('/news')} variant="dark">All news</Button></div>
       </div>
-      <div class="mt-12 grid gap-12 sm:grid-cols-2 sm:gap-x-6 md:mt-16 lg:grid-cols-3 lg:gap-8">
-        {news.map((post, i) => <div class:list={[i === 0 && 'sm:col-span-2 lg:col-span-1']}><NewsCard post={post} index={i} /></div>)}
-      </div>
-    </div>
-  </section>
-
-  <!-- Ubicaciones -->
-  <section class="relative overflow-hidden bg-concrete py-24 md:py-36">
-    <div class="container-x grid gap-14 xl:grid-cols-12">
-      <div class="xl:col-span-4">
-        <Eyebrow class="mb-8 text-mute">Locations</Eyebrow>
-        <SplitText text="Rooted in|the GTA." class="font-wide text-title font-extrabold uppercase" />
-        <p class="mt-6 max-w-sm text-ink/70" data-reveal>Our main office and facility in Toronto and our Brampton facility support projects across Southern Ontario.</p>
-        <div class="mt-10" data-reveal><Button href={u('/contact')} variant="dark">Contact us</Button></div>
-      </div>
-      <div class="xl:col-span-8">
-        <div data-reveal="fade" class="border border-ink/10 bg-bone p-4 text-ink md:p-6"><LocationsMap /></div>
-        <ul class="mt-6 grid gap-px overflow-hidden bg-ink/10 sm:grid-cols-2">
-          {
-            offices.map((o, i) => (
-              <li class="bg-bone p-6" data-reveal style={`--d:${i}`}>
-                <p class="eyebrow text-signal-ink">{o.label}</p>
-                <p class="mt-2 font-semiwide text-2xl font-bold">{o.city}</p>
-                <p class="mt-3 text-sm text-ink/60">{o.address.join(', ')}</p>
-                <a class="link-u mt-3 inline-block text-sm font-semibold" href={`tel:${o.phone.replace(/[^+\d]/g, '')}`}>{o.phone}</a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+      <div class="mt-16 md:mt-20"><ContactBlock /></div>
     </div>
   </section>
 </Base>

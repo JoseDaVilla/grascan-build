@@ -1,41 +1,73 @@
 ---
+/**
+ * PROJECTS: Project Listing. Mientras no haya proyectos de Grascan Build en
+ * src/content/projects se muestra el estado "portfolio coming soon".
+ */
+import { u } from '@/lib/url';
 import FilterBar from '@/components/FilterBar.astro';
 import { getCollection } from 'astro:content';
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import ProjectCard from '@/components/ProjectCard.astro';
-import EstimatingCTA from '@/components/EstimatingCTA.astro';
+import Media from '@/components/Media.astro';
+import Button from '@/components/Button.astro';
 import { sectors } from '@/site.config';
+import { projectsCopy, contactCopy } from '@/data/services';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const used = sectors.filter((s) => projects.some((p) => p.data.sector === s));
 const count = (s: string) => projects.filter((p) => p.data.sector === s).length;
+const strip = (html: string) => html.replace(/<[^>]+>/g, '');
 ---
 
-<Base title="Projects" description="Grascan projects: bridges and structures, rail and transit, roads and highways and infrastructure across Southern Ontario.">
-  <PageHero
-    index="03"
-    eyebrow="Projects"
-    title="Projects that|move Ontario."
-    lead="A selection of time-sensitive, complicated and high-profile projects that have built Grascan’s reputation across Southern Ontario."
-  />
+<Base title="Projects" description={`${projectsCopy.intro[0]} ${strip(projectsCopy.intro[1])}`}>
+  <PageHero eyebrow="Projects" title="Experience|you can see." accent={['see.']} lead={projectsCopy.intro[0]}>
+    <p class="mt-6 max-w-2xl text-ink/70 [&_strong]:text-ink" data-reveal style="--d:4" set:html={projectsCopy.intro[1]} />
+  </PageHero>
 
   <section class="py-16 md:py-24">
     <div class="container-x">
-      <FilterBar target="project-grid" label="Filter by sector" sticky allCount={projects.length} items={used.map((s) => ({ value: s, label: s, count: count(s) }))} class="mb-10 md:mb-14" />
-
-      <div id="project-grid" class="grid gap-x-8 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
-        {
-          projects.map((p, i) => (
-            <div class:list={[i % 7 === 0 && 'md:col-span-2']} data-tags={`${p.data.sector}`} style={`view-transition-name: p-${p.id}`}>
-              <ProjectCard project={p} index={i} size={i % 7 === 0 ? 'lg' : 'md'} eager={i < 2} />
+      {
+        projects.length > 0 ? (
+          <>
+            <FilterBar target="project-grid" label="Filter by sector" sticky allCount={projects.length} items={used.map((s) => ({ value: s, label: s, count: count(s) }))} class="mb-10 md:mb-14" />
+            <div id="project-grid" class="grid gap-x-8 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+              {projects.map((p, i) => (
+                <div class:list={[i % 7 === 0 && 'md:col-span-2']} data-tags={`${p.data.sector}`} style={`view-transition-name: p-${p.id}`}>
+                  <ProjectCard project={p} index={i} size={i % 7 === 0 ? 'lg' : 'md'} eager={i < 2} />
+                </div>
+              ))}
             </div>
-          ))
-        }
-      </div>
-      <p class="py-20 text-center text-mute" data-filter-empty hidden>No projects in this sector yet.</p>
+            <p class="py-20 text-center text-mute" data-filter-empty hidden>No projects in this sector yet.</p>
+          </>
+        ) : (
+          <div class="grid gap-12 lg:grid-cols-12 lg:items-center">
+            <div class="lg:col-span-5" data-reveal>
+              <p class="eyebrow text-mute">Portfolio coming soon</p>
+              <h2 class="mt-5 font-wide text-title">{projectsCopy.ourProjects.title}</h2>
+              <p class="mt-6 text-lg text-ink/75">{projectsCopy.ourProjects.text}</p>
+              <ul class="mt-8 flex flex-wrap gap-2">
+                {sectors.map((s) => <li class="border border-ink/15 px-3 py-1.5 text-sm text-ink/70">{s}</li>)}
+              </ul>
+            </div>
+            <div class="grid grid-cols-2 gap-4 lg:col-span-6 lg:col-start-7" data-reveal="mask">
+              <Media seed="portfolio-a" variant="tower" class="col-span-2 aspect-[16/9]" />
+              <Media seed="portfolio-b" variant="warehouse" class="aspect-[4/3]" tone="dark" label={false} />
+              <Media seed="portfolio-c" variant="campus" class="aspect-[4/3]" label={false} />
+            </div>
+          </div>
+        )
+      }
     </div>
   </section>
 
-  <EstimatingCTA />
+  <section class="on-dark bg-ink py-24 text-bone md:py-32">
+    <div class="container-x flex flex-col items-start justify-between gap-10 md:flex-row md:items-end">
+      <div class="max-w-3xl">
+        <h2 class="font-wide text-title" data-reveal>{contactCopy.start.lead}</h2>
+        <p class="mt-6 text-bone/70" data-reveal style="--d:1">{contactCopy.start.text}</p>
+      </div>
+      <div data-reveal style="--d:2"><Button href={u('/contact?topic=project#form')}>Start a project</Button></div>
+    </div>
+  </section>
 </Base>

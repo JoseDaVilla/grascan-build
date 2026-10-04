@@ -1,202 +1,332 @@
 /**
- * Contenido basado en grascan.com (servicios, historia, cultura, estimating).
+ * Contenido del sitio tomado del documento "Website GRASCAN BUILD" (estructura y textos del cliente).
+ * Los textos se reproducen tal cual; sólo se corrigieron erratas evidentes
+ * ("decisionmaking" → "decision-making", "multiresidential" → "multi-residential").
  */
 export type ServiceIcon =
-  | 'bridge'
-  | 'dam'
+  | 'building'
+  | 'commercial'
+  | 'industrial'
+  | 'institutional'
+  | 'healthcare'
+  | 'residential'
+  | 'rehab'
   | 'designbuild'
-  | 'environmental'
-  | 'paving'
-  | 'infrastructure'
-  | 'landscaping'
-  | 'pm'
-  | 'rail'
-  | 'roads'
-  | 'underground';
+  | 'cm'
+  | 'precon'
+  | 'gc'
+  | 'interior'
+  | 'envelope'
+  | 'concrete'
+  | 'site';
 
-export interface Service {
-  slug: string;
+export interface Offering {
+  /** Ancla en /services (sólo si el servicio tiene sección propia en la página Services). */
+  slug?: string;
   title: string;
-  short: string;
-  description: string;
+  /** Subtítulo corto del documento (p. ej. "Early involvement creates better decisions."). */
+  tagline?: string;
+  text: string;
   icon: ServiceIcon;
-  capabilities: string[];
+  /** Alcances mencionados en el propio texto del documento. */
+  scope?: string[];
 }
 
-export const services: Service[] = [
+/* ------------------------------------------------------------------ */
+/*  WHAT WE BUILD (Home)                                               */
+/* ------------------------------------------------------------------ */
+export const whatWeBuild = {
+  title: 'Building the places that shape Ontario.',
+  intro: [
+    'Grascan Build delivers commercial, industrial, institutional and mixed-use buildings designed around the needs of the people and organizations they serve.',
+    'From new construction to complex renovations and building rehabilitation, we bring together experienced teams, disciplined project management and a practical understanding of construction to deliver buildings that perform today and stand the test of time.',
+  ],
+  closing: 'Built for purpose. Built for performance. Built for the future.',
+};
+
+export const sectors: Offering[] = [
   {
-    slug: 'bridges-and-structures',
-    title: 'Bridges and Structures',
-    short: 'Rehabilitation and new construction of highway, pedestrian and rail structures.',
-    description:
-      'As one of Toronto’s largest bridge contractors, Grascan provides a full-service approach to the rehabilitation and new construction of highway, pedestrian and rail structures and other transportation structures.',
-    icon: 'bridge',
-    capabilities: ['Bridge rehabilitation', 'New bridge construction', 'Pedestrian & cyclist bridges', 'Rail structures', 'Deck replacement & re-decking'],
+    slug: 'commercial-construction',
+    title: 'Commercial',
+    text: 'From office environments and retail spaces to complex mixed-use developments, we deliver commercial buildings with a focus on functionality, quality and long-term value.',
+    icon: 'commercial',
+    scope: ['Office environments', 'Retail spaces', 'Mixed-use developments'],
   },
   {
-    slug: 'dams-and-waterways',
-    title: 'Dams and Waterways',
-    short: 'Design-build expertise in the construction of dams and waterways.',
-    description:
-      'Grascan brings design-build expertise to the construction and rehabilitation of dams, channels and waterways, including channel stabilization and emergency wash-out repairs.',
-    icon: 'dam',
-    capabilities: ['Dam construction & rehabilitation', 'Channel stabilization', 'Erosion control', 'Emergency wash-out repairs'],
+    slug: 'industrial-construction',
+    title: 'Industrial',
+    text: 'We build the facilities that support Ontario’s economy, including manufacturing, distribution, logistics and specialized industrial environments where performance, coordination and schedule are critical.',
+    icon: 'industrial',
+    scope: ['Manufacturing', 'Distribution', 'Logistics', 'Specialized industrial environments'],
+  },
+  {
+    slug: 'institutional-construction',
+    title: 'Institutional',
+    text: 'We deliver buildings that serve the public and the communities around them, including education, government, civic and other institutional facilities.',
+    icon: 'institutional',
+    scope: ['Education', 'Government', 'Civic', 'Other institutional facilities'],
+  },
+  {
+    title: 'Healthcare',
+    text: 'We understand the heightened requirements of healthcare environments, where safety, coordination, quality and continuity of operations are essential.',
+    icon: 'healthcare',
+  },
+  {
+    slug: 'residential-mixed-use',
+    title: 'Residential & Mixed-Use',
+    text: 'From multi-residential developments to integrated mixed-use communities, we coordinate the structural, technical and architectural requirements necessary to deliver complex urban projects.',
+    icon: 'residential',
+    scope: ['Multi-residential developments', 'Integrated mixed-use communities'],
+  },
+  {
+    slug: 'building-rehabilitation',
+    title: 'Building Rehabilitation',
+    text: 'We extend the life and value of existing buildings through thoughtful renovation, modernization, structural improvements and adaptive reuse.',
+    icon: 'rehab',
+  },
+];
+
+/* ------------------------------------------------------------------ */
+/*  WHAT WE DO (Home)                                                  */
+/* ------------------------------------------------------------------ */
+export const whatWeDo = {
+  title: 'From planning to completion.',
+  intro: [
+    'Grascan Build provides integrated construction services across the full project lifecycle. We work with owners, developers, architects, consultants and trade partners to establish clear objectives, manage complexity and deliver with discipline.',
+    'Our approach brings planning, construction expertise and project leadership together from the earliest stages of a project through completion.',
+  ],
+};
+
+export const capabilities: Offering[] = [
+  {
+    slug: 'pre-construction',
+    title: 'Pre-Construction',
+    tagline: 'Early involvement creates better decisions.',
+    text: 'Our pre-construction teams help establish realistic budgets, schedules, procurement strategies and construction plans before work begins. Through estimating, constructability review, value engineering and risk management, we identify opportunities early and create greater certainty for our clients.',
+    icon: 'precon',
+    scope: ['Budgets & schedules', 'Procurement strategies', 'Estimating', 'Constructability review', 'Value engineering', 'Risk management'],
+  },
+  {
+    title: 'General Contracting',
+    tagline: 'Complete responsibility. Disciplined execution.',
+    text: 'As General Contractor, we coordinate the people, materials, trades and processes required to deliver the project safely, efficiently and to the required standard.',
+    icon: 'gc',
+  },
+  {
+    slug: 'construction-management',
+    title: 'Construction Management',
+    tagline: 'Experience applied to complexity.',
+    text: 'Our construction management teams provide the leadership, coordination and controls required to manage complex projects, from procurement and scheduling to cost management, quality and field execution.',
+    icon: 'cm',
+    scope: ['Procurement', 'Scheduling', 'Cost management', 'Quality', 'Field execution'],
   },
   {
     slug: 'design-build',
-    title: 'Design / Build',
-    short: 'An integrated Design-Build team delivering major projects.',
-    description:
-      'With over 36 years of experience successfully completing Bid-Build projects, Grascan has established an integrated Design-Build Team which is currently performing multiple major Design-Build projects for Metrolinx.',
+    title: 'Design-Build',
+    tagline: 'One team. One point of accountability.',
+    text: 'Our Design-Build approach brings design and construction together to improve coordination, accelerate decision-making and create greater alignment between project objectives, cost and schedule.',
     icon: 'designbuild',
-    capabilities: ['Integrated design-build team', 'Progressive design-build', 'Constructability reviews', 'Design coordination'],
   },
   {
-    slug: 'environmental',
-    title: 'Environmental',
-    short: 'Meeting and exceeding environmental regulations on every site.',
-    description:
-      'Grascan is committed to meeting and exceeding relevant environmental regulations and environmental-related requirements on every project it delivers.',
-    icon: 'environmental',
-    capabilities: ['Environmental compliance', 'Erosion & sediment control', 'Spill prevention', 'Site restoration'],
+    slug: 'building-construction',
+    title: 'Building Construction',
+    tagline: 'From foundations to final finishes.',
+    text: 'We coordinate the structural, architectural and building systems required to deliver high-performance buildings, working closely with specialized trade partners and consultants throughout construction.',
+    icon: 'building',
+    scope: ['Structural', 'Architectural', 'Building systems'],
   },
   {
-    slug: 'grading-and-paving',
-    title: 'Grading and Paving',
-    short: 'Fully equipped crews for any size job, from roads to parking lots.',
-    description:
-      'Grascan has successfully provided grading and paving services throughout the Greater Toronto Area, with crews fully equipped to handle any size job, from roads to bridges, parking lots to channel stabilization.',
-    icon: 'paving',
-    capabilities: ['Site grading', 'Asphalt paving', 'Parking lots', 'Bridge approaches'],
+    slug: 'interior-construction',
+    title: 'Interior Construction',
+    tagline: 'Spaces designed for the people who use them.',
+    text: 'We deliver commercial interiors, tenant improvements, fit-outs and specialized environments with careful attention to coordination, finishes, functionality and schedule.',
+    icon: 'interior',
+    scope: ['Commercial interiors', 'Tenant improvements', 'Fit-outs', 'Specialized environments'],
   },
   {
-    slug: 'infrastructure',
-    title: 'Infrastructure',
-    short: 'From emergency repairs to complete hard and soft infrastructure.',
-    description:
-      'Grascan has completed many infrastructure projects, ranging from critical infrastructure during emergency repairs to the Gardiner Expressway, sinkhole repairs and emergency wash-outs, and has been invited by municipalities and private firms to construct or reconstruct their hard to soft infrastructure needs.',
-    icon: 'infrastructure',
-    capabilities: ['Emergency repairs', 'Sinkhole repairs', 'Municipal infrastructure', 'Private-sector infrastructure'],
+    slug: 'building-rehabilitation',
+    title: 'Building Rehabilitation',
+    tagline: 'Improving what already exists.',
+    text: 'We modernize and restore existing buildings through structural upgrades, building improvements, adaptive reuse and carefully managed renovation programs.',
+    icon: 'rehab',
+    scope: ['Structural upgrades', 'Building improvements', 'Adaptive reuse', 'Renovation programs'],
   },
   {
-    slug: 'landscaping',
-    title: 'Landscaping',
-    short: 'Some of the largest landscape projects in the City of Toronto.',
-    description:
-      'Grascan has successfully completed some of the largest landscape projects the City of Toronto has been able to offer, with works ranging from laser-cut steel statues, precast planters and granite pavers to specialty granite monuments, boardwalks and piazzas.',
-    icon: 'landscaping',
-    capabilities: ['Granite pavers & monuments', 'Boardwalks & piazzas', 'Precast planters', 'Public art installation'],
+    slug: 'building-envelope',
+    title: 'Building Envelope',
+    tagline: 'Performance begins at the exterior.',
+    text: 'We coordinate the systems that protect a building from the elements, including façades, roofing, glazing, waterproofing, insulation and other envelope components.',
+    icon: 'envelope',
+    scope: ['Façades', 'Roofing', 'Glazing', 'Waterproofing', 'Insulation'],
   },
   {
-    slug: 'project-management',
-    title: 'Project Management',
-    short: 'Coordinating every trade on complicated, time-sensitive projects.',
-    description:
-      'Grascan specializes in project management and coordination, typically performing all associated civil work and maintaining excellent relationships with subcontractors to meet high demand and critical timing.',
-    icon: 'pm',
-    capabilities: ['Planning & scheduling', 'Subcontractor coordination', 'Cost control', 'Stakeholder management'],
+    title: 'Concrete & Structures',
+    tagline: 'Strength begins with the structure.',
+    text: 'Our teams manage structural concrete, foundations, slabs, structural steel and related building systems with a focus on precision, coordination and quality.',
+    icon: 'concrete',
   },
   {
-    slug: 'rapid-transit-and-railway',
-    title: 'Rapid Transit and Railway',
-    short: 'An approved Metrolinx, CN Rail and TTC contractor.',
-    description:
-      'Grascan is one of the few approved Metrolinx (GO Transit), Canadian National Railway (CNR) and Toronto Transit Commission (TTC) contractors, delivering stations, platforms, grade separations and rail structures.',
-    icon: 'rail',
-    capabilities: ['GO Station construction', 'Platforms & tunnels', 'Rail-to-rail grade separations', 'Rail bridges'],
-  },
-  {
-    slug: 'roads-and-highway-construction',
-    title: 'Roads and Highway Construction',
-    short: 'A preferred contractor for major road construction in Southern Ontario.',
-    description:
-      'Grascan’s ability to deliver time-sensitive, complicated and high-profile heavy civil projects has cemented its legacy as a preferred contractor for major road construction, with a Ministry of Transportation of Ontario rating in excess of $100,000,000.',
-    icon: 'roads',
-    capabilities: ['Highway reconstruction', 'Ramps & interchanges', 'Urban road reconstruction', 'Expressway re-decking'],
-  },
-  {
-    slug: 'underground-infrastructure',
-    title: 'Underground Infrastructure',
-    short: 'Sanitary, storm and water services to specialized systems.',
-    description:
-      'Grascan is at the forefront of underground infrastructure projects, completing contracts with sanitary, storm and water services, from large transmission services to specialized snow-melting systems for Metrolinx platforms.',
-    icon: 'underground',
-    capabilities: ['Sanitary & storm sewers', 'Watermains & transmission', 'Snow-melting systems', 'Utility relocation'],
+    slug: 'site-development',
+    title: 'Site Development',
+    tagline: 'Preparing the ground for what comes next.',
+    text: 'We coordinate excavation, grading, servicing, utilities, site concrete, access and related site works to create a complete construction solution from the ground up.',
+    icon: 'site',
+    scope: ['Excavation', 'Grading', 'Servicing & utilities', 'Site concrete', 'Access'],
   },
 ];
 
-export const values = [
-  {
-    title: 'Safety first',
-    text: 'COR™ certified since 2015. Senior management instills strong safety values into the fabric of every operation, and every person is committed to continual improvement.',
+/* ------------------------------------------------------------------ */
+/*  SERVICES (página Services): los 12 servicios, en el orden del documento */
+/* ------------------------------------------------------------------ */
+const bySlug = (list: Offering[], slug: string) => list.find((o) => o.slug === slug)!;
+const sector = (slug: string, title: string): Offering => ({ ...bySlug(sectors, slug), title });
+const capability = (slug: string, title?: string): Offering => {
+  const o = bySlug(capabilities, slug);
+  return title ? { ...o, title } : o;
+};
+
+export const services: Offering[] = [
+  capability('building-construction'),
+  sector('commercial-construction', 'Commercial Construction'),
+  sector('industrial-construction', 'Industrial Construction'),
+  sector('institutional-construction', 'Institutional Construction'),
+  sector('residential-mixed-use', 'Residential & Mixed-Use'),
+  capability('design-build', 'Design/Build'),
+  capability('construction-management'),
+  capability('pre-construction'),
+  capability('building-rehabilitation'),
+  capability('interior-construction'),
+  capability('building-envelope'),
+  capability('site-development'),
+];
+
+/* ------------------------------------------------------------------ */
+/*  BUILDING ON EXPERIENCE (Home / About)                              */
+/* ------------------------------------------------------------------ */
+export const story = {
+  title: 'Built on experience. Focused on what comes next.',
+  paragraphs: [
+    'Grascan Build is a new building construction company backed by the experience and expertise of Grascan Construction, an established Ontario contractor with roots dating back to 1987.',
+    'For decades, Grascan has delivered complex, time-sensitive infrastructure projects across Southern Ontario, earning a reputation for disciplined project execution, innovation, safety and quality.',
+    'Grascan Build brings that foundation into vertical construction, delivering commercial, industrial and institutional buildings through an integrated approach to pre-construction, construction management, general contracting and design-build.',
+  ],
+  proposition: 'A new company. A proven foundation. A different approach to building.',
+};
+
+/** OUR FOUNDATION: 01–04. `lead` = primera frase del documento, `detail` = la segunda. */
+export const foundation = [
+  { n: '01', title: 'Experience', lead: 'Decades of construction experience behind the brand.' },
+  { n: '02', title: 'Expertise', lead: 'Technical knowledge built through complex projects.', detail: 'Construction, engineering, project management and technical knowledge.' },
+  { n: '03', title: 'Execution', lead: 'Disciplined delivery from preconstruction to completion.', detail: 'Disciplined planning, coordination and project delivery.' },
+  { n: '04', title: 'Accountability', lead: 'One team. One commitment to the outcome.', detail: 'One team focused on safety, quality, cost and schedule.' },
+];
+
+export const newChapter = {
+  title: 'A new chapter in the Grascan story',
+  paragraphs: [
+    'Grascan Build represents the next evolution of the <strong>Grascan organization</strong>.',
+    'Building on the experience gained through decades of heavy civil and infrastructure construction, <strong>Grascan Build extends that expertise into commercial, industrial and institutional building construction.</strong>',
+  ],
+};
+
+export const buildingOnExperience = {
+  eyebrow: 'Building on experience.',
+  title: 'Building the places that shape Ontario.',
+  text: 'Grascan Build brings the experience, discipline and expertise of Grascan to commercial, industrial and institutional building construction in Ontario.',
+};
+
+/* ------------------------------------------------------------------ */
+/*  OUR APPROACH                                                       */
+/* ------------------------------------------------------------------ */
+export const approach = {
+  title: 'Built on experience. Driven by execution.',
+  intro: [
+    'Construction is complex. Successful projects depend on more than building expertise—they require planning, communication, accountability and the ability to make informed decisions at every stage.',
+    'Grascan Build brings an integrated approach to every project, aligning owners, consultants, trade partners and project teams around a common objective: delivering the right outcome safely, efficiently and with confidence.',
+  ],
+  steps: [
+    { title: 'Plan', lead: 'We establish the foundation for success before construction begins.', text: 'Through early planning, estimating, constructability reviews, scheduling and risk management, we identify challenges before they become problems.' },
+    { title: 'Collaborate', lead: 'The best projects are built by aligned teams.', text: 'We work closely with owners, architects, engineers, consultants and trade partners to maintain clear communication, resolve issues efficiently and keep decisions moving.' },
+    { title: 'Execute', lead: 'Plans become results through disciplined execution.', text: 'Our project teams maintain rigorous control of schedule, cost, quality, procurement and field operations throughout construction.' },
+    { title: 'Deliver', lead: 'Completion is more than turning over a building.', text: 'We remain focused on quality, documentation, commissioning, closeout and the long-term performance of the finished project.' },
+  ],
+};
+
+export const commitment = [
+  { title: 'Experience', text: 'Knowledge gained through complex construction environments.' },
+  { title: 'Accountability', text: 'Clear ownership from the first decision to final completion.' },
+  { title: 'Quality', text: 'A disciplined approach to workmanship, materials and execution.' },
+  { title: 'Safety', text: 'A fundamental responsibility shared by everyone on the project.' },
+  { title: 'Integrity', text: 'Straightforward communication and responsible decision-making.' },
+  { title: 'Innovation', text: 'Practical solutions that improve how projects are planned and built.' },
+];
+
+/* ------------------------------------------------------------------ */
+/*  SAFETY & QUALITY                                                   */
+/* ------------------------------------------------------------------ */
+export const safety = {
+  title: 'Safety is how we build.',
+  intro: [
+    'At Grascan Build, safety is not a separate function of construction. It is embedded in how projects are planned, managed and executed.',
+    'From pre-construction planning through site operations and project closeout, we work to identify risk, establish clear controls and create an environment where every person has the responsibility and authority to work safely.',
+  ],
+  closing: 'Responsible construction.',
+};
+
+export const safetyTopics = {
+  management: { title: 'Safety Management', text: 'Our safety approach begins before construction starts. Project-specific planning, hazard identification, training, communication and ongoing monitoring are integrated into our project delivery process.' },
+  training: { title: 'Worker Safety & Training', text: 'A safe project depends on informed and prepared people. We support appropriate orientation, training, competency and communication so workers understand the work, the risks and the standards expected on site.' },
+  subcontractor: { title: 'Subcontractor Safety', text: 'Safety extends across the entire project team. We establish clear expectations for trade partners and subcontractors and work collaboratively to maintain consistent safety standards throughout the site.' },
+  site: { title: 'Construction Site Safety', text: 'Building projects involve constantly changing conditions. Our teams actively manage site access, lifting operations, working at heights, equipment, temporary conditions, logistics and other project-specific hazards.' },
+  emergency: { title: 'Emergency Preparedness', text: 'Every project requires preparation for the unexpected. Emergency procedures, response planning, communication protocols and site-specific controls form part of our commitment to protecting workers, partners, clients and the public.' },
+  quality: { title: 'Quality Management', lead: 'Quality is established through planning, coordination and accountability.', text: 'We work to identify requirements early, coordinate construction activities effectively and maintain appropriate inspection, documentation and quality control processes throughout the project.' },
+  environmental: { title: 'Environmental Responsibility', text: 'Responsible construction means considering the impact of our work on the surrounding environment and community. We incorporate appropriate environmental controls, waste management, hazardous-material procedures and site practices into project planning and execution.' },
+};
+
+/* ------------------------------------------------------------------ */
+/*  FEATURED PROJECTS                                                  */
+/* ------------------------------------------------------------------ */
+export const projectsCopy = {
+  title: 'Experience you can see.',
+  intro: [
+    'Every project is an opportunity to create lasting value for an owner, a community and the people who will ultimately use the building.',
+    'Our project portfolio will showcase the buildings, facilities and developments delivered by <strong>Grascan Build</strong>, from complex commercial and institutional projects to industrial facilities and major building transformations.',
+  ],
+  ourProjects: {
+    title: 'Our Projects',
+    text: 'From the first site meeting to final completion, every project reflects the same principles: careful planning, disciplined execution, open communication and uncompromising attention to safety and quality.',
   },
-  {
-    title: 'Our people',
-    text: 'Grascan places a premium on creating a comfortable and desirable work environment, a priority since the company was incorporated in 1987.',
-  },
-  {
-    title: 'Innovation',
-    text: 'From being the first contractor in Ontario to dismantle the Gardiner Expressway to an integrated design-build team, we lead with an innovative mindset.',
-  },
-  {
-    title: 'Partnership',
-    text: 'Seasonal barbecues, holiday gatherings and an annual Christmas party bring together our employees and valued partners.',
-  },
-];
+};
 
-export const timeline = [
-  { year: '1987', title: 'Incorporated', text: 'Founded by Angelo Grassa and John Balazic, starting with basic roadwork.' },
-  { year: '2000', title: 'Captains of industry', text: 'High-profile City of Toronto work, including dismantling of the Gardiner.' },
-  { year: '2011', title: 'West Toronto Diamond', text: 'Rail-to-rail grade separation for Metrolinx.' },
-  { year: '2014', title: 'Gardiner re-decking', text: '$75M contract delivered 3 months early and $2M under budget. Named one of Canada’s Best Managed Companies.' },
-  { year: '2015', title: 'COR™ certified', text: 'Certificate of Recognition for health & safety.' },
-  { year: '2019', title: 'Gold Certified', text: 'Best Managed Gold status, and the Early Stations design-build for Metrolinx.' },
-  { year: '2021', title: 'Platinum Member', text: 'Platinum status after 7 years as one of Canada’s Best Managed Companies.' },
-];
+/* ------------------------------------------------------------------ */
+/*  NEWS & INSIGHTS                                                    */
+/* ------------------------------------------------------------------ */
+export const newsCopy = {
+  title: 'Perspectives from the people building what’s next.',
+  intro: [
+    'Construction is constantly evolving. New technologies, materials, regulations, project-delivery methods and expectations are changing the way buildings are designed and built.',
+    'News & Insights provides a closer look at Grascan Build—our projects, people, capabilities and perspective on the construction industry.',
+  ],
+};
 
-export const leadership = [
-  { name: 'Angelo Grassa', role: 'Co-Founder & Owner' },
-  { name: 'John Balazic', role: 'Co-Founder & Owner' },
-  { name: 'Full Name', role: 'Director, Design-Build' }, // TODO: equipo directivo
-  { name: 'Full Name', role: 'Director, Estimating' },
-  { name: 'Full Name', role: 'Manager, Health & Safety' },
-  { name: 'Full Name', role: 'Manager, Human Resources' },
-];
+export const newsCategories = [
+  { title: 'Project Updates', text: 'Follow major milestones from groundbreaking through completion.' },
+  { title: 'Company News', text: 'Learn about Grascan Build’s growth, people, partnerships and achievements.' },
+  { title: 'Industry Insights', text: 'Perspectives on construction trends, project delivery, technology, sustainability and the evolving needs of the built environment.' },
+  { title: 'People & Culture', text: 'Meet the people behind our projects and learn about the expertise, experience and values that shape our organization.' },
+  { title: 'Community', text: 'Discover how our projects and people contribute to the communities where we work.' },
+] as const;
 
-export const awards = [
-  'Canada’s Best Managed Companies, Platinum Member (2021)',
-  'Best Managed, Gold Certified (2019)',
-  'Canada’s Best Managed Companies (2014, 2016)',
-  'COR™ / ISO 45001 Certified',
-  'Structural Design Innovation',
-  'Canada’s Top Contractors',
-];
-
-/** Oportunidades de licitación abiertas (página Estimating). TODO: reemplazar por licitaciones reales. */
-export const bids = [
-  { id: 'GB-0101', project: 'Sample: Commercial Site Works', location: 'Vaughan, ON', trades: 'Excavation, Underground Services', closes: '2026-10-21' },
-  { id: 'GB-0102', project: 'Sample: Private Bridge Crossing', location: 'Mississauga, ON', trades: 'Rebar, Formwork, Structural Steel', closes: '2026-10-28' },
-  { id: 'GB-0103', project: 'Sample: Industrial Campus Paving', location: 'Brampton, ON', trades: 'Grading, Asphalt Paving', closes: '2026-11-04' },
-  { id: 'GB-0104', project: 'Sample: Mixed-Use Landscape Package', location: 'Toronto, ON', trades: 'Landscaping, Granite Pavers', closes: '2026-11-12' },
-];
-
-export const trades = [
-  'Excavation & Earthworks',
-  'Concrete & Formwork',
-  'Rebar',
-  'Structural Steel',
-  'Precast Concrete',
-  'Waterproofing',
-  'Asphalt Paving',
-  'Sanitary / Storm / Watermain',
-  'Electrical',
-  'Rail Track Work',
-  'Traffic Control',
-  'Survey & Layout',
-  'Landscaping',
-  'Environmental',
-  'Demolition',
-  'Trucking & Haulage',
-  'Material Supplier',
-  'Equipment Rental',
-];
+/* ------------------------------------------------------------------ */
+/*  CONTACT                                                            */
+/* ------------------------------------------------------------------ */
+export const contactCopy = {
+  title: 'Let’s build what’s next.',
+  intro: [
+    'Whether you are planning a new development, evaluating a project delivery strategy or preparing for construction, <strong>Grascan Build</strong> brings the experience and resources to help move your project forward.',
+    'Tell us about your project, objectives and timeline. Our team will connect you with the appropriate construction and project-delivery professionals.',
+  ],
+  start: { title: 'Start a Project', lead: 'Have a project in mind?', text: 'Share your project requirements with our team and begin the conversation.', cta: 'Start a project' },
+  general: { title: 'General Inquiries', text: 'For general information about Grascan Build, our services, projects or capabilities:', cta: 'Contact our team' },
+  ontario: { title: 'Building in Ontario', text: 'Our focus is the Ontario market, where local knowledge, strong relationships and disciplined project execution are essential to delivering successful construction projects.' },
+};

@@ -2,6 +2,7 @@
 import { u } from '@/lib/url';
 import '@/styles/global.css';
 import archivoUrl from '@/assets/fonts/archivo.woff2?url';
+import zenDotsUrl from '@/assets/fonts/zen-dots.woff2?url';
 import { site } from '@/site.config';
 import { palette } from '@/lib/palette';
 import Header from '@/components/Header.astro';
@@ -28,9 +29,10 @@ const jsonLd = {
   '@type': 'GeneralContractor',
   name: site.legalName,
   url: Astro.site?.toString(),
-  email: site.email,
-  telephone: site.phone,
-  foundingDate: String(site.founded),
+  description: site.description,
+  areaServed: 'Ontario, Canada',
+  ...(site.email && { email: site.email }),
+  ...(site.phone && { telephone: site.phone }),
 };
 ---
 
@@ -47,6 +49,7 @@ const jsonLd = {
     <link rel="icon" href={u('/favicon.svg')} type="image/svg+xml" />
     <link rel="sitemap" href={u('/sitemap-index.xml')} />
     <link rel="preload" href={archivoUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={zenDotsUrl} as="font" type="font/woff2" crossorigin />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.legalName} />

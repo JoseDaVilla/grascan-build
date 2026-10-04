@@ -9,7 +9,7 @@ export default defineConfig({
   // Con dominio propio: SITE_URL=https://www.cliente.com BASE_PATH=/
   site: process.env.SITE_URL ?? 'https://josedavilla.github.io',
   base: process.env.BASE_PATH ?? '/New-client-website',
-  integrations: [sitemap({ filter: (page) => !/\/(thanks|privacy)\/$/.test(page) })],
+  integrations: [sitemap({ filter: (page) => !/\/(thanks|privacy|terms)\/$/.test(page) })],
   prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
   build: { inlineStylesheets: 'always' },
   vite: { plugins: [tailwindcss()] },

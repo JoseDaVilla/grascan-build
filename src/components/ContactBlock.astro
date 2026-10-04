@@ -1,0 +1,48 @@
+---
+/**
+ * Bloque CONTACT del documento: Start a Project · General Inquiries · Offices · Building in Ontario.
+ * `formHref`: a dónde apuntan los CTA (en /contact, al formulario de la misma página).
+ */
+import { u } from '@/lib/url';
+import { office, site } from '@/site.config';
+import { contactCopy as c } from '@/data/services';
+import Icon from './Icon.astro';
+interface Props { formHref?: string }
+const { formHref = '/contact' } = Astro.props;
+const href = (topic: string) => u(`${formHref}?topic=${topic}#form`);
+---
+<div class="grid gap-px overflow-hidden border border-ink/10 bg-ink/10 md:grid-cols-2 xl:grid-cols-4">
+  <article id="start-project" class="on-dark flex flex-col bg-ink-2 p-7 md:p-9" data-reveal>
+    <h3 class="font-wide text-xl">{c.start.title}</h3>
+    <p class="mt-5 font-semibold text-bone">{c.start.lead}</p>
+    <p class="mt-2 text-bone/75">{c.start.text}</p>
+    <a href={href('project')} class="mt-auto inline-flex items-center gap-2 pt-8 font-semibold uppercase tracking-wide text-bone">
+      <span class="link-u">{c.start.cta}</span><Icon name="arrow" />
+    </a>
+  </article>
+
+  <article id="general" class="flex flex-col bg-bone p-7 md:p-9" data-reveal style="--d:1">
+    <h3 class="font-wide text-xl text-ink">{c.general.title}</h3>
+    <p class="mt-5 text-ink/70">{c.general.text}</p>
+    <a href={href('general')} class="mt-auto inline-flex items-center gap-2 pt-8 font-semibold uppercase tracking-wide text-signal">
+      <span class="link-u">{c.general.cta}</span><Icon name="arrow" />
+    </a>
+  </article>
+
+  <article id="offices" class="flex flex-col bg-bone p-7 md:p-9" data-reveal style="--d:2">
+    <h3 class="font-wide text-xl text-ink">Offices</h3>
+    <p class="mt-5 font-semibold text-ink">{office.region}</p>
+    <p class="mt-1 text-ink/70">{office.city}</p>
+    <p class="mt-1 text-ink/70">{office.note}</p>
+    {site.email && <a class="link-u mt-3 block text-sm font-semibold" href={`mailto:${site.email}`}>{site.email}</a>}
+    {site.phone && <a class="link-u mt-1 block text-sm font-semibold" href={`tel:${site.phone.replace(/[^+\d]/g, '')}`}>{site.phone}</a>}
+    <a href={href('general')} class="mt-auto inline-flex items-center gap-2 pt-8 font-semibold uppercase tracking-wide text-signal">
+      <span class="link-u">Contact us</span><Icon name="arrow" />
+    </a>
+  </article>
+
+  <article class="flex flex-col bg-concrete p-7 md:p-9" data-reveal style="--d:3">
+    <h3 class="font-wide text-xl text-ink">{c.ontario.title}</h3>
+    <p class="mt-5 text-ink/70">{c.ontario.text}</p>
+  </article>
+</div>
