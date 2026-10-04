@@ -12,7 +12,7 @@ Sitio corporativo de **Grascan Build** (construcción privada), construido con *
 
 ```bash
 npm install
-npm run dev       # http://localhost:4321/New-client-website/
+npm run dev       # http://localhost:4321/grascan-build/
 npm run build     # genera /dist (estático)
 npm run preview   # sirve /dist
 ```
@@ -114,7 +114,7 @@ Si se despliega en otro hosting, poner la URL de Formspree / Basin / API propia 
 
 ### GitHub Pages (actual)
 
-URL: **https://josedavilla.github.io/New-client-website/**
+URL: **https://josedavilla.github.io/grascan-build/**
 
 - El workflow `.github/workflows/deploy.yml` compila y publica en cada push a `main` o `ccr-235f9ecb-ks3q6e` (también se puede lanzar a mano desde *Actions → Deploy to GitHub Pages → Run workflow*).
 - Requisito único: en *Settings → Pages → Build and deployment → Source* elegir **GitHub Actions**.
