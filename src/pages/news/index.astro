@@ -15,7 +15,7 @@ const categories = newsCategories.map((c) => c.title).filter((c) => used.has(c))
 <Base title="News & Insights" description={newsCopy.intro[1]}>
   <PageHero eyebrow="News & insights" title="Perspectives from|the people building|what's next." accent={["next."]} lead={newsCopy.intro[0]}>
     <p class="mt-6 max-w-2xl text-ink/70" data-reveal style="--d:4">{newsCopy.intro[1]}</p>
-    <ul class="mt-12 grid max-w-5xl border-t border-ink/10 sm:grid-cols-2 lg:grid-cols-5" data-reveal style="--d:5">
+    <ul class="mt-12 grid border-t border-ink/10 sm:grid-cols-2 xl:grid-cols-3" data-reveal style="--d:5">
       {newsCategories.map((c) => (
         <li class="border-b border-ink/10 py-5 sm:pr-5">
           <p class="font-semibold text-signal">{c.title}</p>

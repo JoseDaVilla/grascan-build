@@ -46,7 +46,8 @@ const strip = (html: string) => html.replace(/<[^>]+>/g, '');
               <p class="eyebrow text-mute">Portfolio coming soon</p>
               <h2 class="mt-5 font-wide text-title">{projectsCopy.ourProjects.title}</h2>
               <p class="mt-6 text-lg text-ink/75">{projectsCopy.ourProjects.text}</p>
-              <ul class="mt-8 flex flex-wrap gap-2">
+              <p class="eyebrow mt-10 text-mute">What we build</p>
+              <ul class="mt-4 flex flex-wrap gap-2">
                 {sectors.map((s) => <li class="border border-ink/15 px-3 py-1.5 text-sm text-ink/70">{s}</li>)}
               </ul>
             </div>

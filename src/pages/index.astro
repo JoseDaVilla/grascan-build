@@ -334,7 +334,9 @@ const safetyList = Object.values(safetyTopics);
       </ul>
 
       {
-        news.length > 0 && (
+        news.length === 1 ? (
+          <div class="mt-16"><NewsCard post={news[0]} feature /></div>
+        ) : news.length > 1 && (
           <div class="mt-16 grid gap-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-8">
             {news.map((post, i) => <NewsCard post={post} index={i} />)}
           </div>
