@@ -1,93 +1,93 @@
 ---
 /**
- * Hero de la home (texto del documento "Website GRASCAN BUILD"):
- * GRASCAN BUILD · Buildings & Development · Backed by Grascan Construction since 1987
- * BUILT ON EXPERIENCE. READY FOR WHAT'S NEXT.
+ * Hero de la home, estilo corporativo: logo centrado sobre fotos que pasan por detrás (fundido cada 6 s).
+ * Jerarquía: logo GRASCAN BUILD · BUILDINGS & DEVELOPMENT · Backed by Grascan Construction since 1987
+ * (mediano) · slogan "Built on experience. Ready for what's next." (menor).
+ * El resto del texto del hero del documento va en la franja inmediatamente inferior (index.astro).
  */
-import { u } from '@/lib/url';
+import { Image } from 'astro:assets';
 import { site } from '@/site.config';
-import { services } from '@/data/services';
-import HeroScene from './HeroScene.astro';
-import SplitText from './SplitText.astro';
-import Button from './Button.astro';
-
-interface Props {
-  /** Vídeo de fondo opcional (mp4/webm en /public). Si no se pasa, se usa la escena SVG. */
-  video?: { src: string; poster?: string };
-}
-const { video } = Astro.props;
+import { heroSlides } from '@/data/photos';
+import Logo from './Logo.astro';
 ---
 
-<section class="hero relative flex min-h-[100svh] flex-col overflow-hidden bg-bone text-ink" style="--intro: var(--intro-delay, 0ms)">
-  <div class="bg-grid pointer-events-none absolute inset-0 text-signal/60"></div>
-
-  {
-    video ? (
-      <video class="absolute inset-0 h-full w-full object-cover opacity-60" autoplay muted loop playsinline preload="metadata" poster={video.poster}>
-        <source src={video.src} type="video/mp4" />
-      </video>
-    ) : (
-      <div class="absolute inset-x-0 bottom-0 top-(--header-h) opacity-[0.16] md:left-[40%] md:opacity-40 lg:left-[58%] lg:opacity-100 2xl:left-[60%]">
-        <HeroScene />
-      </div>
-    )
-  }
-
-  <div class="container-x relative flex flex-1 flex-col justify-end pt-[calc(var(--header-h)+3.5rem)] pb-10 md:pb-14">
-    <div class="hero-fade mb-8 flex flex-wrap items-center gap-x-5 gap-y-3 md:mb-10" style="--k:0">
-      <p class="border-l-4 border-signal pl-4">
-        <span class="block font-wide text-lg leading-tight text-signal md:text-xl">{site.legalName}</span>
-        <span class="eyebrow mt-1 block text-mute">Buildings & Development</span>
-      </p>
-      <p class="eyebrow border border-ink/15 px-3 py-2 text-ink/70">Backed by Grascan Construction since {site.founded}</p>
-    </div>
-
-    <SplitText
-      as="h1"
-      text="Built on|experience.|Ready for|what's next."
-      accent={['experience.']}
-      afterIntro
-      delay={150}
-      class="max-w-[60%] font-wide text-[clamp(2.1rem,4.6vw,4.9rem)] leading-[1.02] uppercase max-lg:max-w-none"
-    />
-
-    <div class="mt-10 grid gap-10 md:mt-12 lg:grid-cols-12 lg:items-end">
-      <div class="hero-fade lg:col-span-6 xl:col-span-5" style="--k:1">
-        <p class="max-w-lg text-lead font-semibold text-ink">A new generation of building construction, backed by decades of experience delivering complex projects across Ontario.</p>
-        <p class="mt-4 max-w-lg text-ink/70">{site.description}</p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <Button href={u('/contact?topic=project#form')}>Start a project</Button>
-          <Button href={u('/services')} variant="ghost">Our services</Button>
+<section class="hero on-dark relative flex min-h-[100svh] flex-col overflow-hidden bg-ink text-bone" data-slideshow>
+  <div class="absolute inset-0" aria-hidden="true">
+    {
+      heroSlides.map((s, i) => (
+        <div class:list={['hero-slide absolute inset-0', i === 0 && 'is-active']} data-slide>
+          <Image src={s.src} alt="" widths={[768, 1280, 1920, 2400]} sizes="100vw" loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} class="h-full w-full object-cover" />
         </div>
-      </div>
-    </div>
+      ))
+    }
+    <div class="absolute inset-0 bg-ink/75"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgb(4_18_38/0.55)_100%)]"></div>
   </div>
 
-  <!-- Barra inferior: servicios en loop -->
-  <div class="hero-fade relative border-t border-ink/10 bg-bone/70 backdrop-blur-sm" style="--k:3">
-    <div class="container-x flex items-center gap-8 py-4">
-      <div class="marquee eyebrow flex-1 text-mute" style="--speed:40s; --gap:2.5rem">
-        {[0, 1].map((k) => (
-          <ul class="marquee-track" aria-hidden={k === 1 ? 'true' : undefined}>
-            {services.map((s) => <li class="flex items-center gap-10 whitespace-nowrap"><span>{s.title}</span><span class="text-gray">/</span></li>)}
-          </ul>
-        ))}
-      </div>
-    </div>
+  <div class="container-x relative flex flex-1 flex-col items-center justify-center pt-(--header-h) pb-24 text-center">
+    <h1 class="hero-fade" style="--k:0">
+      <Logo variant="full" class="mx-auto w-[min(62vw,21rem)] !text-bone md:w-[24rem]" />
+    </h1>
+
+    <p class="hero-fade mt-10 font-semibold uppercase tracking-[0.32em] text-bone text-[clamp(0.85rem,1.6vw,1.2rem)] md:mt-12" style="--k:1">Buildings & Development</p>
+
+    <span class="hero-fade mt-8 block h-px w-16 bg-bone/50" style="--k:1" aria-hidden="true"></span>
+
+    <p class="hero-fade mt-8 text-[clamp(1rem,1.7vw,1.35rem)] font-medium uppercase tracking-[0.12em] text-bone/90" style="--k:2">Backed by Grascan Construction since {site.founded}</p>
+
+    <p class="hero-fade mt-4 font-wide text-[clamp(0.8rem,1.2vw,1rem)] uppercase tracking-[0.06em] text-bone/60" style="--k:3">Built on experience. Ready for what's next.</p>
+  </div>
+
+  <a href="#intro-statement" class="hero-fade absolute bottom-8 left-1/2 -translate-x-1/2 p-2 text-bone/80 transition-colors hover:text-bone" style="--k:4" aria-label="Scroll to content">
+    <svg viewBox="0 0 24 24" class="hero-chevron size-7" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M6 6l6 6 6-6M6 12l6 6 6-6" /></svg>
+  </a>
+
+  <div class="absolute bottom-9 right-[clamp(1rem,4vw,3.5rem)] z-10 hidden gap-2 md:flex" role="group" aria-label="Slides">
+    {heroSlides.map((s, i) => (
+      <button type="button" class:list={['hero-dot h-[3px] w-8 bg-bone/30 transition-colors', i === 0 && 'is-active']} data-slide-dot={i} aria-label={`Show slide ${i + 1}: ${s.alt}`}></button>
+    ))}
   </div>
 </section>
 
 <style>
+  .hero-slide {
+    opacity: 0;
+    transition: opacity 1.6s ease;
+  }
+  .hero-slide.is-active {
+    opacity: 1;
+  }
+  .hero-slide :global(img) {
+    transform: scale(1.06);
+    transition: transform 8s linear;
+  }
+  .hero-slide.is-active :global(img) {
+    transform: scale(1);
+  }
+  .hero-dot.is-active {
+    background: var(--color-bone);
+  }
+  .hero-chevron {
+    animation: nudge 2.4s ease-in-out infinite;
+  }
+  @keyframes nudge {
+    50% {
+      transform: translateY(5px);
+    }
+  }
   .js .hero-fade {
     opacity: 0;
-    transform: translateY(24px);
-    animation: hero-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: calc(var(--intro) + 700ms + var(--k) * 120ms);
+    animation: hero-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: calc(var(--intro-delay, 0ms) + 250ms + var(--k) * 160ms);
   }
   @keyframes hero-in {
+    from {
+      opacity: 0;
+      translate: 0 18px;
+    }
     to {
       opacity: 1;
-      transform: none;
+      translate: 0 0;
     }
   }
 </style>

@@ -1,116 +1,59 @@
 ---
 /**
- * Imagen optimizada (astro:assets) o, si aún no hay foto, una ilustración
- * tipo plano generada en build a partir de `seed`. Cuando el cliente entregue
- * fotografías basta con pasar `src` y el placeholder desaparece.
+ * Imagen optimizada (astro:assets). Sin `src` muestra un panel neutro (sin ilustraciones).
+ * `overlay` oscurece la foto para poner texto encima.
  */
 import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
-import { blueprint, type BlueprintVariant } from '@/lib/blueprint';
 
 interface Props {
   src?: ImageMetadata | string;
   alt?: string;
+  /** Compatibilidad con llamadas antiguas: se ignoran. */
   seed?: string;
-  variant?: BlueprintVariant;
+  variant?: string;
+  label?: boolean;
   tone?: 'dark' | 'light';
   class?: string;
   imgClass?: string;
   sizes?: string;
   widths?: number[];
   eager?: boolean;
-  label?: boolean;
+  overlay?: boolean;
 }
 
 const {
   src,
   alt = '',
-  seed = 'grascan',
-  variant,
   tone = 'light',
   class: cls = '',
   imgClass = '',
   sizes = '(min-width: 1024px) 50vw, 100vw',
   widths = [480, 800, 1200, 1600, 2000],
   eager = false,
-  label = true,
+  overlay = false,
 } = Astro.props;
 
-const bp = !src ? blueprint(seed, variant) : null;
-const dark = tone === 'dark';
-// Colores 100% de la paleta: el trazo usa currentColor (bone u ink según el tono) con opacidad.
-const strokeClass: Record<string, string> = {
-  main: 'stroke-current/80',
-  thin: 'stroke-current/30',
-  dash: 'stroke-current/30',
-  accent: 'stroke-signal',
-};
-const width = (k: string) => (k === 'main' ? 1.6 : k === 'accent' ? 1.8 : 1);
 const pos = /\b(absolute|fixed)\b/.test(cls) ? '' : 'relative';
-const fig = String((seed.length * 7) % 97).padStart(2, '0');
 ---
 
-<div class:list={[pos, 'overflow-hidden', cls, bp && (dark ? 'bg-ink-2 text-bone' : 'bg-concrete text-ink')]}>
+<div class:list={[pos, 'overflow-hidden', cls, !src && (tone === 'dark' ? 'bg-ink-2' : 'bg-concrete')]}>
   {
-    src ? (
-      typeof src === 'string' ? (
+    src &&
+      (typeof src === 'string' ? (
         <img src={src} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" class:list={['h-full w-full object-cover', imgClass]} />
       ) : (
         <Image
           src={src}
           alt={alt}
-          widths={widths}
+          widths={widths.filter((w) => w <= src.width)}
           sizes={sizes}
           loading={eager ? 'eager' : 'lazy'}
           fetchpriority={eager ? 'high' : 'auto'}
           class:list={['h-full w-full object-cover', imgClass]}
         />
-      )
-    ) : (
-      bp && (
-        <>
-          <div class="bg-grid absolute inset-0 opacity-70" aria-hidden="true" />
-          <svg
-            viewBox={`0 0 ${bp.w} ${bp.h}`}
-            preserveAspectRatio="xMidYMid slice"
-            class:list={['draw absolute inset-0 h-full w-full', imgClass]}
-            role="img"
-            aria-label={alt || `Placeholder illustration: ${bp.label}`}
-          >
-            <g fill="none" stroke-linecap="square">
-              {bp.strokes.map((st, i) =>
-                st.kind === 'fill' || st.kind === 'accent-fill' ? (
-                  <path d={st.d} class:list={['draw-fill stroke-signal', st.kind === 'accent-fill' ? 'fill-signal/20' : 'fill-current/30']} stroke-width="1" vector-effect="non-scaling-stroke" style={`--i:${Math.min(i, 40)}`} />
-                ) : (
-                  <path
-                    d={st.d}
-                    pathLength={st.kind === 'dash' ? undefined : '1'}
-                    class:list={[st.kind !== 'dash' && 'ln', strokeClass[st.kind]]}
-                    stroke-width={width(st.kind)}
-                    stroke-dasharray={st.kind === 'dash' ? '4 4' : undefined}
-                    style={`--i:${Math.min(i, 40)}`}
-                  />
-                ),
-              )}
-              {bp.dims.map((d) => (
-                <g class="stroke-current/30">
-                  <path d={`M${d.x1} ${d.y}H${d.x2}M${d.x1} ${d.y - 6}v12M${d.x2} ${d.y - 6}v12`} vector-effect="non-scaling-stroke" />
-                  <text x={(d.x1 + d.x2) / 2} y={d.y - 8} class="fill-current/55" stroke="none" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="1">{d.text}</text>
-                </g>
-              ))}
-            </g>
-            {label && (
-              <g font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="1.2" class="fill-current/55">
-                <text x="24" y="556">FIG. {fig}</text>
-                <text x="24" y="574" class="fill-signal">{bp.label.toUpperCase()}</text>
-                <text x="776" y="34" text-anchor="end">SCALE 1:{200 + (seed.length % 5) * 50}</text>
-                <text x="776" y="574" text-anchor="end">PHOTO PLACEHOLDER</text>
-              </g>
-            )}
-          </svg>
-        </>
-      )
-    )
+      ))
   }
+  {overlay && <div class="absolute inset-0 bg-ink/55" aria-hidden="true" />}
   <slot />
 </div>

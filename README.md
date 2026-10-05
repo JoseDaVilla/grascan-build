@@ -6,7 +6,8 @@ Sitio corporativo de **Grascan Build** (construcción privada), construido con *
 - **Paleta**: exclusivamente la del logo — navy `#062E61`, gris `#72787F` y blanco — más sus variaciones claras/oscuras.
 - **Contenido y estructura**: según el documento del cliente *Website GRASCAN BUILD* (textos en `src/data/services.ts`). Pendiente del cliente (marcado con `TODO`): email, teléfono y dirección ("waiting for info"), textos de COR/ISO 45001, Employee Safety Portal, Policies & Resources, Our People, Careers y legales.
 - **Tipografía**: títulos en **Zen Dots** (Google Fonts, self-hosted en `src/assets/fonts/zen-dots.woff2`, utilidad `font-wide`); texto en Archivo.
-- Las fotos se sustituyen por ilustraciones tipo plano (SVG generadas en build) que desaparecen al añadir imágenes reales.
+- **Fotos**: Pexels (licencia libre comercial) en `src/assets/photos/`, catálogo en `src/data/photos.ts` (slides del hero, servicios, cabeceras). Para cambiar una foto, reemplazar el .jpg con el mismo nombre.
+- **Menú**: árbol completo en `menu` (`src/site.config.ts`): submenús por hover en escritorio y menú hamburguesa con desplegables en móvil.
 
 ## Comandos
 

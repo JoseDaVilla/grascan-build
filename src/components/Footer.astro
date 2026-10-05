@@ -1,6 +1,7 @@
 ---
 import { u } from '@/lib/url';
-import { site, sitemap, office } from '@/site.config';
+import { site, menu, office } from '@/site.config';
+const groups = menu.filter((m) => ['Health & Safety', 'About', 'Careers'].includes(m.label));
 import { services } from '@/data/services';
 import { logo } from '@/lib/logo';
 import Logo from './Logo.astro';
@@ -8,7 +9,6 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="on-dark relative overflow-hidden bg-ink text-bone">
-  <div class="bg-grid pointer-events-none absolute inset-0 text-bone/50"></div>
 
   <div class="container-x relative pt-20 pb-10 md:pt-28">
     <div class="grid gap-14 lg:grid-cols-12">
@@ -28,11 +28,11 @@ const year = new Date().getFullYear();
           </ul>
         </div>
         {
-          sitemap.map((g) => (
+          groups.map((g) => (
             <div>
               <p class="eyebrow mb-5"><a class="link-u text-gray" href={u(g.href)}>{g.label}</a></p>
               <ul class="space-y-2 text-sm text-bone/80">
-                {g.children.map((c) => <li><a class="link-u" href={u(c.href)}>{c.label}</a></li>)}
+                {g.children?.map((c) => <li><a class="link-u" href={u(c.href)}>{c.label}</a></li>)}
               </ul>
             </div>
           ))

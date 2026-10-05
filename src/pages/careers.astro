@@ -11,12 +11,13 @@ import Eyebrow from '@/components/Eyebrow.astro';
 import SplitText from '@/components/SplitText.astro';
 import Button from '@/components/Button.astro';
 import { story, commitment } from '@/data/services';
+import { photos } from '@/data/photos';
 
 const openings: { title: string; location: string; type: string; href: string }[] = [];
 ---
 
-<Base title="Careers" description={`Careers at Grascan Build. ${story.proposition}`}>
-  <PageHero eyebrow="Careers" title="Build what's next|with us." accent={['us.']} lead={story.paragraphs[0]} />
+<Base darkHero title="Careers" description={`Careers at Grascan Build. ${story.proposition}`}>
+  <PageHero image={photos.structureWork} eyebrow="Careers" title="Build what's next|with us." accent={['us.']} lead={story.paragraphs[0]} />
 
   <!-- Why Grascan Build -->
   <section id="why" class="scroll-mt-24 py-24 md:py-36">

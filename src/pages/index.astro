@@ -1,8 +1,8 @@
 ---
 /**
- * HOME — secciones en el orden del documento:
- * Hero · Building on Experience · What We Build · What We Do · Featured Projects ·
- * Our Approach · Safety & Quality · News & Insights · Contact / Offices
+ * HOME — secciones en el orden del documento, alternando fondos claros y oscuros:
+ * Hero · Building on Experience · Our Foundation · A new chapter · What We Build · What We Do ·
+ * Featured Projects · Our Approach · Safety & Quality · News & Insights · Contact / Offices
  */
 import { u } from '@/lib/url';
 import { getCollection } from 'astro:content';
@@ -17,7 +17,8 @@ import ServiceIcon from '@/components/ServiceIcon.astro';
 import ContactBlock from '@/components/ContactBlock.astro';
 import Media from '@/components/Media.astro';
 import Icon from '@/components/Icon.astro';
-import { highlights } from '@/site.config';
+import { photos, servicePhotos } from '@/data/photos';
+import { site, highlights } from '@/site.config';
 import {
   story,
   foundation,
@@ -43,25 +44,37 @@ const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() 
 const safetyList = Object.values(safetyTopics);
 ---
 
-<Base intro>
+<Base intro darkHero heroLogo>
   <Hero />
 
-  <!-- Statement bajo el hero -->
-  <section aria-label="At a glance" class="on-dark bg-ink text-bone">
-    <dl class="container-x grid grid-cols-2 lg:grid-cols-4">
+  <!-- Texto del hero (documento) + statement bajo el hero -->
+  <section id="intro-statement" class="scroll-mt-(--header-h) border-b border-ink/10 bg-bone">
+    <div class="container-x grid gap-12 py-20 md:py-28 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-7">
+        <p class="font-wide text-[clamp(1.35rem,2.6vw,2.3rem)] leading-[1.2] text-ink" data-reveal>A new generation of building construction, backed by decades of experience delivering complex projects across Ontario.</p>
+      </div>
+      <div class="lg:col-span-4 lg:col-start-9" data-reveal style="--d:2">
+        <p class="text-ink/70">{site.description}</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <Button href={u('/contact?topic=project#form')}>Start a project</Button>
+          <Button href={u('/services')} variant="ghost">Our services</Button>
+        </div>
+      </div>
+    </div>
+    <dl class="container-x grid grid-cols-2 border-t border-ink/10 lg:grid-cols-4">
       {
         highlights.map((h, i) => (
-          <div class="border-bone/12 py-7 pr-4 even:border-l even:pl-5 [&:nth-child(n+3)]:border-t md:py-9 lg:border-l lg:px-7 lg:first:border-l-0 lg:first:pl-0 lg:[&:nth-child(n+3)]:border-t-0" data-reveal style={`--d:${i}`}>
-            <dt class="font-wide text-[clamp(0.85rem,1.5vw,1.15rem)] uppercase leading-tight text-signal">{h.label}</dt>
-            <dd class="eyebrow mt-2 text-bone/70">{h.value}</dd>
+          <div class:list={['py-7 pr-4 md:py-9', i % 2 === 1 && 'border-l border-ink/10 pl-5', i >= 2 && 'border-t border-ink/10 lg:border-t-0', 'lg:border-l lg:border-ink/10 lg:px-7 lg:first:border-l-0 lg:first:pl-0']} data-reveal style={`--d:${i}`}>
+            <dt class="font-wide text-[clamp(0.85rem,1.4vw,1.1rem)] uppercase leading-tight text-signal">{h.label}</dt>
+            <dd class="eyebrow mt-2 text-mute">{h.value}</dd>
           </div>
         ))
       }
     </dl>
   </section>
 
-  <!-- BUILDING ON EXPERIENCE -->
-  <section id="experience" class="py-24 md:py-36">
+  <!-- BUILDING ON EXPERIENCE (claro) -->
+  <section id="experience" class="bg-concrete py-24 md:py-36">
     <div class="container-x grid gap-14 lg:grid-cols-12">
       <div class="lg:col-span-6">
         <Eyebrow class="mb-8 text-mute">Building on experience</Eyebrow>
@@ -72,100 +85,107 @@ const safetyList = Object.values(safetyTopics);
         <p class="border-t border-ink/15 pt-6 font-semibold text-ink">{story.proposition}</p>
       </div>
     </div>
+  </section>
 
-    <!-- OUR FOUNDATION -->
-    <div class="container-x mt-20 md:mt-28">
-      <Eyebrow class="mb-8 text-mute">Our foundation</Eyebrow>
-      <ol class="grid border-t border-ink/10 sm:grid-cols-2 lg:grid-cols-4">
+  <!-- OUR FOUNDATION (oscuro) -->
+  <section id="foundation" class="on-dark bg-ink py-24 text-bone md:py-32">
+    <div class="container-x">
+      <SplitText text="Our Foundation" class="font-wide text-title" />
+      <ol class="mt-14 grid gap-px overflow-hidden bg-bone/12 sm:grid-cols-2 lg:grid-cols-4 md:mt-20">
         {
           foundation.map((f, i) => (
-            <li class="border-b border-ink/10 py-8 sm:pr-8 sm:[&:nth-child(even)]:border-l sm:[&:nth-child(even)]:pl-8 lg:border-l lg:px-8 lg:first:border-l-0 lg:first:pl-0" data-reveal style={`--d:${i}`}>
-              <p class="font-wide text-3xl text-gray">{f.n}</p>
-              <h3 class="mt-6 font-wide text-xl uppercase text-signal">{f.title}</h3>
-              <p class="mt-4 font-semibold text-ink">{f.lead}</p>
-              {f.detail && <p class="mt-2 text-ink/65">{f.detail}</p>}
+            <li class="bg-ink p-8 md:p-10" data-reveal style={`--d:${i}`}>
+              <p class="font-wide text-4xl text-signal">{f.n}</p>
+              <h3 class="mt-8 font-wide text-xl uppercase">{f.title}</h3>
+              <p class="mt-4 font-semibold text-bone">{f.lead}</p>
+              {f.detail && <p class="mt-2 text-bone/65">{f.detail}</p>}
             </li>
           ))
         }
       </ol>
     </div>
+  </section>
 
-    <!-- A new chapter -->
-    <div class="container-x mt-20 grid gap-4 md:mt-28 md:grid-cols-12">
-      <div class="md:col-span-7" data-reveal="mask"><Media seed="new-chapter" variant="midrise" class="aspect-[16/10] md:aspect-auto md:h-full md:min-h-80" /></div>
-      <div class="on-dark flex flex-col justify-between gap-10 bg-ink p-8 md:col-span-5 md:p-12" data-reveal style="--d:2">
-        <h3 class="font-wide text-2xl leading-tight md:text-3xl">{newChapter.title}</h3>
-        <div class="space-y-4 text-bone/75 [&_strong]:font-semibold [&_strong]:text-bone">
+  <!-- A NEW CHAPTER (claro) -->
+  <section class="py-24 md:py-36">
+    <!-- En móvil: texto primero y foto apaisada debajo; en escritorio la foto va a la izquierda -->
+    <div class="container-x grid gap-10 md:gap-12 lg:grid-cols-12 lg:items-center">
+      <div class="lg:col-span-5 lg:col-start-8 lg:row-start-1">
+        <SplitText text="A new chapter|in the Grascan story" accent={['story']} class="font-wide text-title" />
+        <div class="mt-6 space-y-5 text-ink/75 md:mt-8 md:text-lg [&_strong]:font-semibold [&_strong]:text-ink" data-reveal style="--d:2">
           {newChapter.paragraphs.map((p) => <p set:html={p} />)}
         </div>
       </div>
+      <div class="lg:col-span-6 lg:col-start-1 lg:row-start-1" data-reveal="mask">
+        <Media src={photos.toronto} alt="Toronto skyline with the CN Tower" class="aspect-[16/10] md:aspect-[16/9] lg:aspect-[5/6]" imgClass="object-[50%_30%]" />
+      </div>
     </div>
   </section>
 
-  <!-- Banner: BUILDING ON EXPERIENCE (su subtítulo "Building the places that shape Ontario." abre What We Build) -->
-  <section class="relative overflow-hidden border-y border-ink/10 bg-concrete py-20 md:py-28">
-    <div class="container-x grid gap-10 lg:grid-cols-12 lg:items-end">
+  <!-- BUILDING ON EXPERIENCE: banner con foto (oscuro) -->
+  <section class="on-dark relative overflow-hidden bg-ink py-28 text-bone md:py-40">
+    <Media src={photos.cranes} alt="" class="absolute inset-0" imgClass="parallax" sizes="100vw" />
+    <div class="absolute inset-0 bg-ink/80"></div>
+    <div class="container-x relative grid gap-10 lg:grid-cols-12 lg:items-end">
       <div class="lg:col-span-7">
         <SplitText text="Building on|experience." accent={['experience.']} class="font-wide text-display uppercase" />
       </div>
-      <p class="text-lead text-ink/75 lg:col-span-5" data-reveal style="--d:2">{boe.text}</p>
+      <p class="text-lead text-bone/85 lg:col-span-5" data-reveal style="--d:2">{boe.text}</p>
     </div>
   </section>
 
-  <!-- WHAT WE BUILD -->
-  <section id="what-we-build" class="on-dark relative bg-ink py-24 text-bone md:py-36">
-    <div class="bg-grid pointer-events-none absolute inset-0 text-bone/40"></div>
-    <div class="container-x relative">
+  <!-- WHAT WE BUILD (claro, tarjetas con foto) -->
+  <section id="what-we-build" class="py-24 md:py-36">
+    <div class="container-x">
       <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
         <div class="lg:col-span-7">
-          <Eyebrow class="mb-8 text-bone/60">What we build</Eyebrow>
-          <SplitText text="Building the places|that shape Ontario." class="font-wide text-title" />
+          <Eyebrow class="mb-8 text-mute">What we build</Eyebrow>
+          <SplitText text="Building the places|that shape Ontario." accent={['Ontario.']} class="font-wide text-title" />
         </div>
-        <div class="space-y-4 text-bone/70 lg:col-span-5" data-reveal>
+        <div class="space-y-4 text-ink/70 lg:col-span-5" data-reveal>
           {whatWeBuild.intro.map((p) => <p>{p}</p>)}
         </div>
       </div>
 
-      <ul class="mt-16 grid gap-px overflow-hidden bg-bone/10 md:mt-20 md:grid-cols-2 lg:grid-cols-3">
+      <ul class="mt-16 grid gap-x-6 gap-y-12 md:mt-20 md:grid-cols-2 lg:grid-cols-3">
         {
           sectors.map((s, i) => {
+            const img = servicePhotos[s.slug ?? 'healthcare'];
             const inner = (
               <>
-                <ServiceIcon name={s.icon} class="size-12 text-signal" />
-                <h3 class="mt-8 font-wide text-xl">{s.title}</h3>
-                <p class="mt-4 text-bone/65">{s.text}</p>
+                <Media src={img} alt={s.title} class="aspect-[4/3]" imgClass="transition-transform duration-[1.4s] ease-(--ease-expo) group-hover:scale-[1.04]" sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw" />
+                <div class="border-b border-ink/10 py-6">
+                  <h3 class="font-wide text-xl text-ink">{s.title}</h3>
+                  <p class="mt-3 text-ink/70">{s.text}</p>
+                </div>
               </>
             );
             return (
-              <li class="bg-ink" data-reveal style={`--d:${i % 3}`}>
-                {s.slug ? (
-                  <a href={u(`/services#${s.slug}`)} class="block h-full p-8 transition-colors duration-500 hover:bg-ink-2 md:p-10">{inner}</a>
-                ) : (
-                  <div class="h-full p-8 md:p-10">{inner}</div>
-                )}
+              <li data-reveal style={`--d:${i % 3}`}>
+                {s.slug ? <a href={u(`/services#${s.slug}`)} class="group block">{inner}</a> : <div>{inner}</div>}
               </li>
             );
           })
         }
       </ul>
-      <p class="mt-12 font-wide text-lg text-signal md:text-2xl" data-reveal>{whatWeBuild.closing}</p>
+      <p class="mt-14 font-wide text-lg text-signal md:text-2xl" data-reveal>{whatWeBuild.closing}</p>
     </div>
   </section>
 
-  <!-- WHAT WE DO -->
-  <section id="what-we-do" class="py-24 md:py-36">
+  <!-- WHAT WE DO (oscuro) -->
+  <section id="what-we-do" class="on-dark bg-ink py-24 text-bone md:py-36">
     <div class="container-x">
       <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
         <div class="lg:col-span-7">
-          <Eyebrow class="mb-8 text-mute">What we do</Eyebrow>
+          <Eyebrow class="mb-8 text-bone/60">What we do</Eyebrow>
           <SplitText text="From planning|to completion." accent={['completion.']} class="font-wide text-display" />
         </div>
-        <div class="space-y-4 text-ink/70 lg:col-span-5" data-reveal>
+        <div class="space-y-4 text-bone/70 lg:col-span-5" data-reveal>
           {whatWeDo.intro.map((p) => <p>{p}</p>)}
         </div>
       </div>
 
-      <ul class="mt-16 border-t border-ink/10 md:mt-20">
+      <ul class="mt-16 border-t border-bone/12 md:mt-20">
         {
           capabilities.map((s, i) => {
             const Tag = s.slug ? 'a' : 'div';
@@ -173,26 +193,26 @@ const safetyList = Object.values(safetyTopics);
               <li data-reveal style={`--d:${i % 3}`}>
                 <Tag
                   href={s.slug ? u(`/services#${s.slug}`) : undefined}
-                  class:list={['group grid grid-cols-[auto_1fr] gap-5 border-b border-ink/10 py-7 md:grid-cols-[auto_minmax(0,5fr)_minmax(0,6fr)] md:gap-10 md:px-4 md:py-9', s.slug && 'transition-colors hover:bg-concrete']}
+                  class:list={['group grid grid-cols-[auto_1fr] gap-5 border-b border-bone/12 py-7 md:grid-cols-[auto_minmax(0,5fr)_minmax(0,6fr)] md:gap-10 md:px-4 md:py-9', s.slug && 'transition-colors hover:bg-ink-2']}
                 >
                   <ServiceIcon name={s.icon} class="size-11 text-signal md:size-12" />
                   <span>
                     <span class="block font-wide text-[clamp(1.1rem,2vw,1.6rem)] leading-tight">{s.title}</span>
-                    <span class="mt-2 block font-semibold text-signal-ink">{s.tagline}</span>
+                    <span class="mt-2 block font-semibold text-signal">{s.tagline}</span>
                   </span>
-                  <span class="col-span-2 text-ink/70 md:col-span-1">{s.text}</span>
+                  <span class="col-span-2 text-bone/70 md:col-span-1">{s.text}</span>
                 </Tag>
               </li>
             );
           })
         }
       </ul>
-      <div class="mt-12" data-reveal><Button href={u('/services')} variant="dark">All services</Button></div>
+      <div class="mt-12" data-reveal><Button href={u('/services')}>All services</Button></div>
     </div>
   </section>
 
-  <!-- FEATURED PROJECTS -->
-  <section id="projects" class="border-t border-ink/10 bg-concrete py-24 md:py-36">
+  <!-- FEATURED PROJECTS (claro) -->
+  <section id="projects" class="py-24 md:py-36">
     <div class="container-x">
       <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
         <div class="lg:col-span-7">
@@ -210,10 +230,12 @@ const safetyList = Object.values(safetyTopics);
             {featured.map((p, i) => <ProjectCard project={p} index={i} />)}
           </div>
         ) : (
-          <div class="mt-16 grid gap-px overflow-hidden border border-ink/10 bg-ink/10 md:mt-20 md:grid-cols-3" data-reveal>
-            {(['tower', 'warehouse', 'campus'] as const).map((v, i) => (
-              <Media seed={`portfolio-${v}`} variant={v} class="aspect-[4/3]" label={false} tone={i === 1 ? 'dark' : 'light'} />
-            ))}
+          <div class="mt-16 grid gap-4 md:mt-20 md:grid-cols-12" data-reveal="mask">
+            <Media src={photos.officeTowers} alt="Commercial buildings" class="aspect-[4/3] md:col-span-7 md:aspect-auto md:h-full" sizes="(min-width: 768px) 58vw, 100vw" />
+            <div class="grid gap-4 md:col-span-5">
+              <Media src={photos.industrial} alt="Industrial facility" class="aspect-[16/10]" sizes="(min-width: 768px) 42vw, 100vw" />
+              <Media src={photos.institutional} alt="Institutional building" class="aspect-[16/10]" sizes="(min-width: 768px) 42vw, 100vw" />
+            </div>
           </div>
         )
       }
@@ -230,8 +252,8 @@ const safetyList = Object.values(safetyTopics);
     </div>
   </section>
 
-  <!-- OUR APPROACH -->
-  <section id="approach" class="py-24 md:py-36">
+  <!-- OUR APPROACH (gris claro) -->
+  <section id="approach" class="bg-concrete py-24 md:py-36">
     <div class="container-x">
       <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
         <div class="lg:col-span-7">
@@ -247,7 +269,7 @@ const safetyList = Object.values(safetyTopics);
         {
           approach.steps.map((s, i) => (
             <li class="bg-bone p-8 md:p-10" data-reveal style={`--d:${i}`}>
-              <p class="eyebrow text-mute">Step {String(i + 1).padStart(2, '0')}</p>
+              <p class="font-wide text-3xl text-gray">{String(i + 1).padStart(2, '0')}</p>
               <h3 class="mt-6 font-wide text-2xl text-signal">{s.title}</h3>
               <p class="mt-5 font-semibold text-ink">{s.lead}</p>
               <p class="mt-3 text-ink/65">{s.text}</p>
@@ -255,61 +277,63 @@ const safetyList = Object.values(safetyTopics);
           ))
         }
       </ol>
-
-      <div class="mt-20 grid gap-10 md:mt-28 lg:grid-cols-12">
-        <h3 class="font-wide text-2xl lg:col-span-4 md:text-3xl" data-reveal>Our Commitment</h3>
-        <dl class="grid gap-x-10 border-t border-ink/10 sm:grid-cols-2 lg:col-span-8">
-          {
-            commitment.map((c, i) => (
-              <div class="border-b border-ink/10 py-6" data-reveal style={`--d:${i % 2}`}>
-                <dt class="font-semiwide text-lg font-bold text-ink">{c.title}.</dt>
-                <dd class="mt-1 text-ink/65">{c.text}</dd>
-              </div>
-            ))
-          }
-        </dl>
-      </div>
     </div>
   </section>
 
-  <!-- SAFETY & QUALITY -->
+  <!-- OUR COMMITMENT (claro) -->
+  <section class="py-24 md:py-32">
+    <div class="container-x grid gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-4">
+        <SplitText text="Our|Commitment" class="font-wide text-title" />
+      </div>
+      <dl class="grid gap-x-10 border-t border-ink/10 sm:grid-cols-2 lg:col-span-8">
+        {
+          commitment.map((c, i) => (
+            <div class="border-b border-ink/10 py-6" data-reveal style={`--d:${i % 2}`}>
+              <dt class="font-wide text-lg text-ink">{c.title}.</dt>
+              <dd class="mt-2 text-ink/65">{c.text}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <!-- SAFETY & QUALITY (oscuro con foto) -->
   <section id="safety" class="on-dark relative bg-ink py-24 text-bone md:py-36">
-    <div class="bg-grid pointer-events-none absolute inset-0 text-bone/40"></div>
     <div class="container-x relative">
-      <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
+      <div class="grid gap-12 lg:grid-cols-12 lg:items-center">
         <div class="lg:col-span-6">
           <Eyebrow class="mb-8 text-bone/60">Safety & quality</Eyebrow>
           <SplitText text="Safety is|how we build." class="font-wide text-display" />
+          <div class="mt-8 space-y-4 text-bone/75" data-reveal>
+            {safety.intro.map((p) => <p>{p}</p>)}
+          </div>
         </div>
-        <div class="space-y-4 text-bone/70 lg:col-span-5 lg:col-start-8" data-reveal>
-          {safety.intro.map((p) => <p>{p}</p>)}
+        <div class="lg:col-span-5 lg:col-start-8" data-reveal="mask">
+          <Media src={photos.siteSafety} alt="Construction crew wearing safety equipment on site" class="aspect-[4/3]" />
         </div>
       </div>
 
-      <ul class="mt-16 grid gap-px overflow-hidden bg-bone/10 md:mt-20 md:grid-cols-2 lg:grid-cols-3">
+      <ul class="mt-16 grid gap-px overflow-hidden bg-bone/12 md:mt-20 md:grid-cols-2 lg:grid-cols-4">
         {
           safetyList.map((t, i) => (
-            <li class:list={['bg-ink p-8 md:p-10', i === safetyList.length - 1 && 'lg:col-span-1 md:col-span-2']} data-reveal style={`--d:${i % 3}`}>
-              <span class="block h-1 w-10 bg-signal" aria-hidden="true"></span>
-              <h3 class="mt-6 font-wide text-lg">{t.title}</h3>
+            <li class="bg-ink p-8" data-reveal style={`--d:${i % 4}`}>
+              <h3 class="font-wide text-base">{t.title}</h3>
               {'lead' in t && <p class="mt-4 font-semibold text-bone">{t.lead}</p>}
-              <p class="mt-3 text-bone/65">{t.text}</p>
+              <p class="mt-3 text-sm text-bone/65">{t.text}</p>
             </li>
           ))
         }
-        <li class="hidden bg-steel p-8 md:p-10 lg:flex lg:flex-col lg:justify-between lg:col-span-2">
-          <p class="font-wide text-2xl text-bone xl:text-3xl">{safety.closing}</p>
-          <a href={u('/health-safety')} class="mt-8 inline-flex items-center gap-2 font-semibold uppercase tracking-wide text-bone"><span class="link-u">Health & Safety</span><Icon name="arrow" /></a>
+        <li class="flex flex-col justify-between gap-8 bg-steel p-8">
+          <p class="font-wide text-xl text-bone">{safety.closing}</p>
+          <a href={u('/health-safety')} class="inline-flex items-center gap-2 font-semibold uppercase tracking-wide text-bone"><span class="link-u">Health & Safety</span><Icon name="arrow" /></a>
         </li>
       </ul>
-      <div class="mt-10 flex flex-wrap items-center justify-between gap-6 lg:hidden" data-reveal>
-        <p class="font-wide text-xl text-signal">{safety.closing}</p>
-        <Button href={u('/health-safety')}>Health & Safety</Button>
-      </div>
     </div>
   </section>
 
-  <!-- NEWS & INSIGHTS -->
+  <!-- NEWS & INSIGHTS (claro) -->
   <section id="news" class="py-24 md:py-36">
     <div class="container-x">
       <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
@@ -348,8 +372,8 @@ const safetyList = Object.values(safetyTopics);
     </div>
   </section>
 
-  <!-- CONTACT / OFFICES -->
-  <section id="contact" class="border-t border-ink/10 bg-concrete py-24 md:py-36">
+  <!-- CONTACT / OFFICES (gris claro) -->
+  <section id="contact" class="bg-concrete py-24 md:py-36">
     <div class="container-x">
       <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
         <div class="lg:col-span-6">

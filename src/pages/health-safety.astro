@@ -11,6 +11,7 @@ import Eyebrow from '@/components/Eyebrow.astro';
 import SplitText from '@/components/SplitText.astro';
 import Button from '@/components/Button.astro';
 import { safety, safetyTopics as t } from '@/data/services';
+import { photos } from '@/data/photos';
 
 type Block = { title: string; lead?: string; text: string };
 const sections: { id: string; title: string; blocks?: Block[]; pending?: string }[] = [
@@ -25,11 +26,11 @@ const sections: { id: string; title: string; blocks?: Block[]; pending?: string 
 ];
 ---
 
-<Base title="Health & Safety" description={`${safety.intro[0]} ${safety.intro[1]}`}>
-  <PageHero eyebrow="Health & safety" title="Safety is|how we build." accent={['build.']} lead={safety.intro[0]}>
-    <p class="mt-6 max-w-2xl text-ink/70" data-reveal style="--d:4">{safety.intro[1]}</p>
-    <nav aria-label="Health & Safety" class="mt-12 grid max-w-4xl border-t border-ink/10 sm:grid-cols-2" data-reveal style="--d:5">
-      {sections.map((s) => <a href={`#${s.id}`} class="border-b border-ink/10 py-3 pr-4 font-semibold text-ink/80 transition-colors hover:text-signal">{s.title}</a>)}
+<Base darkHero title="Health & Safety" description={`${safety.intro[0]} ${safety.intro[1]}`}>
+  <PageHero image={photos.safetyWorker} eyebrow="Health & safety" title="Safety is|how we build." accent={['build.']} lead={safety.intro[0]}>
+    <p class="mt-6 max-w-2xl text-bone/70" data-reveal style="--d:4">{safety.intro[1]}</p>
+    <nav aria-label="Health & Safety" class="mt-12 grid max-w-4xl border-t border-bone/15 sm:grid-cols-2" data-reveal style="--d:5">
+      {sections.map((s) => <a href={`#${s.id}`} class="border-b border-bone/15 py-3 pr-4 font-semibold text-bone/85 transition-colors hover:text-bone">{s.title}</a>)}
     </nav>
   </PageHero>
 

@@ -5,6 +5,7 @@ import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import NewsCard from '@/components/NewsCard.astro';
 import { newsCopy, newsCategories } from '@/data/services';
+import { photos } from '@/data/photos';
 
 const posts = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const [feature, ...rest] = posts;
@@ -12,14 +13,14 @@ const used = new Set(posts.map((p) => p.data.category));
 const categories = newsCategories.map((c) => c.title).filter((c) => used.has(c));
 ---
 
-<Base title="News & Insights" description={newsCopy.intro[1]}>
-  <PageHero eyebrow="News & insights" title="Perspectives from|the people building|what's next." accent={["next."]} lead={newsCopy.intro[0]}>
-    <p class="mt-6 max-w-2xl text-ink/70" data-reveal style="--d:4">{newsCopy.intro[1]}</p>
-    <ul class="mt-12 grid border-t border-ink/10 sm:grid-cols-2 xl:grid-cols-3" data-reveal style="--d:5">
+<Base darkHero title="News & Insights" description={newsCopy.intro[1]}>
+  <PageHero image={photos.constructionManagement} eyebrow="News & insights" title="Perspectives from|the people building|what's next." accent={["next."]} lead={newsCopy.intro[0]}>
+    <p class="mt-6 max-w-2xl text-bone/70" data-reveal style="--d:4">{newsCopy.intro[1]}</p>
+    <ul class="mt-12 grid border-t border-bone/15 sm:grid-cols-2 xl:grid-cols-3" data-reveal style="--d:5">
       {newsCategories.map((c) => (
-        <li class="border-b border-ink/10 py-5 sm:pr-5">
-          <p class="font-semibold text-signal">{c.title}</p>
-          <p class="mt-1 text-sm text-ink/65">{c.text}</p>
+        <li class="border-b border-bone/15 py-5 sm:pr-5">
+          <p class="font-semibold text-bone">{c.title}</p>
+          <p class="mt-1 text-sm text-bone/65">{c.text}</p>
         </li>
       ))}
     </ul>

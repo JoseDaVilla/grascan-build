@@ -13,6 +13,7 @@ import Media from '@/components/Media.astro';
 import Button from '@/components/Button.astro';
 import { sectors } from '@/site.config';
 import { projectsCopy, contactCopy } from '@/data/services';
+import { photos } from '@/data/photos';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const used = sectors.filter((s) => projects.some((p) => p.data.sector === s));
@@ -20,9 +21,9 @@ const count = (s: string) => projects.filter((p) => p.data.sector === s).length;
 const strip = (html: string) => html.replace(/<[^>]+>/g, '');
 ---
 
-<Base title="Projects" description={`${projectsCopy.intro[0]} ${strip(projectsCopy.intro[1])}`}>
-  <PageHero eyebrow="Projects" title="Experience|you can see." accent={['see.']} lead={projectsCopy.intro[0]}>
-    <p class="mt-6 max-w-2xl text-ink/70 [&_strong]:text-ink" data-reveal style="--d:4" set:html={projectsCopy.intro[1]} />
+<Base darkHero title="Projects" description={`${projectsCopy.intro[0]} ${strip(projectsCopy.intro[1])}`}>
+  <PageHero image={photos.officeTowers} eyebrow="Projects" title="Experience|you can see." accent={['see.']} lead={projectsCopy.intro[0]}>
+    <p class="mt-6 max-w-2xl text-bone/75 [&_strong]:text-bone" data-reveal style="--d:4" set:html={projectsCopy.intro[1]} />
   </PageHero>
 
   <section class="py-16 md:py-24">
@@ -52,9 +53,9 @@ const strip = (html: string) => html.replace(/<[^>]+>/g, '');
               </ul>
             </div>
             <div class="grid grid-cols-2 gap-4 lg:col-span-6 lg:col-start-7" data-reveal="mask">
-              <Media seed="portfolio-a" variant="tower" class="col-span-2 aspect-[16/9]" />
-              <Media seed="portfolio-b" variant="warehouse" class="aspect-[4/3]" tone="dark" label={false} />
-              <Media seed="portfolio-c" variant="campus" class="aspect-[4/3]" label={false} />
+              <Media src={photos.commercial} alt="Commercial towers" class="col-span-2 aspect-[16/9]" />
+              <Media src={photos.industrial} alt="Industrial facility" class="aspect-[4/3]" sizes="(min-width: 1024px) 25vw, 50vw" />
+              <Media src={photos.institutional} alt="Institutional building" class="aspect-[4/3]" sizes="(min-width: 1024px) 25vw, 50vw" />
             </div>
           </div>
         )

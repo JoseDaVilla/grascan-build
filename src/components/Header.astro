@@ -1,33 +1,52 @@
 ---
+/**
+ * Header: navbar con submenús (hover / foco de teclado) en escritorio y
+ * menú hamburguesa con submenús desplegables en móvil/tablet. Estructura en `menu` (site.config).
+ */
 import { u } from '@/lib/url';
-import { nav, site, office } from '@/site.config';
+import { menu, legal, site, office } from '@/site.config';
 import Logo from './Logo.astro';
 import Button from './Button.astro';
-interface Props { darkHero?: boolean }
-const { darkHero = false } = Astro.props;
+interface Props { darkHero?: boolean; heroLogo?: boolean }
+const { darkHero = false, heroLogo = false } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) => {
-  const target = u(href).replace(/\/$/, '');
-  return path === target || path.startsWith(target + '/');
+  const target = u(href).replace(/\/$/, '') || '/';
+  return href === '/' ? path === target : path === target || path.startsWith(target + '/');
 };
+const desktop = menu.filter((m) => m.href !== '/contact');
 ---
 
-<header id="site-header" class:list={['group/header fixed inset-x-0 top-0 z-50 text-ink transition-[transform,background-color] duration-500 ease-(--ease-expo)', darkHero && 'header-dark']}>
-  <div class="progress-bar absolute inset-x-0 top-0 h-0.5 origin-left bg-signal"></div>
+<header id="site-header" class:list={['group/header fixed inset-x-0 top-0 z-50 text-ink transition-[transform,background-color] duration-500 ease-(--ease-expo)', darkHero && 'header-dark', heroLogo && 'hero-logo']}>
   <div class="header-bg absolute inset-0 -z-10 border-b border-ink/0 transition-all duration-500"></div>
   <div class="container-x flex h-(--header-h) items-center justify-between gap-6">
-    <a href={u('/')} class="relative z-10" aria-label={`${site.legalName}, home`}>
-      <Logo variant="horizontal" animate delay={150} class="header-logo h-10 w-auto md:h-11" />
+    <a href={u('/')} class="relative z-10 shrink-0" aria-label={`${site.legalName}, home`}>
+      <Logo variant="horizontal" class="header-logo h-10 w-auto md:h-11" />
     </a>
 
-    <nav aria-label="Main" class="hidden lg:block">
-      <ul class="flex items-center gap-6 text-[0.95rem] font-medium xl:gap-8">
+    <nav aria-label="Main" class="hidden h-full xl:block">
+      <ul class="flex h-full items-center gap-1 text-[0.92rem] font-medium">
         {
-          nav.filter((n) => n.href !== '/contact').map((item) => (
-            <li>
-              <a href={u(item.href)} class="link-u py-1" aria-current={isActive(item.href) ? 'page' : undefined}>
+          desktop.map((item) => (
+            <li class="nav-item relative flex h-full items-center">
+              <a href={u(item.href)} class="nav-link flex items-center gap-1.5 px-3 py-2" aria-current={isActive(item.href) ? 'page' : undefined}>
                 {item.label}
+                {item.children && (
+                  <svg viewBox="0 0 10 6" class="size-2.5 opacity-60 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 1l4 4 4-4" /></svg>
+                )}
               </a>
+              {item.children && (
+                <div class:list={['nav-panel absolute top-full pt-0', item.children.length > 8 ? 'left-1/2 -translate-x-1/2' : 'left-0']}>
+                  <ul class:list={['grid border-t-2 border-signal bg-bone py-3 text-ink shadow-[0_24px_48px_-16px_rgb(4_31_66/0.28)]', item.children.length > 8 ? 'w-[34rem] grid-cols-2 px-3' : 'w-72 px-2']}>
+                    <li class:list={[item.children.length > 8 && 'col-span-2']}>
+                      <a href={u(item.href)} class="mb-1 block border-b border-ink/10 px-3 pb-3 pt-1 text-xs font-semibold uppercase tracking-[0.08em] text-mute hover:text-signal">{item.label} overview</a>
+                    </li>
+                    {item.children.map((c) => (
+                      <li><a href={u(c.href)} class="block px-3 py-2 text-[0.9rem] text-ink/80 transition-colors hover:bg-concrete hover:text-signal">{c.label}</a></li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </li>
           ))
         }
@@ -39,36 +58,54 @@ const isActive = (href: string) => {
       <button
         id="menu-toggle"
         type="button"
-        class="relative z-10 grid size-12 place-items-center border border-current/25 transition-colors hover:border-current lg:hidden"
+        class="relative z-10 -mr-2 flex h-12 items-center gap-3 px-2 xl:hidden"
         aria-controls="mobile-menu"
         aria-expanded="false"
         aria-label="Open menu"
       >
-        <span class="menu-lines relative block h-3 w-5">
-          <span class="absolute left-0 top-0 h-0.5 w-full bg-current transition-transform duration-500 ease-(--ease-expo)"></span>
-          <span class="absolute bottom-0 left-0 h-0.5 w-full bg-current transition-transform duration-500 ease-(--ease-expo)"></span>
+        <span class="menu-label eyebrow hidden sm:block" aria-hidden="true"><span class="label-open">Menu</span><span class="label-close">Close</span></span>
+        <span class="menu-lines relative block h-2.5 w-6">
+          <span class="absolute left-0 top-0 h-px w-full bg-current transition-transform duration-500 ease-(--ease-expo)"></span>
+          <span class="absolute bottom-0 left-0 h-px w-full bg-current transition-transform duration-500 ease-(--ease-expo)"></span>
         </span>
       </button>
     </div>
   </div>
 
-  <!-- Menú móvil a pantalla completa -->
-  <div id="mobile-menu" class="mobile-menu on-dark fixed inset-0 -z-20 flex flex-col bg-ink lg:hidden" hidden>
-    <div class="bg-grid pointer-events-none absolute inset-0 text-bone/60"></div>
-    <nav aria-label="Mobile" class="container-x relative flex flex-1 flex-col justify-center pt-(--header-h)">
-      <ul class="space-y-1">
+  <!-- Menú hamburguesa: secciones con submenús desplegables -->
+  <div id="mobile-menu" class="mobile-menu on-dark fixed inset-0 -z-20 flex flex-col overflow-y-auto bg-ink xl:hidden" hidden>
+    <nav aria-label="Mobile" class="container-x relative flex-1 pt-[calc(var(--header-h)+1.5rem)] pb-8">
+      <ul class="border-t border-bone/12">
         {
-          nav.map((item, i) => (
-            <li class="overflow-hidden">
-              <a href={u(item.href)} class="mm-item block py-2 font-wide text-[clamp(1.5rem,6.4vw,2.6rem)] uppercase leading-none" style={`--i:${i}`} aria-current={isActive(item.href) ? 'page' : undefined}>
-                {item.label}
-              </a>
+          menu.map((item, i) => (
+            <li class="mm-item border-b border-bone/12" style={`--i:${i}`}>
+              <div class="flex items-center justify-between gap-4">
+                <a href={u(item.href)} class="block flex-1 py-4 font-wide text-[clamp(1.05rem,4.6vw,1.4rem)] uppercase" aria-current={isActive(item.href) ? 'page' : undefined}>
+                  {item.label}
+                </a>
+                {item.children && (
+                  <button type="button" class="mm-toggle grid size-11 shrink-0 place-items-center text-bone/70 transition-colors hover:text-bone" aria-expanded="false" aria-controls={`mm-sub-${i}`} aria-label={`Show ${item.label} sections`}>
+                    <svg viewBox="0 0 16 16" class="mm-chevron size-4 transition-transform duration-300 ease-(--ease-expo)" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 6l4.5 4.5L12.5 6" /></svg>
+                  </button>
+                )}
+              </div>
+              {item.children && (
+                <ul id={`mm-sub-${i}`} class="mm-sub grid gap-0.5 pb-5 pl-1" hidden>
+                  {item.children.map((c) => (
+                    <li><a href={u(c.href)} class="block py-2 text-[0.98rem] text-bone/75 hover:text-bone">{c.label}</a></li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))
         }
       </ul>
+      <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-bone/60">
+        <li class="eyebrow w-full text-bone/40">Legal</li>
+        {legal.map((l) => <li><a href={u(l.href)} class="hover:text-bone">{l.label}</a></li>)}
+      </ul>
     </nav>
-    <div class="container-x relative grid grid-cols-2 gap-6 border-t border-bone/10 py-8 text-sm text-bone/70">
+    <div class="container-x grid grid-cols-2 gap-6 border-t border-bone/10 py-6 text-sm text-bone/70">
       <div>
         <p class="eyebrow mb-2 text-bone/40">{office.region}</p>
         <p>{office.city}</p>
@@ -85,7 +122,7 @@ const isActive = (href: string) => {
 
 <style>
   #site-header.is-scrolled .header-bg {
-    background: color-mix(in oklab, var(--color-bone) 88%, transparent);
+    background: color-mix(in oklab, var(--color-bone) 94%, transparent);
     backdrop-filter: blur(14px) saturate(1.4);
     border-color: color-mix(in oklab, var(--color-ink) 8%, transparent);
   }
@@ -102,31 +139,95 @@ const isActive = (href: string) => {
   #site-header.header-dark:not(.is-scrolled) :global(.btn-ghost),
   #site-header.menu-open :global(.btn-ghost) {
     color: var(--color-bone);
-    border-color: color-mix(in oklab, var(--color-bone) 35%, transparent);
+    border-color: color-mix(in oklab, var(--color-bone) 40%, transparent);
+  }
+  #site-header.hero-logo:not(.is-scrolled):not(.menu-open) :global(.header-logo) {
+    opacity: 0;
+  }
+  #site-header :global(.header-logo) {
+    transition: opacity 400ms ease;
   }
   #site-header.is-hidden {
     transform: translateY(-100%);
   }
+
+  /* Submenús de escritorio: hover y foco de teclado */
+  .nav-link {
+    position: relative;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.15rem;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .nav-link[aria-current="page"]::after,
+  .nav-item:hover .nav-link::after,
+  .nav-item:focus-within .nav-link::after {
+    transform: none;
+  }
+  .nav-panel {
+    visibility: hidden;
+    opacity: 0;
+    translate: 0 8px;
+    transition:
+      opacity 220ms ease,
+      translate 320ms cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 0s linear 320ms;
+  }
+  .nav-item:hover .nav-panel,
+  .nav-item:focus-within .nav-panel {
+    visibility: visible;
+    opacity: 1;
+    translate: 0 0;
+    transition-delay: 0s;
+  }
+  .nav-item:hover .nav-link svg,
+  .nav-item:focus-within .nav-link svg {
+    transform: rotate(180deg);
+  }
+
+  /* Menú hamburguesa */
   .mobile-menu {
-    clip-path: inset(0 0 100% 0);
-    transition: clip-path 700ms cubic-bezier(0.76, 0, 0.24, 1);
+    opacity: 0;
+    transition: opacity 400ms ease;
   }
   .menu-open .mobile-menu {
-    clip-path: inset(0 0 0 0);
+    opacity: 1;
   }
   .mm-item {
-    transform: translateY(110%);
-    transition: transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 500ms ease,
+      transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   .menu-open .mm-item {
+    opacity: 1;
     transform: none;
-    transition-delay: calc(250ms + var(--i) * 50ms);
+    transition-delay: calc(120ms + var(--i) * 40ms);
+  }
+  .mm-toggle[aria-expanded="true"] .mm-chevron {
+    transform: rotate(180deg);
   }
   .menu-open .menu-lines span:first-child {
-    transform: translateY(5px) rotate(45deg);
+    transform: translateY(4.5px) rotate(45deg);
   }
   .menu-open .menu-lines span:last-child {
-    transform: translateY(-5px) rotate(-45deg);
+    transform: translateY(-4.5px) rotate(-45deg);
+  }
+  .menu-label .label-close,
+  .menu-open .menu-label .label-open {
+    display: none;
+  }
+  .menu-open .menu-label .label-close {
+    display: inline;
   }
   .menu-open .header-bg {
     background: transparent !important;

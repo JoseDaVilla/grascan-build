@@ -3,8 +3,8 @@ title: "Introducing Grascan Build"
 excerpt: "A new generation of building construction, backed by decades of experience delivering complex projects across Ontario."
 date: 2026-09-15
 category: Company News
-variant: tower
-# cover: ../../assets/news/grascan-build-launch.jpg
+cover: ../../assets/photos/cranes.jpg
+
 ---
 
 Grascan Build is a new building construction company backed by the experience and expertise of Grascan Construction, an established Ontario contractor with roots dating back to 1987.

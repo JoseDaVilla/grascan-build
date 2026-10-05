@@ -57,7 +57,23 @@ const setMenu = (open: boolean) => {
 };
 toggle?.addEventListener('click', () => setMenu(!menuOpen));
 addEventListener('keydown', (e) => e.key === 'Escape' && menuOpen && setMenu(false));
-matchMedia('(min-width: 1024px)').addEventListener('change', (e) => e.matches && setMenu(false));
+matchMedia('(min-width: 1280px)').addEventListener('change', (e) => e.matches && setMenu(false));
+
+// Submenús del menú hamburguesa (acordeón: uno abierto a la vez)
+const subToggles = [...document.querySelectorAll<HTMLButtonElement>('.mm-toggle')];
+subToggles.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') !== 'true';
+    subToggles.forEach((other) => {
+      const sub = document.getElementById(other.getAttribute('aria-controls') || '');
+      const isThis = other === btn;
+      other.setAttribute('aria-expanded', String(isThis && open));
+      if (sub) sub.hidden = !(isThis && open);
+    });
+  });
+});
+// Cerrar el menú al elegir un enlace (también anclas de la misma página)
+menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
 
 /* ---------------- Fit headlines ---------------- */
 // Red de seguridad: si una palabra no cabe en su columna, se reduce el titular lo justo.
@@ -241,3 +257,25 @@ document.querySelectorAll<HTMLButtonElement>('[data-map-src]').forEach((btn) =>
     btn.replaceWith(iframe);
   }),
 );
+
+/* ---------------- Slideshow del hero ---------------- */
+document.querySelectorAll<HTMLElement>('[data-slideshow]').forEach((show) => {
+  const slides = [...show.querySelectorAll<HTMLElement>('[data-slide]')];
+  const dots = [...show.querySelectorAll<HTMLButtonElement>('[data-slide-dot]')];
+  if (slides.length < 2) return;
+  let current = 0;
+  let timer: number | undefined;
+  const go = (n: number) => {
+    current = (n + slides.length) % slides.length;
+    slides.forEach((s, i) => s.classList.toggle('is-active', i === current));
+    dots.forEach((d, i) => d.classList.toggle('is-active', i === current));
+  };
+  const start = () => {
+    if (reduceMotion) return;
+    clearInterval(timer);
+    timer = window.setInterval(() => go(current + 1), 6000);
+  };
+  dots.forEach((d, i) => d.addEventListener('click', () => { go(i); start(); }));
+  document.addEventListener('visibilitychange', () => (document.hidden ? clearInterval(timer) : start()));
+  start();
+});
