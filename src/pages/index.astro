@@ -108,15 +108,16 @@ const safetyList = Object.values(safetyTopics);
 
   <!-- A NEW CHAPTER (claro) -->
   <section class="py-24 md:py-36">
-    <div class="container-x grid gap-12 lg:grid-cols-12 lg:items-center">
-      <div class="lg:col-span-6" data-reveal="mask">
-        <Media src={photos.toronto} alt="Toronto skyline with the CN Tower" class="aspect-[4/5] md:aspect-[4/3] lg:aspect-[5/6]" />
-      </div>
-      <div class="lg:col-span-5 lg:col-start-8">
+    <!-- En móvil: texto primero y foto apaisada debajo; en escritorio la foto va a la izquierda -->
+    <div class="container-x grid gap-10 md:gap-12 lg:grid-cols-12 lg:items-center">
+      <div class="lg:col-span-5 lg:col-start-8 lg:row-start-1">
         <SplitText text="A new chapter|in the Grascan story" accent={['story']} class="font-wide text-title" />
-        <div class="mt-8 space-y-5 text-lg text-ink/75 [&_strong]:font-semibold [&_strong]:text-ink" data-reveal style="--d:2">
+        <div class="mt-6 space-y-5 text-ink/75 md:mt-8 md:text-lg [&_strong]:font-semibold [&_strong]:text-ink" data-reveal style="--d:2">
           {newChapter.paragraphs.map((p) => <p set:html={p} />)}
         </div>
+      </div>
+      <div class="lg:col-span-6 lg:col-start-1 lg:row-start-1" data-reveal="mask">
+        <Media src={photos.toronto} alt="Toronto skyline with the CN Tower" class="aspect-[16/10] md:aspect-[16/9] lg:aspect-[5/6]" imgClass="object-[50%_30%]" />
       </div>
     </div>
   </section>

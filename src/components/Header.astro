@@ -58,14 +58,15 @@ const desktop = menu.filter((m) => m.href !== '/contact');
       <button
         id="menu-toggle"
         type="button"
-        class="relative z-10 grid size-12 place-items-center border border-current/25 transition-colors hover:border-current xl:hidden"
+        class="relative z-10 -mr-2 flex h-12 items-center gap-3 px-2 xl:hidden"
         aria-controls="mobile-menu"
         aria-expanded="false"
         aria-label="Open menu"
       >
-        <span class="menu-lines relative block h-3 w-5">
-          <span class="absolute left-0 top-0 h-0.5 w-full bg-current transition-transform duration-500 ease-(--ease-expo)"></span>
-          <span class="absolute bottom-0 left-0 h-0.5 w-full bg-current transition-transform duration-500 ease-(--ease-expo)"></span>
+        <span class="menu-label eyebrow hidden sm:block" aria-hidden="true"><span class="label-open">Menu</span><span class="label-close">Close</span></span>
+        <span class="menu-lines relative block h-2.5 w-6">
+          <span class="absolute left-0 top-0 h-px w-full bg-current transition-transform duration-500 ease-(--ease-expo)"></span>
+          <span class="absolute bottom-0 left-0 h-px w-full bg-current transition-transform duration-500 ease-(--ease-expo)"></span>
         </span>
       </button>
     </div>
@@ -83,8 +84,8 @@ const desktop = menu.filter((m) => m.href !== '/contact');
                   {item.label}
                 </a>
                 {item.children && (
-                  <button type="button" class="mm-toggle grid size-11 shrink-0 place-items-center border border-bone/20" aria-expanded="false" aria-controls={`mm-sub-${i}`} aria-label={`Show ${item.label} sections`}>
-                    <svg viewBox="0 0 12 12" class="size-3" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path class="mm-plus-v" d="M6 1v10" /><path d="M1 6h10" /></svg>
+                  <button type="button" class="mm-toggle grid size-11 shrink-0 place-items-center text-bone/70 transition-colors hover:text-bone" aria-expanded="false" aria-controls={`mm-sub-${i}`} aria-label={`Show ${item.label} sections`}>
+                    <svg viewBox="0 0 16 16" class="mm-chevron size-4 transition-transform duration-300 ease-(--ease-expo)" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 6l4.5 4.5L12.5 6" /></svg>
                   </button>
                 )}
               </div>
@@ -212,14 +213,21 @@ const desktop = menu.filter((m) => m.href !== '/contact');
     transform: none;
     transition-delay: calc(120ms + var(--i) * 40ms);
   }
-  .mm-toggle[aria-expanded="true"] .mm-plus-v {
-    display: none;
+  .mm-toggle[aria-expanded="true"] .mm-chevron {
+    transform: rotate(180deg);
   }
   .menu-open .menu-lines span:first-child {
-    transform: translateY(5px) rotate(45deg);
+    transform: translateY(4.5px) rotate(45deg);
   }
   .menu-open .menu-lines span:last-child {
-    transform: translateY(-5px) rotate(-45deg);
+    transform: translateY(-4.5px) rotate(-45deg);
+  }
+  .menu-label .label-close,
+  .menu-open .menu-label .label-open {
+    display: none;
+  }
+  .menu-open .menu-label .label-close {
+    display: inline;
   }
   .menu-open .header-bg {
     background: transparent !important;
