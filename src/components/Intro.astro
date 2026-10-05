@@ -1,38 +1,29 @@
 ---
 /**
- * Animación de intro: fondo blanco, retícula de plano y el logo Grascan Build
- * construyéndose (las torres crecen desde la base, el wordmark se revela).
- * 100% CSS. Una vez por sesión (o forzada con ?intro), se puede saltar con clic / tecla,
- * y respeta prefers-reduced-motion.
+ * Intro corporativa (sólo home): fondo navy, el logo Grascan Build se construye en blanco
+ * (las torres crecen, el wordmark se revela) sobre una línea fina de carga. Después el logo
+ * se desliza a su posición exacta en el hero (lo calcula main.ts) y el navy se disuelve dejando
+ * ver las fotos: transición continua intro → hero.
+ * Una vez por sesión (o forzada con ?intro), se puede saltar con clic / tecla y respeta
+ * prefers-reduced-motion.
+ *
+ * Línea de tiempo: 0.2–1.4 s logo y línea · 1.5 s el logo viaja al hero · 2.2 s el fondo se
+ * disuelve · 2.9 s la intro desaparece.
  */
-import { site } from '@/site.config';
 import Logo from './Logo.astro';
 ---
 
-<div id="intro" class="intro" aria-hidden="true">
-  <div class="intro-layer intro-layer--accent"></div>
-  <div class="intro-layer intro-layer--main">
-
-    <div class="intro-meta eyebrow">
-      <span class="intro-tl">{site.legalName}</span>
-      <span class="intro-tr">Ontario, Canada</span>
-      <span class="intro-bl">Loading <b class="intro-count"></b>%</span>
-      <span class="intro-br">Since {site.founded}</span>
+<div id="intro" class="intro on-dark" aria-hidden="true">
+  <div class="intro-bg"></div>
+  <div class="intro-stage">
+    <div class="intro-logo">
+      <Logo variant="full" animate delay={200} class="block w-full !text-bone" />
     </div>
-
-    <div class="intro-center">
-      <span class="intro-ground"></span>
-      <Logo variant="full" animate delay={250} class="intro-logo" />
-    </div>
+    <span class="intro-line"></span>
   </div>
 </div>
 
 <style is:global>
-  @property --intro-n {
-    syntax: "<integer>";
-    inherits: false;
-    initial-value: 0;
-  }
   .intro {
     display: none;
   }
@@ -42,19 +33,19 @@ import Logo from './Logo.astro';
     inset: 0;
     z-index: 100;
     pointer-events: auto;
-    animation: intro-hide 0s linear 3.3s forwards;
+    animation: intro-hide 0s linear 2.9s forwards;
   }
   html.has-intro {
-    --intro-delay: 2450ms;
+    /* las animaciones del hero (textos) empiezan cuando el fondo de la intro se disuelve */
+    --intro-delay: 2200ms;
   }
   html.has-intro:not(.intro-done) {
     overflow: hidden;
   }
-  html.intro-skip .intro {
-    animation: intro-hide 0s linear 0.6s forwards;
-  }
-  html.intro-skip .intro-layer {
-    animation: intro-wipe 0.6s cubic-bezier(0.76, 0, 0.24, 1) forwards !important;
+  /* Durante la intro el logo del hero está quieto y visible bajo ella: así el relevo es exacto */
+  html.has-intro .hero h1.hero-fade {
+    animation: none;
+    opacity: 1;
   }
   @keyframes intro-hide {
     to {
@@ -62,86 +53,60 @@ import Logo from './Logo.astro';
       pointer-events: none;
     }
   }
-  .intro-layer {
+
+  .intro-bg {
     position: absolute;
     inset: 0;
-    animation: intro-wipe 1s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+    background: var(--color-ink);
+    animation: intro-fade-out 0.7s ease 2.2s forwards;
   }
-  .intro-layer--accent {
-    background: var(--color-signal);
-    animation-delay: 2.4s;
-  }
-  .intro-layer--main {
-    background: var(--color-bone);
-    color: var(--color-ink);
-    animation-delay: 2.2s;
-  }
-  @keyframes intro-wipe {
-    to {
-      clip-path: inset(0 0 100% 0);
-    }
-  }
-  .intro-meta > span {
-    position: absolute;
-    opacity: 0;
-    color: var(--color-mute);
-    animation: intro-fade 0.8s ease 0.3s forwards;
-  }
-  .intro-tl { top: 1.5rem; left: 1.5rem; }
-  .intro-tr { top: 1.5rem; right: 1.5rem; display: none; }
-  @media (min-width: 640px) { .intro-tr { display: block; } }
-  .intro-bl { bottom: 1.5rem; left: 1.5rem; }
-  .intro-br { bottom: 1.5rem; right: 1.5rem; }
-  .intro-count {
-    font-weight: 500;
-    color: var(--color-signal);
-    counter-reset: n var(--intro-n);
-    animation: intro-count 1.9s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards;
-  }
-  .intro-count::after {
-    content: counter(n);
-  }
-  @keyframes intro-count {
-    to {
-      --intro-n: 100;
-    }
-  }
-  @keyframes intro-fade {
-    to {
-      opacity: 1;
-    }
-  }
-  .intro-center {
+  .intro-stage {
     position: absolute;
     inset: 0;
     display: grid;
     place-content: center;
     justify-items: center;
-    animation: intro-out 0.6s cubic-bezier(0.76, 0, 0.24, 1) 2.05s forwards;
   }
+  /* Mismo ancho que el logo del hero (Hero.astro) para que no haya cambio de escala */
   .intro-logo {
-    width: clamp(11rem, 34vw, 19rem);
+    width: min(62vw, 21rem);
+    transform: translate(var(--intro-dx, 0px), var(--intro-dy, 0px));
+    transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
   }
-  /* línea de "terreno" bajo las torres */
-  .intro-ground {
-    position: absolute;
-    left: 50%;
-    top: calc(50% + clamp(11rem, 34vw, 19rem) * 0.276);
-    width: clamp(14rem, 44vw, 24rem);
-    height: 1px;
-    background: color-mix(in oklab, var(--color-signal) 30%, transparent);
-    transform: translateX(-50%) scaleX(0);
-    animation: intro-grow-x 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
-  }
-  @keyframes intro-grow-x {
-    to {
-      transform: translateX(-50%) scaleX(1);
+  @media (min-width: 48rem) {
+    .intro-logo {
+      width: 24rem;
     }
   }
-  @keyframes intro-out {
+  .intro-line {
+    display: block;
+    margin-top: 2.5rem;
+    width: min(50vw, 14rem);
+    height: 1px;
+    background: color-mix(in oklab, var(--color-bone) 70%, transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation:
+      intro-load 1.3s cubic-bezier(0.65, 0, 0.35, 1) 0.1s forwards,
+      intro-fade-out 0.4s ease 1.45s forwards;
+  }
+  @keyframes intro-load {
+    to {
+      transform: scaleX(1);
+    }
+  }
+  @keyframes intro-fade-out {
     to {
       opacity: 0;
-      transform: translateY(-40px);
     }
+  }
+
+  /* Saltar la intro (clic / tecla): fundido rápido */
+  html.intro-skip .intro {
+    animation: intro-hide 0s linear 0.5s forwards;
+  }
+  html.intro-skip .intro-bg,
+  html.intro-skip .intro-stage {
+    animation: intro-fade-out 0.45s ease forwards !important;
   }
 </style>

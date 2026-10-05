@@ -75,7 +75,7 @@ const jsonLd = {
           if ((force || !sessionStorage.getItem('intro-seen')) && !reduce) {
             d.classList.add('has-intro');
             sessionStorage.setItem('intro-seen', '1');
-            setTimeout(function () { d.classList.add('intro-done'); }, 2700);
+            setTimeout(function () { d.classList.add('intro-done'); }, 2900);
           }
         } catch (e) {}
       })();
