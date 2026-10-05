@@ -11,11 +11,23 @@
 const root = document.documentElement;
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---------------- Intro skip ---------------- */
+/* ---------------- Intro: relevo al hero + skip ---------------- */
 if (root.classList.contains('has-intro') && !root.classList.contains('intro-done')) {
+  // A los 1.5 s el logo de la intro viaja a la posición exacta del logo del hero
+  const glide = setTimeout(() => {
+    const from = document.querySelector<HTMLElement>('#intro .intro-logo');
+    const to = document.querySelector<SVGElement>('.hero h1 svg');
+    if (!from || !to) return;
+    const a = from.getBoundingClientRect();
+    const b = to.getBoundingClientRect();
+    if (b.bottom < 0 || b.top > innerHeight) return; // hero fuera de pantalla: sólo fundido
+    from.style.setProperty('--intro-dx', `${b.left + b.width / 2 - (a.left + a.width / 2)}px`);
+    from.style.setProperty('--intro-dy', `${b.top + b.height / 2 - (a.top + a.height / 2)}px`);
+  }, 1500);
   const skip = () => {
+    clearTimeout(glide);
     root.classList.add('intro-skip');
-    setTimeout(() => root.classList.add('intro-done'), 600);
+    setTimeout(() => root.classList.add('intro-done'), 500);
   };
   document.getElementById('intro')?.addEventListener('click', skip, { once: true });
   addEventListener('keydown', skip, { once: true });
