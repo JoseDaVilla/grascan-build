@@ -12,10 +12,6 @@ import Logo from './Logo.astro';
 <div id="intro" class="intro" aria-hidden="true">
   <div class="intro-layer intro-layer--accent"></div>
   <div class="intro-layer intro-layer--main">
-    <div class="intro-grid">
-      <span style="--x:20%"></span><span style="--x:40%"></span><span style="--x:60%"></span><span style="--x:80%"></span>
-      <i style="--y:25%"></i><i style="--y:50%"></i><i style="--y:75%"></i>
-    </div>
 
     <div class="intro-meta eyebrow">
       <span class="intro-tl">{site.legalName}</span>
@@ -83,34 +79,6 @@ import Logo from './Logo.astro';
   @keyframes intro-wipe {
     to {
       clip-path: inset(0 0 100% 0);
-    }
-  }
-  .intro-grid span,
-  .intro-grid i {
-    position: absolute;
-    background: color-mix(in oklab, var(--color-signal) 8%, transparent);
-  }
-  .intro-grid span {
-    top: 0;
-    bottom: 0;
-    left: var(--x);
-    width: 1px;
-    transform: scaleY(0);
-    transform-origin: top;
-    animation: intro-grow 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-  .intro-grid i {
-    left: 0;
-    right: 0;
-    top: var(--y);
-    height: 1px;
-    transform: scaleX(0);
-    transform-origin: left;
-    animation: intro-grow 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
-  }
-  @keyframes intro-grow {
-    to {
-      transform: none;
     }
   }
   .intro-meta > span {

@@ -10,6 +10,7 @@ import Eyebrow from '@/components/Eyebrow.astro';
 import ContactBlock from '@/components/ContactBlock.astro';
 import { site } from '@/site.config';
 import { contactCopy } from '@/data/services';
+import { photos } from '@/data/photos';
 
 const strip = (html: string) => html.replace(/<[^>]+>/g, '');
 const topics = [
@@ -21,9 +22,9 @@ const topics = [
 ];
 ---
 
-<Base title="Contact" description={strip(contactCopy.intro[0])}>
-  <PageHero eyebrow="Contact" title="Let's build|what's next." accent={["next."]}>
-    <div class="mt-8 max-w-2xl space-y-4 text-lead text-ink/70 [&_strong]:text-ink" data-reveal style="--d:4">
+<Base darkHero title="Contact" description={strip(contactCopy.intro[0])}>
+  <PageHero image={photos.glassTower} eyebrow="Contact" title="Let's build|what's next." accent={["next."]}>
+    <div class="mt-8 max-w-2xl space-y-4 text-lead text-bone/80 [&_strong]:text-bone" data-reveal style="--d:4">
       {contactCopy.intro.map((p) => <p set:html={p} />)}
     </div>
   </PageHero>

@@ -1,37 +1,31 @@
 ---
 /**
- * Cabecera de páginas interiores: fondo blanco, retícula de plano y, a la derecha,
- * el icono del logo dibujado en línea (estilo plano, como el hero).
+ * Cabecera de páginas interiores: foto de fondo con velo navy y texto claro.
+ * Usar junto con <Base darkHero> para que el header sea claro sobre ella.
  */
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
 import SplitText from './SplitText.astro';
 import Eyebrow from './Eyebrow.astro';
-import { logo } from '@/lib/logo';
-interface Props { eyebrow: string; title: string; lead?: string; index?: string; accent?: string[] }
-const { eyebrow, title, lead, accent = [] } = Astro.props;
+interface Props { eyebrow: string; title: string; lead?: string; index?: string; accent?: string[]; image?: ImageMetadata }
+const { eyebrow, title, lead, accent = [], image } = Astro.props;
 ---
-<section class="relative overflow-hidden border-b border-ink/10 bg-bone pt-[calc(var(--header-h)+5rem)] pb-16 text-ink md:pb-24">
-  <div class="bg-grid pointer-events-none absolute inset-0 text-signal/50"></div>
-
-  <!-- Torres del logo en línea -->
-  <svg viewBox="100 -30 440 520" class="draw pointer-events-none absolute bottom-0 right-[clamp(1rem,4vw,3.5rem)] top-[calc(var(--header-h)+2rem)] hidden h-[calc(100%-var(--header-h)-2rem)] w-auto max-w-[32%] lg:block" preserveAspectRatio="xMaxYMax meet" fill="none" aria-hidden="true">
-    <path d="M60 461H540" class="ln stroke-ink/25" stroke-width="1" pathLength="1" style="--i:0" />
-    <path d={logo.gray} class="ln stroke-gray" stroke-width="1.5" pathLength="1" style="--i:2" />
-    <path d={logo.navy} class="ln stroke-signal" stroke-width="1.5" pathLength="1" style="--i:4" />
-    <path d={logo.g} class="ln stroke-signal" stroke-width="1.5" pathLength="1" style="--i:6" />
-    <g class="stroke-ink/20" stroke-width="1">
-      <path d="M210 -20V461M321 -20V461M479 -20V461" stroke-dasharray="3 6" />
-    </g>
-    <g font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="1" class="draw-fill fill-ink/40" style="--i:10">
-      <text x="486" y="230">L+24</text><text x="486" y="110">L+36</text><text x="486" y="455">L00</text>
-    </g>
-  </svg>
+<section class="on-dark relative overflow-hidden bg-ink pt-[calc(var(--header-h)+5rem)] pb-16 text-bone md:pb-24">
+  {
+    image && (
+      <div class="absolute inset-0" aria-hidden="true">
+        <Image src={image} alt="" widths={[768, 1280, 1920]} sizes="100vw" loading="eager" class="h-full w-full object-cover" />
+        <div class="absolute inset-0 bg-[linear-gradient(90deg,rgb(4_31_66/0.94)_0%,rgb(4_31_66/0.82)_55%,rgb(4_31_66/0.6)_100%)]"></div>
+      </div>
+    )
+  }
 
   <div class="container-x relative">
     <div class="lg:max-w-[62%]">
-    <Eyebrow class="mb-6 text-mute">{eyebrow}</Eyebrow>
-    <SplitText as="h1" text={title} accent={accent} class="max-w-5xl font-wide text-display" />
-    {lead && <p class="mt-8 max-w-2xl text-lead text-ink/70 md:mt-10" data-reveal style="--d:4">{lead}</p>}
-    <slot />
+      <Eyebrow class="mb-6 text-bone/70">{eyebrow}</Eyebrow>
+      <SplitText as="h1" text={title} accent={accent} class="max-w-5xl font-wide text-display" />
+      {lead && <p class="mt-8 max-w-2xl text-lead text-bone/85 md:mt-10" data-reveal style="--d:4">{lead}</p>}
+      <slot />
     </div>
   </div>
 </section>

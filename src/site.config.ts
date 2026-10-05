@@ -24,30 +24,51 @@ export const site = {
   formEndpoint: '',
 };
 
-/** Menú principal: secciones del documento (Contact va como botón). */
-export const nav = [
-  { label: 'Services', href: '/services' },
-  { label: 'Health & Safety', href: '/health-safety' },
-  { label: 'Projects', href: '/projects' },
-  { label: 'About', href: '/about' },
-  { label: 'Careers', href: '/careers' },
-  { label: 'Contact', href: '/contact' },
-] as const;
+import { services } from './data/services';
 
-/** Mapa del sitio completo (footer), tal como la estructura del documento. */
-export const sitemap = [
+export interface MenuItem { label: string; href: string; children?: { label: string; href: string }[] }
+
+/**
+ * Menú principal (navbar con submenús y menú hamburguesa), según la estructura del documento.
+ * "Individual Project Pages" aparecerán aquí automáticamente cuando existan proyectos.
+ */
+export const menu: MenuItem[] = [
+  {
+    label: 'Home',
+    href: '/',
+    children: [
+      { label: 'Building on Experience', href: '/#experience' },
+      { label: 'What We Build', href: '/#what-we-build' },
+      { label: 'What We Do', href: '/#what-we-do' },
+      { label: 'Featured Projects', href: '/#projects' },
+      { label: 'Our Approach', href: '/#approach' },
+      { label: 'Safety & Quality', href: '/#safety' },
+      { label: 'News & Insights', href: '/#news' },
+      { label: 'Contact / Offices', href: '/#contact' },
+    ],
+  },
+  {
+    label: 'Services',
+    href: '/services',
+    children: services.map((s) => ({ label: s.title, href: `/services#${s.slug}` })),
+  },
   {
     label: 'Health & Safety',
     href: '/health-safety',
     children: [
-      { label: 'COR™ / ISO 45001', href: '/health-safety#cor' },
+      { label: 'Certificate of Recognition (COR™) / ISO 45001', href: '/health-safety#cor' },
       { label: 'Safety & Emergency Preparedness', href: '/health-safety#preparedness' },
       { label: 'Employee Safety Portal', href: '/health-safety#portal' },
       { label: 'Subcontractor Safety', href: '/health-safety#subcontractors' },
       { label: 'Construction Site Safety', href: '/health-safety#site-safety' },
       { label: 'Environmental & Hazard Management', href: '/health-safety#environmental' },
-      { label: 'Policies & Resources', href: '/health-safety#policies' },
+      { label: 'Grascan Build Policies & Resources', href: '/health-safety#policies' },
     ],
+  },
+  {
+    label: 'Projects',
+    href: '/projects',
+    children: [{ label: 'Project Listing', href: '/projects' }],
   },
   {
     label: 'About',
@@ -67,7 +88,17 @@ export const sitemap = [
       { label: 'Career Opportunities', href: '/careers#opportunities' },
     ],
   },
-] as const;
+  {
+    label: 'Contact',
+    href: '/contact',
+    children: [{ label: 'Contact Us', href: '/contact' }],
+  },
+];
+
+export const legal = [
+  { label: 'Privacy Policy', href: '/privacy' },
+  { label: 'Terms & Conditions', href: '/terms' },
+];
 
 /** Statement bajo el hero. */
 export const highlights = [

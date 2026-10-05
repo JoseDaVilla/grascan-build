@@ -12,15 +12,16 @@ import SplitText from '@/components/SplitText.astro';
 import Media from '@/components/Media.astro';
 import Button from '@/components/Button.astro';
 import NewsCard from '@/components/NewsCard.astro';
+import { photos } from '@/data/photos';
 import { story, foundation, newChapter, buildingOnExperience as boe, approach, commitment, newsCopy } from '@/data/services';
 
 const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
 ---
 
-<Base title="About" description={story.paragraphs[0]}>
-  <PageHero eyebrow="About Grascan Build" title="Built on experience.|Focused on|what comes next." accent={['next.']} lead={story.paragraphs[0]} />
+<Base darkHero title="About" description={story.paragraphs[0]}>
+  <PageHero image={photos.toronto} eyebrow="About Grascan Build" title="Built on experience.|Focused on|what comes next." accent={['next.']} lead={story.paragraphs[0]} />
 
-  <!-- About Grascan Build -->
+  <!-- About Grascan Build (claro) -->
   <section class="py-24 md:py-36">
     <div class="container-x grid gap-14 lg:grid-cols-12">
       <div class="lg:col-span-6">
@@ -30,35 +31,44 @@ const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() 
         {story.paragraphs.slice(1).map((p) => <p>{p}</p>)}
       </div>
     </div>
+  </section>
 
-    <div class="container-x mt-20 md:mt-28">
-      <Eyebrow class="mb-8 text-mute">Our foundation</Eyebrow>
-      <ol class="grid border-t border-ink/10 sm:grid-cols-2 lg:grid-cols-4">
+  <!-- Our Foundation (oscuro) -->
+  <section class="on-dark bg-ink py-24 text-bone md:py-32">
+    <div class="container-x">
+      <SplitText text="Our Foundation" class="font-wide text-title" />
+      <ol class="mt-14 grid gap-px overflow-hidden bg-bone/12 sm:grid-cols-2 lg:grid-cols-4 md:mt-20">
         {
           foundation.map((f, i) => (
-            <li class="border-b border-ink/10 py-8 sm:pr-8 sm:[&:nth-child(even)]:border-l sm:[&:nth-child(even)]:pl-8 lg:border-l lg:px-8 lg:first:border-l-0 lg:first:pl-0" data-reveal style={`--d:${i}`}>
-              <p class="font-wide text-3xl text-gray">{f.n}</p>
-              <h3 class="mt-6 font-wide text-xl uppercase text-signal">{f.title}</h3>
-              <p class="mt-4 font-semibold text-ink">{f.lead}</p>
-              {f.detail && <p class="mt-2 text-ink/65">{f.detail}</p>}
+            <li class="bg-ink p-8 md:p-10" data-reveal style={`--d:${i}`}>
+              <p class="font-wide text-4xl text-signal">{f.n}</p>
+              <h3 class="mt-8 font-wide text-xl uppercase">{f.title}</h3>
+              <p class="mt-4 font-semibold text-bone">{f.lead}</p>
+              {f.detail && <p class="mt-2 text-bone/65">{f.detail}</p>}
             </li>
           ))
         }
       </ol>
     </div>
+  </section>
 
-    <div class="container-x mt-20 grid gap-4 md:mt-28 md:grid-cols-12">
-      <div class="md:col-span-7" data-reveal="mask"><Media seed="about-chapter" variant="campus" class="aspect-[16/10] md:aspect-auto md:h-full md:min-h-80" /></div>
-      <div class="on-dark flex flex-col justify-between gap-10 bg-ink p-8 md:col-span-5 md:p-12" data-reveal style="--d:2">
-        <h2 class="font-wide text-2xl leading-tight md:text-3xl">{newChapter.title}</h2>
-        <div class="space-y-4 text-bone/75 [&_strong]:font-semibold [&_strong]:text-bone">
+  <!-- A new chapter (claro) -->
+  <section class="py-24 md:py-36">
+    <div class="container-x grid gap-12 lg:grid-cols-12 lg:items-center">
+      <div class="lg:col-span-6" data-reveal="mask">
+        <Media src={photos.cranes} alt="Tower cranes over a building under construction" class="aspect-[4/3]" />
+      </div>
+      <div class="lg:col-span-5 lg:col-start-8">
+        <h2 class="font-wide text-title">{newChapter.title}</h2>
+        <div class="mt-8 space-y-5 text-lg text-ink/75 [&_strong]:font-semibold [&_strong]:text-ink" data-reveal style="--d:2">
           {newChapter.paragraphs.map((p) => <p set:html={p} />)}
         </div>
       </div>
     </div>
   </section>
 
-  <section class="border-y border-ink/10 bg-concrete py-20 md:py-28">
+  <!-- Building on experience (gris) -->
+  <section class="bg-concrete py-20 md:py-28">
     <div class="container-x grid gap-10 lg:grid-cols-12 lg:items-end">
       <div class="lg:col-span-7">
         <p class="eyebrow mb-6 text-signal-ink">{boe.eyebrow}</p>
@@ -68,7 +78,7 @@ const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() 
     </div>
   </section>
 
-  <!-- Our Approach -->
+  <!-- Our Approach (claro) -->
   <section id="approach" class="scroll-mt-24 py-24 md:py-36">
     <div class="container-x">
       <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
@@ -85,7 +95,7 @@ const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() 
         {
           approach.steps.map((s, i) => (
             <li class="bg-bone p-8 md:p-10" data-reveal style={`--d:${i}`}>
-              <p class="eyebrow text-mute">Step {String(i + 1).padStart(2, '0')}</p>
+              <p class="font-wide text-3xl text-gray">{String(i + 1).padStart(2, '0')}</p>
               <h3 class="mt-6 font-wide text-2xl text-signal">{s.title}</h3>
               <p class="mt-5 font-semibold text-ink">{s.lead}</p>
               <p class="mt-3 text-ink/65">{s.text}</p>
@@ -96,15 +106,15 @@ const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() 
     </div>
   </section>
 
+  <!-- Our Commitment (oscuro) -->
   <section class="on-dark bg-ink py-24 text-bone md:py-36">
     <div class="container-x">
-      <Eyebrow class="mb-8 text-bone/50">Our commitment</Eyebrow>
-      <div class="mt-4 grid gap-px overflow-hidden bg-bone/10 md:grid-cols-2 lg:grid-cols-3">
+      <SplitText text="Our Commitment" class="font-wide text-title" />
+      <div class="mt-14 grid gap-px overflow-hidden bg-bone/12 md:grid-cols-2 lg:grid-cols-3 md:mt-20">
         {
           commitment.map((c, i) => (
             <article class="bg-ink p-8 md:p-10" data-reveal style={`--d:${i % 3}`}>
-              <span class="block h-1 w-10 bg-signal" aria-hidden="true"></span>
-              <h3 class="mt-8 font-wide text-xl">{c.title}.</h3>
+              <h3 class="font-wide text-xl">{c.title}.</h3>
               <p class="mt-4 text-bone/65">{c.text}</p>
             </article>
           ))
@@ -113,24 +123,23 @@ const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() 
     </div>
   </section>
 
-  <!-- Our People -->
+  <!-- Our People (claro) -->
   <section id="people" class="scroll-mt-24 py-24 md:py-36">
-    <div class="container-x grid gap-12 lg:grid-cols-12 lg:items-end">
-      <div class="lg:col-span-7">
+    <div class="container-x grid gap-12 lg:grid-cols-12 lg:items-center">
+      <div class="lg:col-span-6">
         <Eyebrow class="mb-8 text-mute">Our people</Eyebrow>
         <SplitText text="One team.|One commitment|to the outcome." accent={['outcome.']} class="font-wide text-title" />
+        <p class="mt-8 text-lg text-ink/75" data-reveal>One team focused on safety, quality, cost and schedule, bringing construction, engineering, project management and technical knowledge to every project.</p>
+        <div class="mt-8" data-reveal><Button href={u('/careers')} variant="dark">Careers</Button></div>
       </div>
-      <div class="lg:col-span-5" data-reveal>
-        <p class="text-lg text-ink/75">One team focused on safety, quality, cost and schedule, bringing construction, engineering, project management and technical knowledge to every project.</p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <Button href={u('/careers')} variant="dark">Careers</Button>
-        </div>
+      <div class="lg:col-span-5 lg:col-start-8" data-reveal="mask">
+        <Media src={photos.designBuild} alt="Project team reviewing a building model" class="aspect-[4/3]" />
       </div>
     </div>
   </section>
 
-  <!-- News & Insights -->
-  <section class="border-t border-ink/10 bg-concrete py-24 md:py-36">
+  <!-- News & Insights (gris) -->
+  <section class="bg-concrete py-24 md:py-36">
     <div class="container-x">
       <div class="flex flex-wrap items-end justify-between gap-8">
         <div>

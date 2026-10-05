@@ -28,7 +28,6 @@ const share = [
 <Base title={d.title} description={d.excerpt}>
   <article>
     <header class="relative bg-bone pt-[calc(var(--header-h)+4rem)] pb-14 text-ink md:pb-20">
-      <div class="bg-grid pointer-events-none absolute inset-0 text-signal/50"></div>
       <div class="container-x relative max-w-5xl">
         <a href={u('/news')} class="mb-10 inline-block text-sm font-semibold text-mute underline-offset-4 hover:text-ink hover:underline">Back to News & Insights</a>
         <p class="text-mute" data-reveal><span class="font-semibold text-signal-ink">{d.category}</span>, <time datetime={d.date.toISOString()}>{date}</time></p>

@@ -130,12 +130,6 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
-@utility bg-grid {
-  background-image:
-    linear-gradient(to right, color-mix(in oklab, currentColor 9%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, currentColor 9%, transparent) 1px, transparent 1px);
-  background-size: 64px 64px;
-}
 
 /* ------------------------------------------------------------------ */
 /*  Base                                                               */

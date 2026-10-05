@@ -4,11 +4,11 @@ import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import Button from '@/components/Button.astro';
 ---
-<Base title="Thank you" noindex>
+<Base title="Thank you" noindex darkHero>
   <PageHero eyebrow="Message received" title="Thank you." accent={['you.']} lead="We've received your submission. A member of our team will get back to you within one to two business days.">
     <div class="mt-12 flex flex-wrap gap-3" data-reveal style="--d:5">
       <Button href={u('/')}>Back to home</Button>
-      <Button href={u('/projects')} variant="ghost">See our projects</Button>
+      <Button href={u('/services')} variant="ghost-light">Our services</Button>
     </div>
   </PageHero>
 </Base>
