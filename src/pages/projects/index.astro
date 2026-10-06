@@ -21,9 +21,9 @@ const count = (s: string) => projects.filter((p) => p.data.sector === s).length;
 const strip = (html: string) => html.replace(/<[^>]+>/g, '');
 ---
 
-<Base darkHero title="Projects" description={`${projectsCopy.intro[0]} ${strip(projectsCopy.intro[1])}`}>
-  <PageHero image={photos.officeTowers} eyebrow="Projects" title="Experience|you can see." accent={['see.']} lead={projectsCopy.intro[0]}>
-    <p class="mt-6 max-w-2xl text-bone/75 [&_strong]:text-bone" data-reveal style="--d:4" set:html={projectsCopy.intro[1]} />
+<Base darkHero title="Projects" description={strip(projectsCopy.intro)}>
+  <PageHero image={photos.officeTowers} eyebrow="Projects" title="Featured|Projects" accent={['Projects']}>
+    <p class="mt-8 max-w-2xl text-lead text-bone/85 md:mt-10 [&_strong]:text-bone" data-reveal style="--d:4" set:html={projectsCopy.intro} />
   </PageHero>
 
   <section class="py-16 md:py-24">

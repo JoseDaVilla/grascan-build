@@ -1,214 +1,42 @@
 /**
- * Contenido del sitio tomado del documento "Website GRASCAN BUILD" (estructura y textos del cliente).
- * Los textos se reproducen tal cual; sólo se corrigieron erratas evidentes
- * ("decisionmaking" → "decision-making", "multiresidential" → "multi-residential").
+ * Contenido del sitio tomado del documento "STRUCTURE WEBSITE: GRASCAN BUILD" (estructura y textos del cliente).
+ * Home, About y Services están completos según el documento. Los textos se reproducen tal cual;
+ * sólo se unificaron guiones ("pre construction" → "pre-construction", "design build" → "design-build",
+ * como aparecen en la estructura del menú) y se corrigieron erratas evidentes ("decisionmaking", "..").
  */
 export type ServiceIcon =
   | 'building'
   | 'commercial'
   | 'industrial'
   | 'institutional'
-  | 'healthcare'
   | 'residential'
-  | 'rehab'
+  | 'transit'
   | 'designbuild'
   | 'cm'
   | 'precon'
   | 'gc'
-  | 'interior'
-  | 'envelope'
-  | 'concrete'
-  | 'site';
-
-export interface Offering {
-  /** Ancla en /services (sólo si el servicio tiene sección propia en la página Services). */
-  slug?: string;
-  title: string;
-  /** Subtítulo corto del documento (p. ej. "Early involvement creates better decisions."). */
-  tagline?: string;
-  text: string;
-  icon: ServiceIcon;
-  /** Alcances mencionados en el propio texto del documento. */
-  scope?: string[];
-}
+  | 'apd';
 
 /* ------------------------------------------------------------------ */
-/*  WHAT WE BUILD (Home)                                               */
+/*  HOME: HERO (texto bajo el hero)                                    */
 /* ------------------------------------------------------------------ */
-export const whatWeBuild = {
-  title: 'Building the places that shape Ontario.',
-  intro: [
-    'Grascan Build delivers commercial, industrial, institutional and mixed-use buildings designed around the needs of the people and organizations they serve.',
-    'From new construction to complex renovations and building rehabilitation, we bring together experienced teams, disciplined project management and a practical understanding of construction to deliver buildings that perform today and stand the test of time.',
-  ],
-  closing: 'Built for purpose. Built for performance. Built for the future.',
-};
-
-export const sectors: Offering[] = [
-  {
-    slug: 'commercial-construction',
-    title: 'Commercial',
-    text: 'From office environments and retail spaces to complex mixed-use developments, we deliver commercial buildings with a focus on functionality, quality and long-term value.',
-    icon: 'commercial',
-    scope: ['Office environments', 'Retail spaces', 'Mixed-use developments'],
-  },
-  {
-    slug: 'industrial-construction',
-    title: 'Industrial',
-    text: 'We build the facilities that support Ontario’s economy, including manufacturing, distribution, logistics and specialized industrial environments where performance, coordination and schedule are critical.',
-    icon: 'industrial',
-    scope: ['Manufacturing', 'Distribution', 'Logistics', 'Specialized industrial environments'],
-  },
-  {
-    slug: 'institutional-construction',
-    title: 'Institutional',
-    text: 'We deliver buildings that serve the public and the communities around them, including education, government, civic and other institutional facilities.',
-    icon: 'institutional',
-    scope: ['Education', 'Government', 'Civic', 'Other institutional facilities'],
-  },
-  {
-    title: 'Healthcare',
-    text: 'We understand the heightened requirements of healthcare environments, where safety, coordination, quality and continuity of operations are essential.',
-    icon: 'healthcare',
-  },
-  {
-    slug: 'residential-mixed-use',
-    title: 'Residential & Mixed-Use',
-    text: 'From multi-residential developments to integrated mixed-use communities, we coordinate the structural, technical and architectural requirements necessary to deliver complex urban projects.',
-    icon: 'residential',
-    scope: ['Multi-residential developments', 'Integrated mixed-use communities'],
-  },
-  {
-    slug: 'building-rehabilitation',
-    title: 'Building Rehabilitation',
-    text: 'We extend the life and value of existing buildings through thoughtful renovation, modernization, structural improvements and adaptive reuse.',
-    icon: 'rehab',
-  },
-];
-
-/* ------------------------------------------------------------------ */
-/*  WHAT WE DO (Home)                                                  */
-/* ------------------------------------------------------------------ */
-export const whatWeDo = {
-  title: 'From planning to completion.',
-  intro: [
-    'Grascan Build provides integrated construction services across the full project lifecycle. We work with owners, developers, architects, consultants and trade partners to establish clear objectives, manage complexity and deliver with discipline.',
-    'Our approach brings planning, construction expertise and project leadership together from the earliest stages of a project through completion.',
+export const heroCopy = {
+  lead: 'A new generation of building construction, backed by decades of experience delivering complex projects across the Greater Toronto Area.',
+  paragraphs: [
+    'Backed by the experience of Grascan Construction, <strong>Grascan Build delivers commercial, industrial and institutional buildings</strong> with the same commitment to safety, quality and performance that has defined Grascan since 1987.',
+    'Our approach is grounded in strong project leadership, LEAN construction principles, trusted trade relationships and a commitment to clear communication throughout every stage of the project. From early planning and pre-construction through construction and completion, we work closely with owners, consultants, trades and project partners to create an integrated and accountable delivery process.',
+    'Grascan Build also benefits from the capabilities and resources of the broader Grascan organization, creating opportunities to coordinate building and civil requirements and pursue projects where these disciplines intersect. This integrated foundation allows us to remain responsive and competitive while bringing the resources, relationships and experience required for sophisticated and demanding projects.',
   ],
 };
 
-export const capabilities: Offering[] = [
-  {
-    slug: 'pre-construction',
-    title: 'Pre-Construction',
-    tagline: 'Early involvement creates better decisions.',
-    text: 'Our pre-construction teams help establish realistic budgets, schedules, procurement strategies and construction plans before work begins. Through estimating, constructability review, value engineering and risk management, we identify opportunities early and create greater certainty for our clients.',
-    icon: 'precon',
-    scope: ['Budgets & schedules', 'Procurement strategies', 'Estimating', 'Constructability review', 'Value engineering', 'Risk management'],
-  },
-  {
-    title: 'General Contracting',
-    tagline: 'Complete responsibility. Disciplined execution.',
-    text: 'As General Contractor, we coordinate the people, materials, trades and processes required to deliver the project safely, efficiently and to the required standard.',
-    icon: 'gc',
-  },
-  {
-    slug: 'construction-management',
-    title: 'Construction Management',
-    tagline: 'Experience applied to complexity.',
-    text: 'Our construction management teams provide the leadership, coordination and controls required to manage complex projects, from procurement and scheduling to cost management, quality and field execution.',
-    icon: 'cm',
-    scope: ['Procurement', 'Scheduling', 'Cost management', 'Quality', 'Field execution'],
-  },
-  {
-    slug: 'design-build',
-    title: 'Design-Build',
-    tagline: 'One team. One point of accountability.',
-    text: 'Our Design-Build approach brings design and construction together to improve coordination, accelerate decision-making and create greater alignment between project objectives, cost and schedule.',
-    icon: 'designbuild',
-  },
-  {
-    slug: 'building-construction',
-    title: 'Building Construction',
-    tagline: 'From foundations to final finishes.',
-    text: 'We coordinate the structural, architectural and building systems required to deliver high-performance buildings, working closely with specialized trade partners and consultants throughout construction.',
-    icon: 'building',
-    scope: ['Structural', 'Architectural', 'Building systems'],
-  },
-  {
-    slug: 'interior-construction',
-    title: 'Interior Construction',
-    tagline: 'Spaces designed for the people who use them.',
-    text: 'We deliver commercial interiors, tenant improvements, fit-outs and specialized environments with careful attention to coordination, finishes, functionality and schedule.',
-    icon: 'interior',
-    scope: ['Commercial interiors', 'Tenant improvements', 'Fit-outs', 'Specialized environments'],
-  },
-  {
-    slug: 'building-rehabilitation',
-    title: 'Building Rehabilitation',
-    tagline: 'Improving what already exists.',
-    text: 'We modernize and restore existing buildings through structural upgrades, building improvements, adaptive reuse and carefully managed renovation programs.',
-    icon: 'rehab',
-    scope: ['Structural upgrades', 'Building improvements', 'Adaptive reuse', 'Renovation programs'],
-  },
-  {
-    slug: 'building-envelope',
-    title: 'Building Envelope',
-    tagline: 'Performance begins at the exterior.',
-    text: 'We coordinate the systems that protect a building from the elements, including façades, roofing, glazing, waterproofing, insulation and other envelope components.',
-    icon: 'envelope',
-    scope: ['Façades', 'Roofing', 'Glazing', 'Waterproofing', 'Insulation'],
-  },
-  {
-    title: 'Concrete & Structures',
-    tagline: 'Strength begins with the structure.',
-    text: 'Our teams manage structural concrete, foundations, slabs, structural steel and related building systems with a focus on precision, coordination and quality.',
-    icon: 'concrete',
-  },
-  {
-    slug: 'site-development',
-    title: 'Site Development',
-    tagline: 'Preparing the ground for what comes next.',
-    text: 'We coordinate excavation, grading, servicing, utilities, site concrete, access and related site works to create a complete construction solution from the ground up.',
-    icon: 'site',
-    scope: ['Excavation', 'Grading', 'Servicing & utilities', 'Site concrete', 'Access'],
-  },
-];
-
 /* ------------------------------------------------------------------ */
-/*  SERVICES (página Services): los 12 servicios, en el orden del documento */
-/* ------------------------------------------------------------------ */
-const bySlug = (list: Offering[], slug: string) => list.find((o) => o.slug === slug)!;
-const sector = (slug: string, title: string): Offering => ({ ...bySlug(sectors, slug), title });
-const capability = (slug: string, title?: string): Offering => {
-  const o = bySlug(capabilities, slug);
-  return title ? { ...o, title } : o;
-};
-
-export const services: Offering[] = [
-  capability('building-construction'),
-  sector('commercial-construction', 'Commercial Construction'),
-  sector('industrial-construction', 'Industrial Construction'),
-  sector('institutional-construction', 'Institutional Construction'),
-  sector('residential-mixed-use', 'Residential & Mixed-Use'),
-  capability('design-build', 'Design/Build'),
-  capability('construction-management'),
-  capability('pre-construction'),
-  capability('building-rehabilitation'),
-  capability('interior-construction'),
-  capability('building-envelope'),
-  capability('site-development'),
-];
-
-/* ------------------------------------------------------------------ */
-/*  BUILDING ON EXPERIENCE (Home / About)                              */
+/*  HOME: BUILT ON EXPERIENCE / OUR FOUNDATION / NEW CHAPTER           */
 /* ------------------------------------------------------------------ */
 export const story = {
   title: 'Built on experience. Focused on what comes next.',
   paragraphs: [
-    'Grascan Build is a new building construction company backed by the experience and expertise of Grascan Construction, an established Ontario contractor with roots dating back to 1987.',
-    'For decades, Grascan has delivered complex, time-sensitive infrastructure projects across Southern Ontario, earning a reputation for disciplined project execution, innovation, safety and quality.',
-    'Grascan Build brings that foundation into vertical construction, delivering commercial, industrial and institutional buildings through an integrated approach to pre-construction, construction management, general contracting and design-build.',
+    'Grascan Build Limited is the building division of the Grascan organization, established to expand its capabilities into building construction across the Greater Toronto Area. Backed by the experience and expertise of Grascan Construction, an established Ontario contractor with roots dating back to 1987, Grascan Build brings the strength of an established organization to a focused building construction platform.',
+    'For decades, Grascan has delivered complex, time-sensitive infrastructure projects across Southern Ontario, earning a reputation for disciplined project execution, innovation, safety and quality. Grascan Build brings that foundation into vertical construction, delivering commercial, industrial and institutional buildings through an integrated approach to pre-construction, construction management, general contracting and design-build.',
   ],
   proposition: 'A new company. A proven foundation. A different approach to building.',
 };
@@ -230,10 +58,225 @@ export const newChapter = {
 };
 
 export const buildingOnExperience = {
-  eyebrow: 'Building on experience.',
-  title: 'Building the places that shape Ontario.',
-  text: 'Grascan Build brings the experience, discipline and expertise of Grascan to commercial, industrial and institutional building construction in Ontario.',
+  title: 'Building on experience.',
+  text: 'Grascan Build delivers commercial, industrial and institutional projects through a focused and integrated approach, supported by the capabilities, relationships and expertise of the broader Grascan organization.',
 };
+
+/* ------------------------------------------------------------------ */
+/*  HOME: WHAT WE BUILD (= MARKETS)                                    */
+/* ------------------------------------------------------------------ */
+export const whatWeBuild = {
+  title: 'Building for the demands of today. Preparing for what comes next.',
+  intro: [
+    'Grascan Build provides construction services for institutional, commercial, industrial, transit and multi-unit residential projects across the Greater Toronto Area and surrounding areas.',
+    'We work with owners, consultants, developers and project partners to deliver projects through general contracting, construction management, design-build and alternative project delivery. Our involvement can begin during pre-construction, helping establish project requirements, delivery strategies, budgets, schedules and construction planning before work begins on site.',
+    'Our project experience and strategic focus are aligned with sectors where construction quality, coordination and project execution are critical. This includes transit and transportation infrastructure, institutional facilities, commercial developments, industrial projects, multi-unit residential construction and major renovation work.',
+  ],
+};
+
+export interface Market { slug: string; title: string; icon: ServiceIcon }
+
+/** Markets, en el orden del documento. */
+export const markets: Market[] = [
+  { slug: 'institutional', title: 'Institutional', icon: 'institutional' },
+  { slug: 'commercial', title: 'Commercial', icon: 'commercial' },
+  { slug: 'industrial', title: 'Industrial', icon: 'industrial' },
+  { slug: 'multi-unit-residential', title: 'Multi-Unit Residential', icon: 'residential' },
+  { slug: 'transit', title: 'Transit', icon: 'transit' },
+];
+
+/* ------------------------------------------------------------------ */
+/*  HOME: WHAT WE DO (Our Capabilities) + WHERE WE BUILD               */
+/* ------------------------------------------------------------------ */
+export interface Capability { slug: string; title: string; text: string; icon: ServiceIcon }
+
+export const capabilities: Capability[] = [
+  { slug: 'pre-construction-planning', title: 'Pre-Construction', icon: 'precon', text: 'Early involvement to support planning, constructability, project strategy, budgeting, scheduling and coordination before construction begins.' },
+  { slug: 'general-contracting', title: 'General Contracting', icon: 'gc', text: 'End-to-end construction delivery with direct project oversight, coordination of trades and subcontractors, and a focus on schedule, cost and quality.' },
+  { slug: 'construction-management', title: 'Construction Management', icon: 'cm', text: 'A collaborative approach that provides owners with experienced project leadership, construction planning and coordination throughout the project lifecycle.' },
+  { slug: 'design-build', title: 'Design-Build', icon: 'designbuild', text: 'An integrated delivery approach that brings design and construction together to improve coordination, accountability and project execution.' },
+  { slug: 'alternative-project-delivery', title: 'Alternative Project Delivery', icon: 'apd', text: 'Flexible delivery models including Progressive Design-Build, Integrated Project Delivery and customized approaches based on the requirements of the owner and project.' },
+];
+
+export const whereWeBuild = {
+  title: 'Where We Build',
+  paragraphs: [
+    'Our focus is on projects that serve the communities, institutions and industries that drive Ontario forward. We are strategically positioned to pursue opportunities in transit, institutional, commercial, industrial and multi-unit residential construction, while leveraging the broader Grascan organization where building and civil requirements intersect.',
+    'Through established trade relationships, a growing subcontractor network and the capabilities of the Grascan civil division, Grascan Build brings a coordinated approach to projects of varying scale and complexity.',
+  ],
+  closing: 'From early planning through final delivery, our focus remains consistent: understand the project, align with the owner’s objectives and deliver with accountability.',
+};
+
+/* ------------------------------------------------------------------ */
+/*  ABOUT                                                              */
+/* ------------------------------------------------------------------ */
+export const about = {
+  title: 'Built on experience. Focused on what comes next.',
+  lead: 'Grascan Build Limited is the building division of the Grascan organization, established to expand its capabilities into building construction across the Greater Toronto Area.',
+  paragraphs: [
+    'Backed by the strength, expertise and established relationships of Grascan Construction, an Ontario contractor that has been delivering heavy civil and infrastructure projects across Southern Ontario since 1987, Grascan Build brings an established construction foundation to the building sector.',
+    'Grascan Build provides general contracting, construction management, design-build and alternative project delivery services for institutional, commercial, industrial, transit and multi-unit residential projects.',
+    'The business is structured around a customer-focused, lean and hands-on approach. We work closely with owners, consultants, developers, trades and project partners to understand project requirements, establish the appropriate delivery strategy and maintain accountability from pre-construction through completion.',
+    'A key advantage of Grascan Build is its connection to the broader Grascan organization and its established civil capabilities. This creates opportunities to coordinate building and civil requirements on projects where these disciplines intersect, while allowing Grascan Build to leverage established industry relationships and a broader subcontractor network.',
+    'Our strategic focus is on building a sustainable construction business supported by strong client relationships, repeat opportunities and new partnerships. Transit and transportation infrastructure represent a particular area of focus, alongside institutional, commercial, industrial and multi-unit residential construction.',
+    'Grascan Build is positioned to pursue increasingly sophisticated projects while maintaining a focused operating structure and a direct approach to project delivery.',
+  ],
+  closing: 'A new building division backed by an established construction organization.',
+};
+
+export const people = {
+  title: 'Experienced people. One team.',
+  lead: 'Construction is ultimately delivered by people.',
+  paragraphs: [
+    'Grascan Build is being developed around a focused team of construction professionals supported by the broader Grascan organization. Our people bring project management, construction, estimating, coordination and industry knowledge together to support projects from early planning through completion.',
+    'We believe strong project outcomes come from teams that communicate effectively, understand their responsibilities and remain engaged throughout the construction process.',
+    'Our structure is intentionally focused. It allows our team to work closely with clients, consultants, trades and project partners while maintaining direct involvement in project decisions and execution.',
+    'As Grascan Build grows, our objective is to develop a team of professionals and an established subcontractor network capable of supporting increasingly complex projects across the GTA.',
+    'The culture of the broader Grascan organization places importance on motivated, committed people and takes pride in innovation, quality and safety.',
+  ],
+  drivenByTitle: 'Our People Are Driven By',
+  drivenBy: ['Accountability', 'Collaboration', 'Quality', 'Safety', 'Practical problem solving', 'Client service'],
+  closing: 'Strong projects start with strong teams.',
+};
+
+/** Categorías de News & Insights en About (documento). */
+export const aboutNewsCategories = ['Project Updates', 'Industry Insights', 'Market Updates', 'People & Culture'] as const;
+
+/* ------------------------------------------------------------------ */
+/*  SERVICES                                                           */
+/* ------------------------------------------------------------------ */
+export const servicesIntro = {
+  title: 'Construction expertise from planning through completion',
+  lead: 'Grascan Build provides integrated construction services for institutional, commercial, industrial, transit and multi-unit residential projects across the Greater Toronto Area and surrounding areas.',
+  paragraphs: [
+    'Our services are structured to support owners through every stage of project delivery, from early planning and procurement through construction and completion. We provide general contracting, construction management, design-build, alternative project delivery and pre-construction planning, allowing our role and level of involvement to be aligned with the specific requirements of each project.',
+    'We work closely with owners, consultants, design professionals, trades and project partners to establish clear objectives, develop practical delivery strategies and maintain accountability throughout the project lifecycle.',
+    'Our approach combines experienced project leadership, established trade relationships, a growing subcontractor network and the broader capabilities of the Grascan organization.',
+  ],
+};
+
+export interface Service {
+  slug: string;
+  title: string;
+  /** Subtítulo del documento (p. ej. "Clear accountability. Disciplined project delivery."). */
+  subtitle: string;
+  paragraphs: string[];
+  /** Sub-servicios con título y texto propios (Alternative Project Delivery). */
+  approaches?: { slug: string; title: string; paragraphs: string[] }[];
+  /** Lista con título ("Our General Contracting Focus", "Design Build Focus"…). */
+  list?: { title: string; items: string[] };
+  closing?: string;
+  icon: ServiceIcon;
+}
+
+export const services: Service[] = [
+  {
+    slug: 'general-contracting',
+    title: 'General Contracting',
+    subtitle: 'Clear accountability. Disciplined project delivery.',
+    icon: 'gc',
+    paragraphs: [
+      'Grascan Build provides general contracting services for owners seeking a dedicated construction partner responsible for coordinating and managing the delivery of their project.',
+      'Our team oversees the construction process from procurement and mobilization through completion, coordinating subcontractors, suppliers, consultants and project stakeholders while maintaining control of the work on site.',
+      'Our general contracting services include project coordination, procurement, subcontractor management, construction scheduling, cost management, quality coordination and project administration.',
+      'We maintain a hands-on approach throughout construction, working closely with the project team to address issues, coordinate activities and keep the work progressing in accordance with the project requirements.',
+      'General contracting engagements may be structured through fixed price contracts, including CCDC2 and customized owner contracts, as well as design-build arrangements where appropriate.',
+    ],
+    list: {
+      title: 'Our General Contracting Focus',
+      items: ['Project planning and mobilization', 'Procurement and subcontractor coordination', 'Construction scheduling and project controls', 'Site and trade coordination', 'Cost and change management', 'Quality coordination', 'Project administration', 'Completion and closeout'],
+    },
+    closing: 'Our objective is to provide owners with a clear point of accountability and a construction partner focused on delivering the project safely, efficiently and to the required standard.',
+  },
+  {
+    slug: 'construction-management',
+    title: 'Construction Management',
+    subtitle: 'Experienced leadership. Coordinated delivery.',
+    icon: 'cm',
+    paragraphs: [
+      'Grascan Build provides construction management services for projects that benefit from early contractor involvement, collaborative planning and active coordination throughout the project lifecycle.',
+      'Our construction management approach brings construction expertise into the project early, allowing project requirements, constructability, procurement, scheduling and construction planning to be considered before work begins.',
+      'We work with owners, consultants and project stakeholders to establish an effective construction strategy and coordinate the transition from planning and design into execution.',
+      'During construction, our team provides ongoing project leadership and coordination across trades, subcontractors and other project participants. We maintain visibility over schedule, cost, procurement, site activities and project requirements while working with the owner and consultant team to address issues as they arise.',
+      'Construction management arrangements can be structured around percentage or fixed fees for profit, project staff and labour charge-out rates, and chargeable or fixed general conditions, depending on the requirements of the project.',
+      'Where appropriate, Grascan Build may also self-perform selected construction packages, creating opportunities for greater coordination and additional value within the overall project.',
+    ],
+    list: {
+      title: 'Construction Management Services',
+      items: ['Construction planning and scheduling', 'Procurement and trade coordination', 'Project staff and site management', 'Cost and project controls', 'Subcontractor management', 'Constructability coordination', 'General conditions management', 'Progress monitoring and reporting', 'Project closeout'],
+    },
+  },
+  {
+    slug: 'design-build',
+    title: 'Design-Build',
+    subtitle: 'One integrated approach from design through construction.',
+    icon: 'designbuild',
+    paragraphs: [
+      'Design-Build provides owners with an integrated delivery model that brings design and construction together under a coordinated approach.',
+      'Grascan Build works with owners and design partners to establish project objectives, coordinate design and construction requirements and develop a practical path from initial concept through construction.',
+      'By considering constructability, procurement, scheduling and project requirements throughout the design process, the Design-Build approach can improve coordination and provide greater alignment between design decisions and construction execution.',
+      'Our team remains engaged throughout the delivery process, coordinating the relationship between the owner, design professionals, trades and construction team.',
+    ],
+    list: {
+      title: 'Design-Build Focus',
+      items: ['Early project planning', 'Design and construction coordination', 'Constructability review', 'Budget and schedule considerations', 'Procurement planning', 'Trade and subcontractor coordination', 'Construction execution', 'Project completion and closeout'],
+    },
+    closing: 'Design-Build can be particularly effective for owners seeking an integrated project team and a coordinated approach to design, construction and project delivery.',
+  },
+  {
+    slug: 'alternative-project-delivery',
+    title: 'Alternative Project Delivery',
+    subtitle: 'Delivery strategies designed around the project.',
+    icon: 'apd',
+    paragraphs: [
+      'Every project has different objectives, constraints, procurement requirements and risk considerations. Grascan Build provides alternative project delivery approaches for owners seeking a structure beyond traditional general contracting or conventional construction management.',
+      'Our approach is flexible and can be adapted to the needs of the owner, project team and scope of work.',
+    ],
+    approaches: [
+      {
+        slug: 'progressive-design-build',
+        title: 'Progressive Design-Build',
+        paragraphs: [
+          'Progressive Design-Build provides a collaborative framework in which design development and construction planning progress together.',
+          'The approach allows the project team to work through scope, constructability, pricing and delivery considerations as the project develops, creating opportunities for greater collaboration and informed decision-making before full construction execution.',
+        ],
+      },
+      {
+        slug: 'integrated-project-delivery',
+        title: 'Integrated Project Delivery',
+        paragraphs: [
+          'Integrated Project Delivery brings the owner, design team, contractor and other key project participants together around shared project objectives.',
+          'The model emphasizes early collaboration, coordinated decision-making and alignment between project stakeholders, with the goal of improving project integration and delivery outcomes.',
+        ],
+      },
+      {
+        slug: 'custom-alternative-approaches',
+        title: 'Custom Alternative Approaches',
+        paragraphs: [
+          'Not every project fits a standard delivery model.',
+          'Grascan Build can work with owners and project partners to develop customized approaches based on project scope, schedule, procurement requirements, commercial considerations and risk allocation.',
+          'Where appropriate, alternative approaches may also include opportunities to work with the broader Grascan organization and potential financing partners to evaluate integrated project solutions.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'pre-construction-planning',
+    title: 'Pre-Construction Planning',
+    subtitle: 'Establishing the right foundation before construction begins.',
+    icon: 'precon',
+    paragraphs: [
+      'Pre-construction is an important part of successful project delivery. Early involvement allows the construction team to understand project objectives, evaluate requirements and identify potential challenges before they affect the work on site.',
+      'Grascan Build provides pre-construction planning as part of our broader project delivery services, working with owners, consultants and project partners during the early stages of development.',
+      'Our team can contribute construction knowledge and practical considerations to help establish a clear and achievable path to construction.',
+    ],
+    list: {
+      title: 'Pre-Construction Services',
+      items: ['Project planning', 'Construction strategy', 'Delivery model evaluation', 'Preliminary budgeting', 'Schedule development', 'Constructability considerations', 'Procurement planning', 'Trade and subcontractor input', 'Scope coordination', 'Construction planning', 'Project risk identification', 'Coordination with consultants and project partners'],
+    },
+    closing: 'Our goal is to provide owners with better visibility into the project before construction begins and to establish a delivery strategy that reflects the project’s objectives, requirements and constraints.',
+  },
+];
 
 /* ------------------------------------------------------------------ */
 /*  OUR APPROACH                                                       */
@@ -287,11 +330,8 @@ export const safetyTopics = {
 /*  FEATURED PROJECTS                                                  */
 /* ------------------------------------------------------------------ */
 export const projectsCopy = {
-  title: 'Experience you can see.',
-  intro: [
-    'Every project is an opportunity to create lasting value for an owner, a community and the people who will ultimately use the building.',
-    'Our project portfolio will showcase the buildings, facilities and developments delivered by <strong>Grascan Build</strong>, from complex commercial and institutional projects to industrial facilities and major building transformations.',
-  ],
+  title: 'Featured Projects',
+  intro: 'Our project portfolio will showcase the buildings, facilities and developments delivered by <strong>Grascan Build</strong>, from complex commercial and institutional projects to industrial facilities and major building transformations.',
   ourProjects: {
     title: 'Our Projects',
     text: 'From the first site meeting to final completion, every project reflects the same principles: careful planning, disciplined execution, open communication and uncompromising attention to safety and quality.',

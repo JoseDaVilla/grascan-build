@@ -42,7 +42,7 @@ const desktop = menu.filter((m) => m.href !== '/contact');
                       <a href={u(item.href)} class="mb-1 block border-b border-ink/10 px-3 pb-3 pt-1 text-xs font-semibold uppercase tracking-[0.08em] text-mute hover:text-signal">{item.label} overview</a>
                     </li>
                     {item.children.map((c) => (
-                      <li><a href={u(c.href)} class="block px-3 py-2 text-[0.9rem] text-ink/80 transition-colors hover:bg-concrete hover:text-signal">{c.label}</a></li>
+                      <li><a href={u(c.href)} class:list={['block py-2 transition-colors hover:bg-concrete hover:text-signal', c.sub ? 'pl-7 pr-3 text-[0.84rem] text-ink/60' : 'px-3 text-[0.9rem] text-ink/80']}>{c.label}</a></li>
                     ))}
                   </ul>
                 </div>
@@ -92,7 +92,7 @@ const desktop = menu.filter((m) => m.href !== '/contact');
               {item.children && (
                 <ul id={`mm-sub-${i}`} class="mm-sub grid gap-0.5 pb-5 pl-1" hidden>
                   {item.children.map((c) => (
-                    <li><a href={u(c.href)} class="block py-2 text-[0.98rem] text-bone/75 hover:text-bone">{c.label}</a></li>
+                    <li><a href={u(c.href)} class:list={['block py-2 hover:text-bone', c.sub ? 'pl-4 text-[0.9rem] text-bone/55' : 'text-[0.98rem] text-bone/75']}>{c.label}</a></li>
                   ))}
                 </ul>
               )}

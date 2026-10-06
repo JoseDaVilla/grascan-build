@@ -1,7 +1,6 @@
 ---
 /**
- * ABOUT: About Grascan Build · Our Approach · Our People · News & Insights
- * TODO (cliente): el documento no incluye texto ni perfiles para "Our People".
+ * ABOUT (documento): About Grascan Build · Our Approach (+ Our Commitment) · Our People · News & Insights
  */
 import { u } from '@/lib/url';
 import { getCollection } from 'astro:content';
@@ -11,83 +10,46 @@ import Eyebrow from '@/components/Eyebrow.astro';
 import SplitText from '@/components/SplitText.astro';
 import Media from '@/components/Media.astro';
 import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
 import NewsCard from '@/components/NewsCard.astro';
 import { photos } from '@/data/photos';
-import { story, foundation, newChapter, buildingOnExperience as boe, approach, commitment, newsCopy } from '@/data/services';
+import { about, approach, commitment, people, aboutNewsCategories } from '@/data/services';
 
 const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
 ---
 
-<Base darkHero title="About" description={story.paragraphs[0]}>
-  <PageHero image={photos.toronto} eyebrow="About Grascan Build" title="Built on experience.|Focused on|what comes next." accent={['next.']} lead={story.paragraphs[0]} />
+<Base darkHero title="About" description={about.lead}>
+  <PageHero image={photos.toronto} eyebrow="About Grascan Build" title="Built on experience.|Focused on|what comes next." accent={['next.']} lead={about.lead} />
 
   <!-- About Grascan Build (claro) -->
-  <section class="py-24 md:py-36">
+  <section id="about" class="scroll-mt-(--header-h) py-24 md:py-36">
     <div class="container-x grid gap-14 lg:grid-cols-12">
-      <div class="lg:col-span-6">
-        <p class="font-wide text-[clamp(1.3rem,2.4vw,2.1rem)] leading-tight" data-reveal>{story.proposition}</p>
-      </div>
-      <div class="space-y-6 text-lg leading-relaxed text-ink/75 lg:col-span-5 lg:col-start-8" data-reveal>
-        {story.paragraphs.slice(1).map((p) => <p>{p}</p>)}
-      </div>
-    </div>
-  </section>
-
-  <!-- Our Foundation (oscuro) -->
-  <section class="on-dark bg-ink py-24 text-bone md:py-32">
-    <div class="container-x">
-      <SplitText text="Our Foundation" class="font-wide text-title" />
-      <ol class="mt-14 grid gap-px overflow-hidden bg-bone/12 sm:grid-cols-2 lg:grid-cols-4 md:mt-20">
-        {
-          foundation.map((f, i) => (
-            <li class="bg-ink p-8 md:p-10" data-reveal style={`--d:${i}`}>
-              <p class="font-wide text-4xl text-signal">{f.n}</p>
-              <h3 class="mt-8 font-wide text-xl uppercase">{f.title}</h3>
-              <p class="mt-4 font-semibold text-bone">{f.lead}</p>
-              {f.detail && <p class="mt-2 text-bone/65">{f.detail}</p>}
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
-
-  <!-- A new chapter (claro) -->
-  <section class="py-24 md:py-36">
-    <!-- En móvil: texto primero y foto apaisada debajo; en escritorio la foto va a la izquierda -->
-    <div class="container-x grid gap-10 md:gap-12 lg:grid-cols-12 lg:items-center">
-      <div class="lg:col-span-5 lg:col-start-8 lg:row-start-1">
-        <h2 class="font-wide text-title">{newChapter.title}</h2>
-        <div class="mt-6 space-y-5 text-ink/75 md:mt-8 md:text-lg [&_strong]:font-semibold [&_strong]:text-ink" data-reveal style="--d:2">
-          {newChapter.paragraphs.map((p) => <p set:html={p} />)}
+      <div class="lg:col-span-5">
+        <div class="lg:sticky lg:top-[calc(var(--header-h)+2rem)]">
+          <Eyebrow class="mb-8 text-mute">About Grascan Build</Eyebrow>
+          <div data-reveal="mask">
+            <Media src={photos.cranes} alt="Tower cranes over a building under construction" class="aspect-[4/3]" />
+          </div>
         </div>
       </div>
-      <div class="lg:col-span-6 lg:col-start-1 lg:row-start-1" data-reveal="mask">
-        <Media src={photos.cranes} alt="Tower cranes over a building under construction" class="aspect-[16/10] md:aspect-[16/9] lg:aspect-[4/3]" />
+      <div class="lg:col-span-6 lg:col-start-7">
+        <div class="space-y-6 text-lg leading-relaxed text-ink/75" data-reveal>
+          {about.paragraphs.map((p, i) => <p class:list={[i === 0 && 'text-lead text-ink']}>{p}</p>)}
+        </div>
+        <p class="mt-12 border-l-2 border-signal pl-6 font-wide text-[clamp(1.2rem,2vw,1.7rem)] leading-snug text-ink" data-reveal>{about.closing}</p>
       </div>
     </div>
   </section>
 
-  <!-- Building on experience (gris) -->
-  <section class="bg-concrete py-20 md:py-28">
-    <div class="container-x grid gap-10 lg:grid-cols-12 lg:items-end">
-      <div class="lg:col-span-7">
-        <p class="eyebrow mb-6 text-signal-ink">{boe.eyebrow}</p>
-        <SplitText text="Building the places|that shape Ontario." accent={['Ontario.']} class="font-wide text-title" />
-      </div>
-      <p class="text-lead text-ink/75 lg:col-span-5" data-reveal style="--d:2">{boe.text}</p>
-    </div>
-  </section>
-
-  <!-- Our Approach (claro) -->
-  <section id="approach" class="scroll-mt-24 py-24 md:py-36">
+  <!-- Our Approach (gris) -->
+  <section id="approach" class="scroll-mt-(--header-h) bg-concrete py-24 md:py-36">
     <div class="container-x">
       <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
         <div class="lg:col-span-7">
-          <Eyebrow class="mb-8 text-mute">Our approach</Eyebrow>
+          <Eyebrow class="mb-8 text-mute">Our Approach</Eyebrow>
           <SplitText text="Built on experience.|Driven by execution." accent={['execution.']} class="font-wide text-title" />
         </div>
-        <div class="space-y-4 text-ink/70 lg:col-span-5" data-reveal>
+        <div class="space-y-4 text-ink/70 md:text-lg lg:col-span-5" data-reveal>
           {approach.intro.map((p) => <p>{p}</p>)}
         </div>
       </div>
@@ -111,7 +73,7 @@ const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() 
   <section class="on-dark bg-ink py-24 text-bone md:py-36">
     <div class="container-x">
       <SplitText text="Our Commitment" class="font-wide text-title" />
-      <div class="mt-14 grid gap-px overflow-hidden bg-bone/12 md:grid-cols-2 lg:grid-cols-3 md:mt-20">
+      <div class="mt-14 grid gap-px overflow-hidden bg-bone/12 md:mt-20 md:grid-cols-2 lg:grid-cols-3">
         {
           commitment.map((c, i) => (
             <article class="bg-ink p-8 md:p-10" data-reveal style={`--d:${i % 3}`}>
@@ -125,35 +87,73 @@ const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() 
   </section>
 
   <!-- Our People (claro) -->
-  <section id="people" class="scroll-mt-24 py-24 md:py-36">
-    <div class="container-x grid gap-12 lg:grid-cols-12 lg:items-center">
-      <div class="lg:col-span-6">
-        <Eyebrow class="mb-8 text-mute">Our people</Eyebrow>
-        <SplitText text="One team.|One commitment|to the outcome." accent={['outcome.']} class="font-wide text-title" />
-        <p class="mt-8 text-lg text-ink/75" data-reveal>One team focused on safety, quality, cost and schedule, bringing construction, engineering, project management and technical knowledge to every project.</p>
-        <div class="mt-8" data-reveal><Button href={u('/careers')} variant="dark">Careers</Button></div>
-      </div>
-      <div class="lg:col-span-5 lg:col-start-8" data-reveal="mask">
-        <Media src={photos.designBuild} alt="Project team reviewing a building model" class="aspect-[4/3]" />
+  <section id="people" class="scroll-mt-(--header-h) py-24 md:py-36">
+    <div class="container-x">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-5">
+          <Eyebrow class="mb-8 text-mute">Our People</Eyebrow>
+          <SplitText text="Experienced people.|One team." accent={['team.']} class="font-wide text-title" />
+          <div class="mt-10" data-reveal="mask">
+            <Media src={photos.designBuild} alt="Project team reviewing a building model" class="aspect-[4/3]" />
+          </div>
+        </div>
+        <div class="lg:col-span-6 lg:col-start-7">
+          <p class="text-lead font-semibold text-ink" data-reveal>{people.lead}</p>
+          <div class="mt-6 space-y-5 text-lg leading-relaxed text-ink/75" data-reveal style="--d:1">
+            {people.paragraphs.map((p) => <p>{p}</p>)}
+          </div>
+
+          <h3 class="mt-14 font-semiwide text-xl font-bold text-signal" data-reveal>{people.drivenByTitle}</h3>
+          <ul class="mt-5 grid border-t border-ink/10 sm:grid-cols-2 sm:gap-x-8" data-reveal style="--d:1">
+            {
+              people.drivenBy.map((v) => (
+                <li class="flex items-center gap-3 border-b border-ink/10 py-3.5 font-medium text-ink">
+                  <span class="size-2 shrink-0 bg-signal" aria-hidden="true"></span>
+                  {v}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
       </div>
     </div>
   </section>
 
+  <section class="on-dark bg-ink py-20 text-bone md:py-28">
+    <div class="container-x flex flex-col items-start justify-between gap-10 md:flex-row md:items-end">
+      <SplitText text={people.closing} accent={['teams.']} class="max-w-3xl font-wide text-title" />
+      <div data-reveal style="--d:2"><Button href={u('/careers')}>Careers</Button></div>
+    </div>
+  </section>
+
   <!-- News & Insights (gris) -->
-  <section class="bg-concrete py-24 md:py-36">
+  <section id="news" class="scroll-mt-(--header-h) bg-concrete py-24 md:py-36">
     <div class="container-x">
       <div class="flex flex-wrap items-end justify-between gap-8">
         <div>
-          <Eyebrow class="mb-8 text-mute">News & insights</Eyebrow>
-          <SplitText text="Perspectives from|the people building|what's next." accent={["next."]} class="font-wide text-title" />
+          <Eyebrow class="mb-8 text-mute">News & Insights</Eyebrow>
+          <SplitText text="News & Insights" accent={['Insights']} class="font-wide text-title" />
         </div>
         <div data-reveal><Button href={u('/news')} variant="dark">Explore News & Insights</Button></div>
       </div>
-      <p class="mt-8 max-w-2xl text-ink/70" data-reveal>{newsCopy.intro[1]}</p>
+
+      <ul class="mt-14 grid gap-px overflow-hidden border border-ink/10 bg-ink/10 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          aboutNewsCategories.map((c, i) => (
+            <li data-reveal style={`--d:${i}`}>
+              <a href={u('/news')} class="group flex h-full items-center justify-between gap-4 bg-bone p-7 transition-colors hover:bg-concrete md:p-8">
+                <span class="font-semiwide text-lg font-bold text-signal">{c}</span>
+                <Icon name="arrow" class="size-4 shrink-0 text-signal transition-transform group-hover:translate-x-1" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
       {news.length === 1 ? (
-        <div class="mt-12"><NewsCard post={news[0]} feature /></div>
-      ) : (
-        <div class="mt-12 grid gap-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-8">
+        <div class="mt-14"><NewsCard post={news[0]} feature /></div>
+      ) : news.length > 1 && (
+        <div class="mt-14 grid gap-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-8">
           {news.map((post, i) => <NewsCard post={post} index={i} />)}
         </div>
       )}

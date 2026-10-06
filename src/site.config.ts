@@ -24,13 +24,16 @@ export const site = {
   formEndpoint: '',
 };
 
-import { services } from './data/services';
+import { services, markets } from './data/services';
 
-export interface MenuItem { label: string; href: string; children?: { label: string; href: string }[] }
+export interface MenuChild { label: string; href: string; /** Sub-apartado (se muestra sangrado bajo el anterior). */ sub?: boolean }
+export interface MenuItem { label: string; href: string; children?: MenuChild[] }
 
 /**
- * Menú principal (navbar con submenús y menú hamburguesa), según la estructura del documento.
- * "Individual Project Pages" aparecerán aquí automáticamente cuando existan proyectos.
+ * Menú principal (navbar con submenús y menú hamburguesa), según "STRUCTURE WEBSITE: GRASCAN BUILD".
+ * Completos en el documento: Home, About y Services. El resto sigue pendiente del cliente.
+ * TODO (cliente): "Why Grascan Build" (Integrated Building & Civil · Client Focused · Lean & Hands On ·
+ * Trade & Subcontractor Network · Our Competitive Advantage) se añadirá cuando llegue su texto.
  */
 export const menu: MenuItem[] = [
   {
@@ -41,16 +44,33 @@ export const menu: MenuItem[] = [
       { label: 'What We Build', href: '/#what-we-build' },
       { label: 'What We Do', href: '/#what-we-do' },
       { label: 'Featured Projects', href: '/#projects' },
-      { label: 'Our Approach', href: '/#approach' },
       { label: 'Safety & Quality', href: '/#safety' },
       { label: 'News & Insights', href: '/#news' },
       { label: 'Contact / Offices', href: '/#contact' },
     ],
   },
   {
+    label: 'About',
+    href: '/about',
+    children: [
+      { label: 'About Grascan Build', href: '/about#about' },
+      { label: 'Our Approach', href: '/about#approach' },
+      { label: 'Our People', href: '/about#people' },
+      { label: 'News & Insights', href: '/about#news' },
+    ],
+  },
+  {
     label: 'Services',
     href: '/services',
-    children: services.map((s) => ({ label: s.title, href: `/services#${s.slug}` })),
+    children: services.flatMap((s) => [
+      { label: s.title, href: `/services#${s.slug}` },
+      ...(s.approaches ?? []).map((a) => ({ label: a.title, href: `/services#${a.slug}`, sub: true })),
+    ]),
+  },
+  {
+    label: 'Markets',
+    href: '/markets',
+    children: markets.map((m) => ({ label: m.title, href: `/markets#${m.slug}` })),
   },
   {
     label: 'Health & Safety',
@@ -69,16 +89,6 @@ export const menu: MenuItem[] = [
     label: 'Projects',
     href: '/projects',
     children: [{ label: 'Project Listing', href: '/projects' }],
-  },
-  {
-    label: 'About',
-    href: '/about',
-    children: [
-      { label: 'About Grascan Build', href: '/about' },
-      { label: 'Our Approach', href: '/about#approach' },
-      { label: 'Our People', href: '/about#people' },
-      { label: 'News & Insights', href: '/news' },
-    ],
   },
   {
     label: 'Careers',
@@ -115,7 +125,7 @@ export const office = {
   note: 'Serving clients and projects across Ontario.',
 };
 
-/** Categorías de proyecto (filtros), según "What We Build". */
-export const sectors = ['Commercial', 'Industrial', 'Institutional', 'Healthcare', 'Residential & Mixed-Use', 'Building Rehabilitation'] as const;
+/** Categorías de proyecto (filtros), según Markets / "What We Build". */
+export const sectors = ['Institutional', 'Commercial', 'Industrial', 'Multi-Unit Residential', 'Transit'] as const;
 
 export type Sector = (typeof sectors)[number];

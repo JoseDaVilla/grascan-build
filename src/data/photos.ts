@@ -24,6 +24,7 @@ import siteDevelopment from '@/assets/photos/site-development.jpg';
 import toronto from '@/assets/photos/toronto.jpg';
 import siteSafety from '@/assets/photos/site-safety.jpg';
 import safetyWorker from '@/assets/photos/safety-worker.jpg';
+import transit from '@/assets/photos/transit.jpg';
 
 export const photos = {
   cranes,
@@ -47,6 +48,7 @@ export const photos = {
   toronto,
   siteSafety,
   safetyWorker,
+  transit,
 };
 
 /** Slides del hero (en orden). */
@@ -58,19 +60,20 @@ export const heroSlides = [
   { src: foundation, alt: 'Foundation and rebar work on a building site' },
 ];
 
-/** Foto por slug de servicio / sector. */
+/** Foto por slug de mercado (Markets / What We Build). */
+export const marketPhotos: Record<string, ImageMetadata> = {
+  institutional,
+  commercial,
+  industrial,
+  'multi-unit-residential': residential,
+  transit,
+};
+
+/** Foto por slug de servicio. */
 export const servicePhotos: Record<string, ImageMetadata> = {
-  'building-construction': buildingConstruction,
-  'commercial-construction': commercial,
-  'industrial-construction': industrial,
-  'institutional-construction': institutional,
-  'residential-mixed-use': residential,
-  'design-build': designBuild,
+  'general-contracting': buildingConstruction,
   'construction-management': constructionManagement,
-  'pre-construction': preConstruction,
-  'building-rehabilitation': rehabilitation,
-  'interior-construction': interior,
-  'building-envelope': envelope,
-  'site-development': siteDevelopment,
-  healthcare,
+  'design-build': designBuild,
+  'alternative-project-delivery': officeTowers,
+  'pre-construction-planning': preConstruction,
 };

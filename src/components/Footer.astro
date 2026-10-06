@@ -2,7 +2,7 @@
 import { u } from '@/lib/url';
 import { site, menu, office } from '@/site.config';
 const groups = menu.filter((m) => ['Health & Safety', 'About', 'Careers'].includes(m.label));
-import { services } from '@/data/services';
+import { services, markets } from '@/data/services';
 import { logo } from '@/lib/logo';
 import Logo from './Logo.astro';
 const year = new Date().getFullYear();
@@ -25,6 +25,10 @@ const year = new Date().getFullYear();
           <p class="eyebrow mb-5"><a class="link-u text-gray" href={u('/services')}>Services</a></p>
           <ul class="space-y-2 text-sm text-bone/80">
             {services.map((s) => <li><a class="link-u" href={u(`/services#${s.slug}`)}>{s.title}</a></li>)}
+          </ul>
+          <p class="eyebrow mb-5 mt-10"><a class="link-u text-gray" href={u('/markets')}>Markets</a></p>
+          <ul class="space-y-2 text-sm text-bone/80">
+            {markets.map((m) => <li><a class="link-u" href={u(`/markets#${m.slug}`)}>{m.title}</a></li>)}
           </ul>
         </div>
         {

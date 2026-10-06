@@ -8,17 +8,13 @@ const icons: Record<ServiceIcon, string[]> = {
   commercial: ['M4 44h40', 'M8 44V16h32v28', 'M8 16l4-8h24l4 8', 'M12 22h24v8H12z', 'M21 44v-8h6v8'],
   industrial: ['M4 44h40', 'M6 44V24l10 6v-6l10 6v-6l10 6V10h6v34', 'M12 38h4M22 38h4M32 38h4'],
   institutional: ['M4 44h40', 'M6 18L24 6l18 12z', 'M8 18h32', 'M12 22v18M20 22v18M28 22v18M36 22v18', 'M6 40h36'],
-  healthcare: ['M4 44h40', 'M8 44V12h32v32', 'M24 18v12M18 24h12', 'M20 44v-6h8v6'],
   residential: ['M4 44h40', 'M8 44V20h14v24', 'M22 44V8h18v36', 'M12 26h6M12 34h6M27 14h8M27 22h8M27 30h8M27 38h8'],
-  rehab: ['M4 44h40', 'M10 44V14h20v30', 'M30 22h8v22', 'M14 20h4M22 20h4M14 28h4M22 28h4', 'M34 6v10M30 10h8'],
+  transit: ['M4 44h40', 'M12 8h24a4 4 0 014 4v20a4 4 0 01-4 4H12a4 4 0 01-4-4V12a4 4 0 014-4z', 'M8 24h32', 'M14 30h2M32 30h2', 'M14 36l-4 8M34 36l4 8', 'M18 14h12'],
   designbuild: ['M6 6h20v20H6z', 'M22 22h20v20H22z', 'M6 6l20 20', 'M30 30l8 8M38 30l-8 8'],
   cm: ['M8 6h32v36H8z', 'M14 14h4M14 22h4M14 30h4', 'M22 14h12M22 22h12M22 30h8', 'M30 36l4 4 8-10'],
   precon: ['M6 40V8h36v32z', 'M6 16h36', 'M14 8v32', 'M20 24h16M20 32h10', 'M38 4l4 4-10 10h-4v-4z'],
+  apd: ['M6 24h8', 'M14 24c6 0 6-14 14-14h8', 'M14 24c6 0 6 14 14 14h8', 'M14 24h22', 'M36 6l4 4-4 4M36 20l4 4-4 4M36 34l4 4-4 4'],
   gc: ['M4 44h40', 'M10 44V12', 'M10 12h30', 'M10 18l8-6', 'M32 12v10', 'M28 22h8v6h-8z', 'M18 44V30h10v14'],
-  interior: ['M4 42h40', 'M8 42V8h32v34', 'M8 30h32', 'M14 30v-8h10v8', 'M28 16h8v14', 'M14 14h6'],
-  envelope: ['M4 44h40', 'M10 44V10h28v34', 'M10 18h28M10 26h28M10 34h28', 'M19 10v34M29 10v34'],
-  concrete: ['M4 44h40', 'M8 44V36h32v8', 'M12 36V12h6v24M30 36V12h6v24', 'M8 12h32', 'M8 6h32v6H8z'],
-  site: ['M2 40h44', 'M2 40q10-10 20-4t24-8', 'M8 30h10l4 6', 'M10 30v-6h6l2 6', 'M30 44v-4M38 44v-4'],
 };
 ---
 <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" class:list={['service-icon draw', cls]} aria-hidden="true">

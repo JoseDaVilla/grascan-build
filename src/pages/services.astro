@@ -1,5 +1,9 @@
 ---
-/** SERVICES: los 12 servicios de la estructura del documento, en su orden. */
+/**
+ * SERVICES (documento): introducción · General Contracting · Construction Management · Design-Build ·
+ * Alternative Project Delivery (Progressive Design-Build · Integrated Project Delivery · Custom Alternative Approaches) ·
+ * Pre-Construction Planning
+ */
 import { u } from '@/lib/url';
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
@@ -7,44 +11,94 @@ import ServiceIcon from '@/components/ServiceIcon.astro';
 import Media from '@/components/Media.astro';
 import SplitText from '@/components/SplitText.astro';
 import Button from '@/components/Button.astro';
-import { services, whatWeDo, contactCopy } from '@/data/services';
+import { services, servicesIntro, contactCopy } from '@/data/services';
 import { photos, servicePhotos } from '@/data/photos';
 ---
 
-<Base darkHero title="Services" description={`${services.map((s) => s.title).join(', ')}. ${whatWeDo.intro[0]}`}>
-  <PageHero image={photos.buildingConstruction} eyebrow="Services" title="From planning|to completion." accent={['completion.']} lead={whatWeDo.intro[0]}>
-    <p class="mt-6 max-w-2xl text-bone/70" data-reveal style="--d:4">{whatWeDo.intro[1]}</p>
-    <nav aria-label="Services" class="mt-12 grid max-w-4xl border-t border-bone/15 sm:grid-cols-2 lg:grid-cols-3" data-reveal style="--d:5">
-      {services.map((s) => <a href={`#${s.slug}`} class="border-b border-bone/15 py-3 pr-4 font-semibold text-bone/85 transition-colors hover:text-bone">{s.title}</a>)}
-    </nav>
-  </PageHero>
+<Base darkHero title="Services" description={servicesIntro.lead}>
+  <PageHero image={photos.buildingConstruction} eyebrow="Services" title="Construction expertise|from planning|through completion" accent={['completion']} lead={servicesIntro.lead} />
+
+  <!-- Introducción + índice -->
+  <section class="py-20 md:py-28">
+    <div class="container-x grid gap-12 lg:grid-cols-12">
+      <div class="space-y-6 text-lg leading-relaxed text-ink/75 lg:col-span-6" data-reveal>
+        {servicesIntro.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+      <nav aria-label="Services" class="lg:col-span-5 lg:col-start-8" data-reveal style="--d:2">
+        <p class="eyebrow mb-4 text-mute">Our services</p>
+        <ol class="border-t border-ink/10">
+          {
+            services.map((s, i) => (
+              <li class="border-b border-ink/10">
+                <a href={`#${s.slug}`} class="group flex items-center gap-5 py-4 font-semibold text-ink transition-colors hover:text-signal">
+                  <span class="font-wide text-sm text-gray">{String(i + 1).padStart(2, '0')}</span>
+                  {s.title}
+                </a>
+                {s.approaches && (
+                  <ul class="-mt-1 pb-4 pl-11">
+                    {s.approaches.map((a) => <li><a href={`#${a.slug}`} class="block py-1 text-sm text-ink/60 hover:text-signal">{a.title}</a></li>)}
+                  </ul>
+                )}
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+    </div>
+  </section>
 
   {
     services.map((s, i) => {
       const flip = i % 2 === 1;
       return (
-        <section id={s.slug} class:list={['scroll-mt-24 py-16 md:py-28', i % 2 === 1 && 'bg-concrete']}>
-          <div class="container-x grid gap-12 lg:grid-cols-12 lg:items-center">
-            <div class:list={['lg:col-span-6', flip && 'lg:order-2 lg:col-start-7']}>
-              <div data-reveal>
-                <ServiceIcon name={s.icon} class="size-14 text-signal" />
+        <section id={s.slug} class:list={['scroll-mt-(--header-h) py-20 md:py-32', i % 2 === 0 && 'bg-concrete']}>
+          <div class="container-x grid gap-12 lg:grid-cols-12">
+            <div class:list={['lg:col-span-7', flip ? 'lg:col-start-6' : '']}>
+              <div class="flex items-center gap-5" data-reveal>
+                <ServiceIcon name={s.icon} class="size-12 text-signal" />
+                <span class="eyebrow text-mute">{String(i + 1).padStart(2, '0')} · Services</span>
               </div>
               <SplitText as="h2" text={s.title} class="mt-6 font-wide text-title" />
-              {s.tagline && <p class="mt-5 text-lg font-semibold text-signal-ink" data-reveal style="--d:1">{s.tagline}</p>}
-              <p class="mt-5 max-w-xl text-lead text-ink/70" data-reveal style="--d:2">{s.text}</p>
-              {s.scope && (
-                <ul class="mt-10 grid gap-x-8 sm:grid-cols-2" data-reveal style="--d:3">
-                  {s.scope.map((c) => (
-                    <li class="flex items-center gap-3 border-b border-ink/10 py-3.5">
-                      <span class="size-2 shrink-0 bg-signal" aria-hidden="true"></span>
-                      {c}
-                    </li>
+              <p class="mt-5 text-lead font-semibold text-signal-ink" data-reveal style="--d:1">{s.subtitle}</p>
+
+              <div class="mt-8 max-w-2xl space-y-5 text-lg leading-relaxed text-ink/75" data-reveal style="--d:2">
+                {s.paragraphs.map((p) => <p>{p}</p>)}
+              </div>
+
+              {s.approaches && (
+                <div class="mt-12 max-w-2xl border-t border-ink/15">
+                  {s.approaches.map((a, k) => (
+                    <article id={a.slug} class="scroll-mt-(--header-h) border-b border-ink/15 py-8" data-reveal style={`--d:${k}`}>
+                      <h3 class="font-semiwide text-2xl font-bold text-ink">{a.title}</h3>
+                      <div class="mt-4 space-y-4 text-ink/75 md:text-lg">
+                        {a.paragraphs.map((p) => <p>{p}</p>)}
+                      </div>
+                    </article>
                   ))}
-                </ul>
+                </div>
               )}
+
+              {s.list && (
+                <div class="mt-12 max-w-2xl" data-reveal style="--d:3">
+                  <h3 class="font-semiwide text-xl font-bold text-signal">{s.list.title}</h3>
+                  <ul class="mt-5 grid border-t border-ink/10 sm:grid-cols-2 sm:gap-x-8">
+                    {s.list.items.map((c) => (
+                      <li class="flex items-center gap-3 border-b border-ink/10 py-3.5 text-ink">
+                        <span class="size-2 shrink-0 bg-signal" aria-hidden="true"></span>
+                        {c}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {s.closing && <p class="mt-12 max-w-2xl border-l-2 border-signal pl-6 text-lg font-semibold leading-relaxed text-ink" data-reveal>{s.closing}</p>}
             </div>
-            <div class:list={['lg:col-span-5', flip ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-8']} data-reveal="mask">
-              <Media src={servicePhotos[s.slug!]} alt={s.title} class="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5]" />
+
+            <div class:list={['lg:col-span-4', flip ? 'lg:col-start-1 lg:row-start-1' : 'lg:col-start-9']}>
+              <div class="lg:sticky lg:top-[calc(var(--header-h)+2rem)]" data-reveal="mask">
+                <Media src={servicePhotos[s.slug]} alt={s.title} class="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5]" />
+              </div>
             </div>
           </div>
         </section>
@@ -56,7 +110,7 @@ import { photos, servicePhotos } from '@/data/photos';
     <div class="container-x flex flex-col items-start justify-between gap-10 md:flex-row md:items-end">
       <div class="max-w-3xl">
         <h2 class="font-wide text-title" data-reveal>{contactCopy.start.lead}</h2>
-        <p class="mt-6 text-bone/70" data-reveal style="--d:1">{contactCopy.start.text}</p>
+        <p class="mt-6 text-bone/70 md:text-lg" data-reveal style="--d:1">{contactCopy.start.text}</p>
       </div>
       <div data-reveal style="--d:2"><Button href={u('/contact?topic=project#form')}>Start a project</Button></div>
     </div>
