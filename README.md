@@ -1,4 +1,4 @@
-# Grascan Build — sitio web
+ # Grascan Build — sitio web
 
 Sitio corporativo de **Grascan Build** (construcción privada), construido con **Astro 7 + Tailwind CSS 4**: HTML estático, ~5 KB de JS propio y animaciones con CSS/SVG.
 
