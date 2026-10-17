@@ -3,7 +3,7 @@ title: "Introducing Grascan Build"
 excerpt: "A new generation of building construction, backed by decades of experience delivering complex projects across Ontario."
 date: 2026-09-15
 category: Company News
-cover: ../../assets/photos/cranes.jpg
+cover: ../../assets/photos/toronto-night.jpg
 
 ---
 

@@ -7,12 +7,20 @@
  * Colores: partes navy = currentColor (por defecto text-signal), barra gris = --color-gray.
  * En fondos oscuros pasar class="text-bone" (y el gris se aclara con .on-dark).
  * `animate` construye el logo: las torres crecen desde la base y el wordmark se revela.
+ * `tone="original"`: colores del logo original (PNG del cliente) con sus degradados, para fondos blancos.
  */
 import { logo } from '@/lib/logo';
 import { site } from '@/site.config';
-interface Props { variant?: 'full' | 'horizontal' | 'mark'; class?: string; animate?: boolean; delay?: number }
-const { variant = 'horizontal', class: cls = '', animate = false, delay = 0 } = Astro.props;
+interface Props { variant?: 'full' | 'horizontal' | 'mark'; class?: string; animate?: boolean; delay?: number; tone?: 'current' | 'original' }
+const { variant = 'horizontal', class: cls = '', animate = false, delay = 0, tone = 'current' } = Astro.props;
 const views = { full: '0 0 602 591', horizontal: '0 0 520 100', mark: '121 0 358 461' };
+// Degradados del logo original: torre gris más oscura a la izquierda, torres navy más oscuras arriba
+// y la "G" oscureciéndose hacia la esquina inferior derecha.
+const original = tone === 'original';
+const uid = Math.random().toString(36).slice(2, 8);
+const fills = original
+  ? { gray: `fill:url(#lg-gray-${uid})`, navy: `fill:url(#lg-navy-${uid})`, g: `fill:url(#lg-g-${uid})`, word: 'fill:var(--color-signal)', sub: 'fill:var(--color-slate)' }
+  : { gray: undefined, navy: undefined, g: undefined, word: undefined, sub: undefined };
 ---
 <svg
   viewBox={views[variant]}
@@ -22,27 +30,45 @@ const views = { full: '0 0 602 591', horizontal: '0 0 520 100', mark: '121 0 358
   aria-label={site.legalName}
 >
   {
+    original && (
+      <defs>
+        <linearGradient id={`lg-gray-${uid}`} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="var(--color-mute)" />
+          <stop offset="1" stop-color="var(--color-slate)" />
+        </linearGradient>
+        <linearGradient id={`lg-navy-${uid}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="var(--color-ink)" />
+          <stop offset="0.45" stop-color="var(--color-signal)" />
+        </linearGradient>
+        <linearGradient id={`lg-g-${uid}`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0.55" stop-color="var(--color-signal)" />
+          <stop offset="1" stop-color="var(--color-ink)" />
+        </linearGradient>
+      </defs>
+    )
+  }
+  {
     variant === 'horizontal' ? (
       <>
         <g transform="scale(0.2169) translate(-121 0)">
-          <path class="logo-bar logo-bar-1 fill-gray" d={logo.gray} />
-          <path class="logo-bar logo-bar-2 fill-current" d={logo.navy} />
-          <path class="logo-bar logo-bar-3 fill-current" d={logo.g} fill-rule="evenodd" />
+          <path class="logo-bar logo-bar-1 fill-gray" style={fills.gray} d={logo.gray} />
+          <path class="logo-bar logo-bar-2 fill-current" style={fills.navy} d={logo.navy} />
+          <path class="logo-bar logo-bar-3 fill-current" style={fills.g} d={logo.g} fill-rule="evenodd" />
         </g>
         <g transform="translate(96 16) scale(0.705) translate(0 -485)">
-          <path class="logo-word fill-current" d={logo.word} fill-rule="evenodd" />
-          <path class="logo-sub fill-gray" d={logo.build} fill-rule="evenodd" />
+          <path class="logo-word fill-current" style={fills.word} d={logo.word} fill-rule="evenodd" />
+          <path class="logo-sub fill-gray" style={fills.sub} d={logo.build} fill-rule="evenodd" />
         </g>
       </>
     ) : (
       <>
-        <path class="logo-bar logo-bar-1 fill-gray" d={logo.gray} />
-        <path class="logo-bar logo-bar-2 fill-current" d={logo.navy} />
-        <path class="logo-bar logo-bar-3 fill-current" d={logo.g} fill-rule="evenodd" />
+        <path class="logo-bar logo-bar-1 fill-gray" style={fills.gray} d={logo.gray} />
+        <path class="logo-bar logo-bar-2 fill-current" style={fills.navy} d={logo.navy} />
+        <path class="logo-bar logo-bar-3 fill-current" style={fills.g} d={logo.g} fill-rule="evenodd" />
         {variant === 'full' && (
           <>
-            <path class="logo-word fill-current" d={logo.word} fill-rule="evenodd" />
-            <path class="logo-sub fill-gray" d={logo.build} fill-rule="evenodd" />
+            <path class="logo-word fill-current" style={fills.word} d={logo.word} fill-rule="evenodd" />
+            <path class="logo-sub fill-gray" style={fills.sub} d={logo.build} fill-rule="evenodd" />
           </>
         )}
       </>

@@ -25,11 +25,11 @@ const desktop = menu.filter((m) => m.href !== '/contact');
     </a>
 
     <nav aria-label="Main" class="hidden h-full xl:block">
-      <ul class="flex h-full items-center gap-1 text-[0.92rem] font-medium">
+      <ul class="flex h-full items-center gap-0.5 whitespace-nowrap text-[0.86rem] font-medium 2xl:gap-1 2xl:text-[0.92rem]">
         {
           desktop.map((item) => (
             <li class="nav-item relative flex h-full items-center">
-              <a href={u(item.href)} class="nav-link flex items-center gap-1.5 px-3 py-2" aria-current={isActive(item.href) ? 'page' : undefined}>
+              <a href={u(item.href)} class="nav-link flex items-center gap-1 px-2 py-2 2xl:gap-1.5 2xl:px-3" aria-current={isActive(item.href) ? 'page' : undefined}>
                 {item.label}
                 {item.children && (
                   <svg viewBox="0 0 10 6" class="size-2.5 opacity-60 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 1l4 4 4-4" /></svg>
@@ -37,7 +37,7 @@ const desktop = menu.filter((m) => m.href !== '/contact');
               </a>
               {item.children && (
                 <div class:list={['nav-panel absolute top-full pt-0', item.children.length > 8 ? 'left-1/2 -translate-x-1/2' : 'left-0']}>
-                  <ul class:list={['grid border-t-2 border-signal bg-bone py-3 text-ink shadow-[0_24px_48px_-16px_rgb(4_31_66/0.28)]', item.children.length > 8 ? 'w-[34rem] grid-cols-2 px-3' : 'w-72 px-2']}>
+                  <ul class:list={['grid border-t-2 border-signal bg-bone py-3 text-ink shadow-[0_24px_48px_-16px_rgb(5_29_58/0.28)]', item.children.length > 8 ? 'w-[34rem] grid-cols-2 px-3' : 'w-72 px-2']}>
                     <li class:list={[item.children.length > 8 && 'col-span-2']}>
                       <a href={u(item.href)} class="mb-1 block border-b border-ink/10 px-3 pb-3 pt-1 text-xs font-semibold uppercase tracking-[0.08em] text-mute hover:text-signal">{item.label} overview</a>
                     </li>

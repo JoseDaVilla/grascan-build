@@ -1,54 +1,112 @@
 ---
 /**
- * MARKETS: Institutional · Commercial · Industrial · Multi-Unit Residential · Transit.
- * TODO (cliente): el documento aún no tiene texto propio para cada mercado; mientras tanto se usa
- * el texto de "What We Build" (Home). Cuando llegue, añadir el texto de cada uno en `markets` (src/data/services.ts).
+ * MARKETS (documento): intro · 01 Institutional · 02 Commercial · 03 Industrial ·
+ * 04 Multi-Unit Residential · 05 Transit · Our Approach · Building with purpose.
+ * Textos en src/data/sections.ts.
  */
 import { u } from '@/lib/url';
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import SplitText from '@/components/SplitText.astro';
 import ServiceIcon from '@/components/ServiceIcon.astro';
 import Media from '@/components/Media.astro';
 import Button from '@/components/Button.astro';
-import { markets, whatWeBuild, contactCopy } from '@/data/services';
+import { markets } from '@/data/services';
+import { marketsPage, marketDetails, marketsApproach, buildingWithPurpose } from '@/data/sections';
 import { photos, marketPhotos } from '@/data/photos';
 ---
 
-<Base darkHero title="Markets" description={whatWeBuild.intro[0]}>
-  <PageHero image={photos.transit} eyebrow="Markets" title="Building for the|demands of today.|Preparing for|what comes next." accent={['next.']} lead={whatWeBuild.intro[0]} />
+<Base darkHero title="Markets" description={marketsPage.intro[0]}>
+  <PageHero image={photos.twinTowers} eyebrow="Markets" title="Building for the Needs|of Today and the|Demands of Tomorrow" accent={['Tomorrow']} lead={marketsPage.intro[0]}>
+    <nav aria-label="Markets" class="mt-12 grid max-w-4xl border-t border-bone/15 sm:grid-cols-2 lg:grid-cols-3" data-reveal style="--d:5">
+      {markets.map((m, i) => <a href={`#${m.slug}`} class="border-b border-bone/15 py-3 pr-4 font-semibold text-bone/85 transition-colors hover:text-bone"><span class="mr-3 text-bone/50">{String(i + 1).padStart(2, '0')}</span>{m.title}</a>)}
+    </nav>
+  </PageHero>
 
+  <!-- Intro -->
   <section class="py-20 md:py-28">
     <div class="container-x grid gap-12 lg:grid-cols-12">
       <div class="space-y-6 text-lg leading-relaxed text-ink/75 lg:col-span-7" data-reveal>
-        {whatWeBuild.intro.slice(1).map((p) => <p>{p}</p>)}
+        {marketsPage.intro.slice(1).map((p) => <p>{p}</p>)}
       </div>
+      <p class="self-end border-l-2 border-signal pl-6 text-lead font-semibold text-ink lg:col-span-4 lg:col-start-9" data-reveal style="--d:2">{marketsPage.closing}</p>
     </div>
-
-    <ul class="container-x mt-16 grid gap-5 md:mt-20 md:grid-cols-2 lg:grid-cols-6">
-      {
-        markets.map((m, i) => (
-          <li id={m.slug} class:list={['scroll-mt-(--header-h)', i < 2 ? 'lg:col-span-3' : 'lg:col-span-2']} data-reveal style={`--d:${i % 3}`}>
-            <div class="on-dark relative overflow-hidden bg-ink text-bone">
-              <Media src={marketPhotos[m.slug]} alt={m.title} class="aspect-[4/3]" sizes="(min-width: 1024px) 50vw, (min-width: 768px) 50vw, 100vw" />
-              <div class="absolute inset-0 bg-[linear-gradient(0deg,rgb(4_31_66/0.9)_0%,rgb(4_31_66/0.2)_60%,transparent_100%)]"></div>
-              <div class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6 md:p-8">
-                <h2 class="font-wide text-[clamp(1.2rem,2vw,1.7rem)] leading-tight">{m.title}</h2>
-                <ServiceIcon name={m.icon} class="size-10 shrink-0 text-bone/80" />
-              </div>
-            </div>
-          </li>
-        ))
-      }
-    </ul>
   </section>
 
-  <section class="on-dark bg-ink py-24 text-bone md:py-32">
-    <div class="container-x flex flex-col items-start justify-between gap-10 md:flex-row md:items-end">
-      <div class="max-w-3xl">
-        <h2 class="font-wide text-title" data-reveal>{contactCopy.start.lead}</h2>
-        <p class="mt-6 text-bone/70 md:text-lg" data-reveal style="--d:1">{contactCopy.start.text}</p>
+  <!-- Mercados -->
+  {
+    markets.map((m, i) => {
+      const d = marketDetails[m.slug];
+      return (
+        <section id={m.slug} class:list={['scroll-mt-(--header-h) border-t border-ink/10 py-20 md:py-28', i % 2 === 1 && 'bg-concrete']}>
+          <div class="container-x grid gap-10 md:gap-12 lg:grid-cols-12">
+            <div class:list={['lg:col-span-5', i % 2 === 1 && 'lg:col-start-8 lg:row-start-1']}>
+              <div class="lg:sticky lg:top-[calc(var(--header-h)+2rem)]">
+                <div class="flex items-center justify-between gap-4">
+                  <Eyebrow class="text-mute">{String(i + 1).padStart(2, '0')} · {m.title}</Eyebrow>
+                  <ServiceIcon name={m.icon} class="size-10 shrink-0 text-signal" />
+                </div>
+                <h2 class="mt-6 font-wide text-[clamp(1.6rem,3vw,2.6rem)] uppercase leading-tight" data-reveal>{m.title}</h2>
+                <p class="mt-4 font-semiwide text-xl font-bold text-gray md:text-2xl" data-reveal style="--d:1">{d.subtitle}</p>
+                <div class="mt-8" data-reveal="mask">
+                  <Media src={marketPhotos[m.slug]} alt={m.title} class="aspect-[4/3]" sizes="(min-width: 1024px) 40vw, 100vw" />
+                </div>
+              </div>
+            </div>
+            <div class:list={['lg:col-span-6', i % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : 'lg:col-start-7']}>
+              <div class="space-y-5 leading-relaxed text-ink/75 md:text-lg" data-reveal>
+                {d.paragraphs.map((p, k) => <p class:list={[k === 0 && 'text-ink']}>{p}</p>)}
+              </div>
+              <p class="mt-10 border-l-2 border-signal pl-6 font-semiwide text-xl font-bold leading-snug text-ink md:text-2xl" data-reveal>{d.closing}</p>
+            </div>
+          </div>
+        </section>
+      );
+    })
+  }
+
+  <!-- Our Approach: A Consistent Standard Across Every Market -->
+  <section id="approach" class="on-dark scroll-mt-(--header-h) bg-ink py-24 text-bone md:py-36">
+    <div class="container-x">
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-7">
+          <Eyebrow class="mb-8 text-bone/60">Our Approach</Eyebrow>
+          <SplitText text="A Consistent Standard|Across Every Market" accent={['Market']} class="font-wide text-title" />
+        </div>
+        <p class="text-bone/75 md:text-lg lg:col-span-5" data-reveal>{marketsApproach.intro}</p>
       </div>
-      <div data-reveal style="--d:2"><Button href={u('/contact?topic=project#form')}>Start a project</Button></div>
+      <ul class="mt-16 grid gap-px overflow-hidden bg-bone/12 md:mt-20 md:grid-cols-2 lg:grid-cols-5">
+        {
+          marketsApproach.principles.map((p, i) => (
+            <li class="bg-ink p-8" data-reveal style={`--d:${i}`}>
+              <p class="font-wide text-2xl text-signal">{String(i + 1).padStart(2, '0')}</p>
+              <h3 class="mt-6 font-semiwide text-xl font-bold">{p.title}</h3>
+              <p class="mt-3 text-sm text-bone/70">{p.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-16 text-center font-wide text-[clamp(0.95rem,1.6vw,1.3rem)] uppercase tracking-[0.06em] text-bone/70" data-reveal>{marketsApproach.tagline}</p>
+    </div>
+  </section>
+
+  <!-- Building with purpose -->
+  <section class="py-24 md:py-36">
+    <div class="container-x grid gap-12 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-6">
+        <SplitText text="Building|with purpose." accent={['purpose.']} class="font-wide text-display uppercase" />
+      </div>
+      <div class="lg:col-span-5 lg:col-start-8" data-reveal>
+        <div class="space-y-5 text-ink/75 md:text-lg">
+          {buildingWithPurpose.paragraphs.map((p) => <p>{p}</p>)}
+        </div>
+        <p class="mt-8 font-semiwide text-xl font-bold text-ink">{buildingWithPurpose.closing}</p>
+        <div class="mt-10 flex flex-wrap gap-3">
+          <Button href={u('/contact?topic=project#form')}>Start a project</Button>
+          <Button href={u('/why-grascan-build')} variant="ghost">Why Grascan Build</Button>
+        </div>
+      </div>
     </div>
   </section>
 </Base>

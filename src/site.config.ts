@@ -1,7 +1,7 @@
 /**
  * Configuración central del sitio Grascan Build.
  * Estructura y textos según el documento "Website GRASCAN BUILD".
- * Los datos de contacto (email, teléfono, dirección) están PENDIENTES de que el cliente los envíe
+ * Los datos de contacto (email, teléfono, dirección) siguen PENDIENTES de que el cliente los envíe
  * ("waiting for info" en el documento). Cuando lleguen, rellenar `email` / `phone` / `office`.
  */
 
@@ -25,15 +25,13 @@ export const site = {
 };
 
 import { services, markets } from './data/services';
+import { whyItems, healthSafety } from './data/sections';
 
 export interface MenuChild { label: string; href: string; /** Sub-apartado (se muestra sangrado bajo el anterior). */ sub?: boolean }
 export interface MenuItem { label: string; href: string; children?: MenuChild[] }
 
 /**
  * Menú principal (navbar con submenús y menú hamburguesa), según "STRUCTURE WEBSITE: GRASCAN BUILD".
- * Completos en el documento: Home, About y Services. El resto sigue pendiente del cliente.
- * TODO (cliente): "Why Grascan Build" (Integrated Building & Civil · Client Focused · Lean & Hands On ·
- * Trade & Subcontractor Network · Our Competitive Advantage) se añadirá cuando llegue su texto.
  */
 export const menu: MenuItem[] = [
   {
@@ -73,17 +71,17 @@ export const menu: MenuItem[] = [
     children: markets.map((m) => ({ label: m.title, href: `/markets#${m.slug}` })),
   },
   {
+    label: 'Why Grascan Build',
+    href: '/why-grascan-build',
+    children: whyItems.map((w) => ({ label: w.title, href: `/why-grascan-build#${w.slug}` })),
+  },
+  {
     label: 'Health & Safety',
     href: '/health-safety',
-    children: [
-      { label: 'Certificate of Recognition (COR™) / ISO 45001', href: '/health-safety#cor' },
-      { label: 'Safety & Emergency Preparedness', href: '/health-safety#preparedness' },
-      { label: 'Employee Safety Portal', href: '/health-safety#portal' },
-      { label: 'Subcontractor Safety', href: '/health-safety#subcontractors' },
-      { label: 'Construction Site Safety', href: '/health-safety#site-safety' },
-      { label: 'Environmental & Hazard Management', href: '/health-safety#environmental' },
-      { label: 'Grascan Build Policies & Resources', href: '/health-safety#policies' },
-    ],
+    children: healthSafety.sections.map((h) => ({
+      label: h.id === 'cor' ? 'Certificate of Recognition (COR) / ISO 45001' : h.title,
+      href: `/health-safety#${h.id}`,
+    })),
   },
   {
     label: 'Projects',

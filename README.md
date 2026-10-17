@@ -3,10 +3,10 @@
 Sitio corporativo de **Grascan Build** (construcción privada), construido con **Astro 7 + Tailwind CSS 4**: HTML estático, ~5 KB de JS propio y animaciones con CSS/SVG.
 
 - **Logo**: vectorizado a partir del original (sin fondo) en `src/lib/logo.ts`; componente `src/components/Logo.astro` con variantes `full`, `horizontal` y `mark`, y animación de construcción (las torres crecen y el wordmark se revela). Se usa en la intro, header, footer, favicon e imagen OG.
-- **Paleta**: exclusivamente la del logo — navy `#062E61`, gris `#72787F` y blanco — más sus variaciones claras/oscuras.
-- **Contenido y estructura**: según el documento del cliente *STRUCTURE WEBSITE: GRASCAN BUILD* (textos en `src/data/services.ts`). Home, About y Services están completos según el documento. Pendiente del cliente (marcado con `TODO`): textos de Markets y Why Grascan Build, email, teléfono y dirección ("waiting for info"), COR/ISO 45001, Employee Safety Portal, Policies & Resources, Careers y legales.
-- **Tipografía**: títulos en **Zen Dots** (Google Fonts, self-hosted en `src/assets/fonts/zen-dots.woff2`, utilidad `font-wide`); texto en Archivo.
-- **Fotos**: Pexels (licencia libre comercial) en `src/assets/photos/`, catálogo en `src/data/photos.ts` (slides del hero, servicios, cabeceras). Para cambiar una foto, reemplazar el .jpg con el mismo nombre.
+- **Paleta**: la del documento del cliente *GRASCAN BUILD* (Coolors): blancos/grises `#FFFFFF` `#C4CBD4` `#7D858F` `#6F7680` `#5E646D` y navys `#082E5D` `#06274F` `#051D3A` `#1C324C` `#31455C`.
+- **Contenido y estructura**: según el documento del cliente *Website GRASCAN BUILD* (copia en `client-assets/`, no versionada). Textos de Home/About/Services en `src/data/services.ts`; Markets, Why Grascan Build, Health & Safety y Careers en `src/data/sections.ts`. Pendiente del cliente: email, teléfono y dirección ("waiting for info"), proyectos (la página existe vacía, como pide el documento) y textos legales.
+- **Tipografía** (documento del cliente, self-hosted desde Google Fonts en `src/assets/fonts/`): títulos en **Goldman** (utilidad `font-wide`), subtítulos y etiquetas en **Cossette Titre** (`font-semiwide`, `eyebrow`), texto en **Kumbh Sans**.
+- **Fotos**: las enviadas por el cliente, optimizadas en `src/assets/photos/` (nombres descriptivos), catálogo en `src/data/photos.ts` (slides del hero, mercados, servicios, Why Grascan Build). Los originales quedan en `client-assets/`.
 - **Menú**: árbol completo en `menu` (`src/site.config.ts`): submenús por hover en escritorio y menú hamburguesa con desplegables en móvil.
 
 ## Comandos
@@ -26,11 +26,12 @@ Para volver a ver la **intro** (sale una vez por sesión): abrir `/?intro`.
 | --- | --- |
 | `/` | Home: Hero, Building on Experience (Our Foundation, A new chapter), What We Build, What We Do (Our Capabilities), Where We Build, Featured Projects, Safety & Quality, News & Insights, Contact / Offices |
 | `/services` | General Contracting, Construction Management, Design-Build, Alternative Project Delivery (Progressive Design-Build, Integrated Project Delivery, Custom Alternative Approaches), Pre-Construction Planning |
-| `/markets` | Institutional, Commercial, Industrial, Multi-Unit Residential, Transit |
-| `/health-safety` | COR / ISO 45001, Safety & Emergency Preparedness, Employee Safety Portal, Subcontractor Safety, Construction Site Safety, Quality, Environmental & Hazard Management, Policies & Resources |
+| `/markets` | Intro, Institutional, Commercial, Industrial, Multi-Unit Residential, Transit, Our Approach, Building with purpose |
+| `/why-grascan-build` | A Better Approach to Building, Integrated Building & Civil, Client Focused, Lean & Hands On, Trade & Subcontractor Network, Our Competitive Advantage, Our Commitment |
+| `/health-safety` | Safety Is Fundamental, Our Approach to Safety (COR / ISO 45001, Safety & Emergency Preparedness, Employee Safety Portal, Subcontractor Safety, Construction Site Safety, Environmental & Hazard Management, Policies & Resources), A Commitment Shared by Everyone |
 | `/projects` y `/projects/[slug]` | Listado (estado "coming soon" mientras `src/content/projects` no tenga `.md`) y ficha de proyecto |
 | `/about` | About Grascan Build, Our Approach (+ Our Commitment), Our People, News & Insights |
-| `/careers` | Why Grascan Build, Career Opportunities (vacantes en `openings` de `src/pages/careers.astro`) |
+| `/careers` | Building Careers (Why Build Your Career With Us, Who We Look For), Career Opportunities (vacantes en `openings` de `src/pages/careers.astro`) |
 | `/news` y `/news/[slug]` | News & Insights |
 | `/contact` | Start a Project, General Inquiries, Offices, Building in Ontario + formulario (`?topic=project` preselecciona el tipo) |
 | `/privacy`, `/terms`, `/thanks`, `404` | Legales (placeholder), confirmación, error |
@@ -40,7 +41,8 @@ Para volver a ver la **intro** (sale una vez por sesión): abrir `/?intro`.
 | Qué | Archivo |
 | --- | --- |
 | Nombre, email, teléfono, redes, oficina, menú, mapa del sitio, sectores | `src/site.config.ts` |
-| Todos los textos del documento (servicios, approach, safety, news, contact) | `src/data/services.ts` |
+| Textos de Home, About, Services, News, Contact | `src/data/services.ts` |
+| Textos de Markets, Why Grascan Build, Health & Safety, Careers | `src/data/sections.ts` |
 | Proyectos (un `.md` por proyecto) | `src/content/projects/` |
 | Noticias (un `.md` por noticia) | `src/content/news/` |
 | **Paleta de colores** | `src/styles/global.css` → bloque `@theme` (ver abajo) |
@@ -56,10 +58,10 @@ ilustraciones SVG, escena del hero, intro, favicon, imagen Open Graph y `theme-c
 
 | Token | Uso |
 | --- | --- |
-| `signal` | **Navy del logo** (#062E61): botones, acentos, iconos |
-| `gray` | **Gris del logo** (#72787F): palabras destacadas y detalles |
-| `ink` / `ink-2` / `steel` / `graphite` | Navy oscurecido/aclarado: texto principal y secciones oscuras |
-| `bone` / `concrete` / `fog` / `mute` | Blanco y grises derivados del gris del logo |
+| `signal` | **Navy de marca** (#082E5D): botones, acentos, iconos |
+| `gray` / `slate` | **Grises de marca** (#6F7680 / #7D858F): palabras destacadas y detalles |
+| `ink` / `ink-2` / `steel` / `graphite` | Navys de la paleta (#051D3A / #06274F / #1C324C / #31455C): texto principal y secciones oscuras |
+| `bone` / `concrete` / `fog` / `mute` | Blanco, #C4CBD4 aclarado, #C4CBD4 y #5E646D |
 | `signal-soft` / `on-signal` | Acento sobre secciones navy y texto sobre botones navy |
 | `danger` | Errores de formulario |
 
@@ -105,7 +107,7 @@ Si se despliega en otro hosting, poner la URL de Formspree / Basin / API propia 
 - **Mobile first**: estilos base pensados para móvil y ampliados con `sm/md/lg/xl`; el contenido que en escritorio aparece al pasar el cursor está siempre visible en táctil; titulares con menor anchura tipográfica en móvil; licitaciones en tarjetas en móvil y tabla en escritorio; objetivos táctiles ≥ 44 px.
 
 - Lighthouse (móvil, home): **Performance 99 · Best Practices 100 · SEO 100 · Accesibilidad 96**, CLS 0.
-- Fuentes self-hosted (Archivo variable con eje de anchura + JetBrains Mono), precargadas.
+- Fuentes self-hosted (Goldman, Cossette Titre y Kumbh Sans variable), precargadas.
 - CSS inlined por página, un único bundle JS (`src/scripts/main.ts`), prefetch de enlaces al pasar el cursor.
 - Transiciones entre páginas con View Transitions nativas (sin JS).
 - Animaciones: intro 100 % CSS, trazado de SVG con `pathLength`, reveals con IntersectionObserver, scroll-driven animations (con fallback). Todo respeta `prefers-reduced-motion`.

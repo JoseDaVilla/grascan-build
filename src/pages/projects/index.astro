@@ -22,7 +22,7 @@ const strip = (html: string) => html.replace(/<[^>]+>/g, '');
 ---
 
 <Base darkHero title="Projects" description={strip(projectsCopy.intro)}>
-  <PageHero image={photos.officeTowers} eyebrow="Projects" title="Featured|Projects" accent={['Projects']}>
+  <PageHero image={photos.residentialHighrise} eyebrow="Projects" title="Featured|Projects" accent={['Projects']}>
     <p class="mt-8 max-w-2xl text-lead text-bone/85 md:mt-10 [&_strong]:text-bone" data-reveal style="--d:4" set:html={projectsCopy.intro} />
   </PageHero>
 
@@ -53,9 +53,9 @@ const strip = (html: string) => html.replace(/<[^>]+>/g, '');
               </ul>
             </div>
             <div class="grid grid-cols-2 gap-4 lg:col-span-6 lg:col-start-7" data-reveal="mask">
-              <Media src={photos.commercial} alt="Commercial towers" class="col-span-2 aspect-[16/9]" />
-              <Media src={photos.industrial} alt="Industrial facility" class="aspect-[4/3]" sizes="(min-width: 1024px) 25vw, 50vw" />
-              <Media src={photos.institutional} alt="Institutional building" class="aspect-[4/3]" sizes="(min-width: 1024px) 25vw, 50vw" />
+              <Media src={photos.midRiseResidential} alt="Mid-rise residential building" class="col-span-2 aspect-[16/9]" />
+              <Media src={photos.industrialFacility} alt="Industrial facility" class="aspect-[4/3]" sizes="(min-width: 1024px) 25vw, 50vw" />
+              <Media src={photos.institutionalCampus} alt="Institutional building" class="aspect-[4/3]" sizes="(min-width: 1024px) 25vw, 50vw" />
             </div>
           </div>
         )

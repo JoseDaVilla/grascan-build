@@ -1,8 +1,9 @@
 ---
 import { u } from '@/lib/url';
 import '@/styles/global.css';
-import archivoUrl from '@/assets/fonts/archivo.woff2?url';
-import zenDotsUrl from '@/assets/fonts/zen-dots.woff2?url';
+import bodyFontUrl from '@/assets/fonts/kumbh-sans.woff2?url';
+import titleFontUrl from '@/assets/fonts/goldman-400.woff2?url';
+import subFontUrl from '@/assets/fonts/cossette-titre-700.woff2?url';
 import { site } from '@/site.config';
 import { palette } from '@/lib/palette';
 import Header from '@/components/Header.astro';
@@ -50,8 +51,9 @@ const jsonLd = {
     <meta name="theme-color" content={palette.bone} />
     <link rel="icon" href={u('/favicon.svg')} type="image/svg+xml" />
     <link rel="sitemap" href={u('/sitemap-index.xml')} />
-    <link rel="preload" href={archivoUrl} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={zenDotsUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={bodyFontUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={titleFontUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={subFontUrl} as="font" type="font/woff2" crossorigin />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.legalName} />

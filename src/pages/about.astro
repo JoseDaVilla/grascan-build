@@ -19,7 +19,7 @@ const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() 
 ---
 
 <Base darkHero title="About" description={about.lead}>
-  <PageHero image={photos.toronto} eyebrow="About Grascan Build" title="Built on experience.|Focused on|what comes next." accent={['next.']} lead={about.lead} />
+  <PageHero image={photos.torontoNight} eyebrow="About Grascan Build" title="Built on experience.|Focused on|what comes next." accent={['next.']} lead={about.lead} />
 
   <!-- About Grascan Build (claro) -->
   <section id="about" class="scroll-mt-(--header-h) py-24 md:py-36">
@@ -28,7 +28,7 @@ const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() 
         <div class="lg:sticky lg:top-[calc(var(--header-h)+2rem)]">
           <Eyebrow class="mb-8 text-mute">About Grascan Build</Eyebrow>
           <div data-reveal="mask">
-            <Media src={photos.cranes} alt="Tower cranes over a building under construction" class="aspect-[4/3]" />
+            <Media src={photos.glassReflection} alt="Glass towers reflected in a modern facade" class="aspect-[4/3]" />
           </div>
         </div>
       </div>
@@ -94,7 +94,7 @@ const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() 
           <Eyebrow class="mb-8 text-mute">Our People</Eyebrow>
           <SplitText text="Experienced people.|One team." accent={['team.']} class="font-wide text-title" />
           <div class="mt-10" data-reveal="mask">
-            <Media src={photos.designBuild} alt="Project team reviewing a building model" class="aspect-[4/3]" />
+            <Media src={photos.atriumSiteWalk} alt="Project team walking through a building under construction" class="aspect-[4/3]" />
           </div>
         </div>
         <div class="lg:col-span-6 lg:col-start-7">

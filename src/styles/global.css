@@ -1,30 +1,45 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ */
-/*  Fonts (self-hosted, latin subset, variable)                        */
+/*  Fonts (self-hosted desde Google Fonts, subset latin)               */
+/*  Según el documento del cliente: TITLES = Goldman ·                  */
+/*  SUBTITLES = Cossette Titre · BODY = Kumbh Sans ("I really like      */
+/*  this one").                                                        */
 /* ------------------------------------------------------------------ */
 @font-face {
-  font-family: "Archivo";
+  font-family: "Kumbh Sans";
   font-style: normal;
   font-display: swap;
   font-weight: 100 900;
-  font-stretch: 62% 125%;
-  src: url("../assets/fonts/archivo.woff2") format("woff2-variations");
+  src: url("../assets/fonts/kumbh-sans.woff2") format("woff2");
 }
-/* Zen Dots (Google Fonts, Yoshimichi Ohira): tipografía de títulos según el documento del cliente */
 @font-face {
-  font-family: "Zen Dots";
+  font-family: "Goldman";
   font-style: normal;
   font-display: swap;
   font-weight: 400;
-  src: url("../assets/fonts/zen-dots.woff2") format("woff2");
+  src: url("../assets/fonts/goldman-400.woff2") format("woff2");
 }
 @font-face {
-  font-family: "JetBrains Mono";
+  font-family: "Goldman";
   font-style: normal;
   font-display: swap;
-  font-weight: 500;
-  src: url("../assets/fonts/jetbrains-mono-500.woff2") format("woff2");
+  font-weight: 700;
+  src: url("../assets/fonts/goldman-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Cossette Titre";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../assets/fonts/cossette-titre-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Cossette Titre";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("../assets/fonts/cossette-titre-700.woff2") format("woff2");
 }
 
 /* ================================================================== */
@@ -38,35 +53,37 @@
 /*  leen de este archivo en build (src/lib/palette.ts).                */
 /* ================================================================== */
 @theme static {
-  /* PALETA DEL LOGO GRASCAN BUILD: navy #062E61 · gris #72787F · blanco.
-     Todos los demás tonos son variaciones (más claras/oscuras) de esos tres. */
+  /* PALETA GRASCAN BUILD (documento del cliente "GRASCAN BUILD" · Coolors):
+     blancos/grises  #FFFFFF · #C4CBD4 · #7D858F · #6F7680 · #5E646D
+     navys           #082E5D · #06274F · #051D3A · #1C324C · #31455C */
 
   /* Colores de marca */
-  --color-signal: #062e61; /* NAVY del logo: botones, acentos, iconos, líneas */
-  --color-gray: #72787f; /* GRIS del logo: detalles, palabras destacadas */
-  --color-signal-soft: #c7ccd2; /* gris del logo aclarado: acento sobre fondos navy (.on-dark) */
-  --color-signal-ink: #062e61; /* acento para texto pequeño sobre blanco (AA) */
+  --color-signal: #082e5d; /* NAVY de marca: botones, acentos, iconos, líneas */
+  --color-gray: #6f7680; /* GRIS de marca: detalles, palabras destacadas */
+  --color-slate: #7d858f; /* gris medio: separadores y detalles sobre oscuro */
+  --color-signal-soft: #c4cbd4; /* gris azulado claro: acento sobre fondos navy (.on-dark) */
+  --color-signal-ink: #082e5d; /* acento para texto pequeño sobre blanco (AA) */
   --color-on-signal: #ffffff; /* texto sobre botones/bloques navy */
 
   /* Navy (texto principal y secciones oscuras) */
-  --color-ink: #041f42; /* navy del logo oscurecido: texto y fondo de secciones oscuras */
-  --color-ink-2: #062e61; /* navy del logo: superficies sobre fondo oscuro */
-  --color-steel: #0b3a75; /* navy aclarado: hover sobre superficies oscuras */
-  --color-graphite: #1d4a85; /* navy aclarado: bordes sobre oscuro */
+  --color-ink: #051d3a; /* navy más oscuro: texto y fondo de secciones oscuras */
+  --color-ink-2: #06274f; /* navy profundo: superficies sobre fondo oscuro */
+  --color-steel: #1c324c; /* navy pizarra: hover / bloques destacados sobre oscuro */
+  --color-graphite: #31455c; /* navy pizarra claro: bordes sobre oscuro */
 
-  /* Blanco y grises (derivados del gris del logo) */
+  /* Blanco y grises */
   --color-bone: #ffffff; /* fondo principal (blanco) / texto sobre oscuro */
-  --color-concrete: #f3f4f5; /* gris del logo muy claro: secciones alternas */
-  --color-fog: #d9dcdf; /* gris del logo claro: bordes suaves */
-  --color-mute: #5b6168; /* gris del logo oscurecido: texto secundario (AA) */
+  --color-concrete: #eef0f3; /* #C4CBD4 muy aclarado: secciones alternas */
+  --color-fog: #c4cbd4; /* gris azulado claro: bordes suaves */
+  --color-mute: #5e646d; /* gris oscuro: texto secundario (AA) */
 
   /* Estados */
   --color-danger: #b42318; /* errores de formulario (único tono fuera del logo, por accesibilidad) */
 
   /* ---------------- Tipografía, tamaños y curvas ---------------- */
-  --font-sans: "Archivo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-display: "Zen Dots", "Archivo", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: "Kumbh Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Goldman", "Kumbh Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sub: "Cossette Titre", "Kumbh Sans", ui-sans-serif, system-ui, sans-serif;
 
   --text-mega: clamp(2.6rem, 8vw, 8.5rem);
   --text-mega--line-height: 1;
@@ -99,22 +116,17 @@
 /* Sólo dispositivos con puntero fino: en táctil el contenido "hover" queda visible */
 @custom-variant can-hover (@media (hover: hover) and (pointer: fine));
 
-/* Títulos: Zen Dots (un único peso; font-synthesis evita la negrita falsa si hay font-bold/extrabold) */
+/* Títulos: Goldman (TITLES del documento) */
 @utility font-wide {
   font-family: var(--font-display);
   font-weight: 400;
   font-synthesis: none;
   letter-spacing: 0;
 }
-/* Subtítulos y titulares de tarjetas: Archivo ensanchada */
+/* Subtítulos y titulares de tarjetas: Cossette Titre (SUBTITLES del documento) */
 @utility font-semiwide {
-  font-stretch: 100%;
-  @media (min-width: 48rem) {
-    font-stretch: 112%;
-  }
-}
-@utility font-narrow {
-  font-stretch: 80%;
+  font-family: var(--font-sub);
+  letter-spacing: 0.01em;
 }
 @utility container-x {
   width: 100%;
@@ -124,10 +136,10 @@
 }
 /* Etiqueta pequeña: sans, seminegrita, sin adornos */
 @utility eyebrow {
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-family: var(--font-sub);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -152,9 +164,39 @@
     background: var(--color-bone);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-feature-settings: "ss01", "ss02";
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+  }
+  /* Scrollbar de marca: pulgar navy sobre pista gris claro, esquinas rectas como los botones.
+     scrollbar-color cubre Firefox y Chrome/Edge 121+; ::-webkit-scrollbar cubre Safari. */
+  html {
+    scrollbar-color: var(--color-signal) var(--color-concrete);
+    scrollbar-width: thin;
+  }
+  .on-dark {
+    scrollbar-color: var(--color-graphite) var(--color-ink);
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-concrete);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-signal);
+    border: 2px solid var(--color-concrete);
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-ink);
+  }
+  .on-dark::-webkit-scrollbar-track {
+    background: var(--color-ink);
+  }
+  .on-dark::-webkit-scrollbar-thumb {
+    background: var(--color-graphite);
+    border-color: var(--color-ink);
   }
   h1,
   h2,

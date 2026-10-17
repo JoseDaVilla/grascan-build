@@ -1,9 +1,9 @@
 ---
 /**
- * Intro corporativa (sólo home): fondo navy, el logo Grascan Build se construye en blanco
- * (las torres crecen, el wordmark se revela) sobre una línea fina de carga. Después el logo
- * se desliza a su posición exacta en el hero (lo calcula main.ts) y el navy se disuelve dejando
- * ver las fotos: transición continua intro → hero.
+ * Intro corporativa (sólo home): fondo blanco, el logo Grascan Build se construye con sus colores
+ * originales (las torres crecen, el wordmark se revela) sobre una línea fina de carga. Después el logo
+ * se desliza a su posición exacta en el hero (lo calcula main.ts) y el blanco y el logo a color se
+ * disuelven a la vez, dejando ver las fotos y el logo blanco del hero: transición continua intro → hero.
  * Una vez por sesión (o forzada con ?intro), se puede saltar con clic / tecla y respeta
  * prefers-reduced-motion.
  *
@@ -13,11 +13,11 @@
 import Logo from './Logo.astro';
 ---
 
-<div id="intro" class="intro on-dark" aria-hidden="true">
+<div id="intro" class="intro" aria-hidden="true">
   <div class="intro-bg"></div>
   <div class="intro-stage">
     <div class="intro-logo">
-      <Logo variant="full" animate delay={200} class="block w-full !text-bone" />
+      <Logo variant="full" tone="original" animate delay={200} class="block w-full" />
     </div>
     <span class="intro-line"></span>
   </div>
@@ -57,7 +57,7 @@ import Logo from './Logo.astro';
   .intro-bg {
     position: absolute;
     inset: 0;
-    background: var(--color-ink);
+    background: var(--color-bone);
     animation: intro-fade-out 0.7s ease 2.2s forwards;
   }
   .intro-stage {
@@ -72,6 +72,8 @@ import Logo from './Logo.astro';
     width: min(62vw, 21rem);
     transform: translate(var(--intro-dx, 0px), var(--intro-dy, 0px));
     transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+    /* se funde junto con el fondo: debajo está el logo blanco del hero, en la misma posición */
+    animation: intro-fade-out 0.7s ease 2.2s forwards;
   }
   @media (min-width: 48rem) {
     .intro-logo {
@@ -83,7 +85,7 @@ import Logo from './Logo.astro';
     margin-top: 2.5rem;
     width: min(50vw, 14rem);
     height: 1px;
-    background: color-mix(in oklab, var(--color-bone) 70%, transparent);
+    background: color-mix(in oklab, var(--color-signal) 35%, transparent);
     transform: scaleX(0);
     transform-origin: left;
     animation:

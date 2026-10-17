@@ -1,7 +1,8 @@
 ---
 import { u } from '@/lib/url';
 import { site, menu, office } from '@/site.config';
-const groups = menu.filter((m) => ['Health & Safety', 'About', 'Careers'].includes(m.label));
+const careers = menu.find((m) => m.label === 'Careers');
+const groups = menu.filter((m) => ['About', 'Why Grascan Build', 'Health & Safety'].includes(m.label));
 import { services, markets } from '@/data/services';
 import { logo } from '@/lib/logo';
 import Logo from './Logo.astro';
@@ -42,6 +43,10 @@ const year = new Date().getFullYear();
           ))
         }
         <div>
+          <p class="eyebrow mb-5"><a class="link-u text-gray" href={u('/careers')}>Careers</a></p>
+          <ul class="mb-10 space-y-2 text-sm text-bone/80">
+            {careers?.children?.map((c) => <li><a class="link-u" href={u(c.href)}>{c.label}</a></li>)}
+          </ul>
           <p class="eyebrow mb-5"><a class="link-u text-gray" href={u('/projects')}>Projects</a></p>
           <ul class="space-y-2 text-sm text-bone/80">
             <li><a class="link-u" href={u('/projects')}>Project Listing</a></li>

@@ -1,0 +1,91 @@
+---
+/**
+ * WHY GRASCAN BUILD (documento): A Better Approach to Building · 01 Integrated Building & Civil ·
+ * 02 Client Focused · 03 Lean & Hands On · 04 Trade & Subcontractor Network ·
+ * 05 Our Competitive Advantage · Our Commitment. Textos en src/data/sections.ts.
+ */
+import { u } from '@/lib/url';
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import SplitText from '@/components/SplitText.astro';
+import Media from '@/components/Media.astro';
+import Button from '@/components/Button.astro';
+import { whyIntro, whyItems, whyCommitment } from '@/data/sections';
+import { photos, whyPhotos } from '@/data/photos';
+---
+
+<Base darkHero title="Why Grascan Build" description={whyIntro.paragraphs[0]}>
+  <PageHero image={photos.curtainWall} eyebrow="Why Grascan Build" title="A Better Approach|to Building" accent={['Building']} lead={whyIntro.paragraphs[0]}>
+    <nav aria-label="Why Grascan Build" class="mt-12 grid max-w-4xl border-t border-bone/15 sm:grid-cols-2 lg:grid-cols-3" data-reveal style="--d:5">
+      {whyItems.map((w) => <a href={`#${w.slug}`} class="border-b border-bone/15 py-3 pr-4 font-semibold text-bone/85 transition-colors hover:text-bone"><span class="mr-3 text-bone/50">{w.n}</span>{w.title}</a>)}
+    </nav>
+  </PageHero>
+
+  <!-- Intro -->
+  <section class="py-20 md:py-28">
+    <div class="container-x grid gap-12 lg:grid-cols-12">
+      <div class="space-y-6 text-lg leading-relaxed text-ink/75 lg:col-span-7" data-reveal>
+        {whyIntro.paragraphs.slice(1).map((p) => <p>{p}</p>)}
+      </div>
+      <p class="self-end border-l-2 border-signal pl-6 text-lead font-semibold text-ink lg:col-span-4 lg:col-start-9" data-reveal style="--d:2">{whyIntro.closing}</p>
+    </div>
+  </section>
+
+  <!-- 01–05 -->
+  {
+    whyItems.map((w, i) => (
+      <section id={w.slug} class:list={['scroll-mt-(--header-h) border-t border-ink/10 py-20 md:py-28', i % 2 === 0 && 'bg-concrete']}>
+        <div class="container-x grid gap-10 md:gap-12 lg:grid-cols-12">
+          <div class="lg:col-span-5">
+            <div class="lg:sticky lg:top-[calc(var(--header-h)+2rem)]">
+              <p class="font-wide text-5xl text-signal md:text-6xl" data-reveal>{w.n}</p>
+              <h2 class="mt-6 font-wide text-[clamp(1.5rem,2.8vw,2.4rem)] uppercase leading-tight" data-reveal>{w.title}</h2>
+              <p class="mt-4 font-semiwide text-xl font-bold text-gray md:text-2xl" data-reveal style="--d:1">{w.subtitle}</p>
+              <div class="mt-8 hidden lg:block" data-reveal="mask">
+                <Media src={whyPhotos[w.slug]} alt="" class="aspect-[4/3]" sizes="40vw" />
+              </div>
+            </div>
+          </div>
+          <div class="lg:col-span-6 lg:col-start-7">
+            <div class="space-y-5 leading-relaxed text-ink/75 md:text-lg" data-reveal>
+              {w.paragraphs.map((p, k) => <p class:list={[k === 0 && 'text-ink']}>{p}</p>)}
+            </div>
+            {
+              w.principles && (
+                <ul class="mt-10 border-t border-ink/10">
+                  {w.principles.map((p, k) => (
+                    <li class="border-b border-ink/10 py-6" data-reveal style={`--d:${k % 3}`}>
+                      <h3 class="font-semiwide text-xl font-bold text-signal">{p.title}</h3>
+                      <p class="mt-2 text-ink/75">{p.text}</p>
+                    </li>
+                  ))}
+                </ul>
+              )
+            }
+            {w.closing && <p class="mt-10 border-l-2 border-signal pl-6 font-semibold text-ink md:text-lg" data-reveal>{w.closing}</p>}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <!-- Our Commitment -->
+  <section id="commitment" class="on-dark relative scroll-mt-(--header-h) overflow-hidden bg-ink py-24 text-bone md:py-36">
+    <Media src={photos.glassPyramid} alt="" class="absolute inset-0" imgClass="parallax" sizes="100vw" />
+    <div class="absolute inset-0 bg-ink/85"></div>
+    <div class="container-x relative grid gap-12 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-6">
+        <Eyebrow class="mb-8 text-bone/60">Our Commitment</Eyebrow>
+        <SplitText text="A Construction Partner|Focused on|What Matters." accent={['Matters.']} class="font-wide text-title" />
+      </div>
+      <div class="lg:col-span-5 lg:col-start-8" data-reveal>
+        <div class="space-y-5 text-bone/80 md:text-lg">
+          {whyCommitment.paragraphs.map((p) => <p>{p}</p>)}
+        </div>
+        <p class="mt-8 font-wide text-xl uppercase text-bone">{whyCommitment.closing}</p>
+        <div class="mt-10"><Button href={u('/contact?topic=project#form')}>Start a project</Button></div>
+      </div>
+    </div>
+  </section>
+</Base>

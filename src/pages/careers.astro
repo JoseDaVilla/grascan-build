@@ -1,41 +1,48 @@
 ---
 /**
- * CAREERS: Why Grascan Build · Career Opportunities.
- * TODO (cliente): el documento no incluye texto para Careers; aquí sólo se reutilizan
- * frases del propio documento. Añadir vacantes reales en `openings` cuando existan.
+ * CAREERS (documento): Building Careers. Creating Opportunities. (Why Grascan Build) · Career Opportunities.
+ * Textos en src/data/sections.ts. Añadir vacantes reales en `openings` cuando existan.
  */
 import { u } from '@/lib/url';
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
 import SplitText from '@/components/SplitText.astro';
+import Media from '@/components/Media.astro';
 import Button from '@/components/Button.astro';
-import { story, commitment } from '@/data/services';
+import { careers } from '@/data/sections';
 import { photos } from '@/data/photos';
 
 const openings: { title: string; location: string; type: string; href: string }[] = [];
+const op = careers.opportunities;
 ---
 
-<Base darkHero title="Careers" description={`Careers at Grascan Build. ${story.proposition}`}>
-  <PageHero image={photos.structureWork} eyebrow="Careers" title="Build what's next|with us." accent={['us.']} lead={story.paragraphs[0]} />
+<Base darkHero title="Careers" description={careers.intro[0]}>
+  <PageHero image={photos.plazaStairs} eyebrow="Careers" title="Building Careers.|Creating|Opportunities." accent={['Opportunities.']} lead={careers.intro[0]} />
 
   <!-- Why Grascan Build -->
-  <section id="why" class="scroll-mt-24 py-24 md:py-36">
+  <section id="why" class="scroll-mt-(--header-h) py-24 md:py-36">
     <div class="container-x">
-      <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
-        <div class="lg:col-span-7">
-          <Eyebrow class="mb-8 text-mute">Why Grascan Build</Eyebrow>
-          <SplitText text="A new company.|A proven foundation." accent={['foundation.']} class="font-wide text-title" />
+      <div class="grid gap-12 lg:grid-cols-12 lg:items-center">
+        <div class="space-y-6 text-lg leading-relaxed text-ink/75 lg:col-span-6" data-reveal>
+          {careers.intro.slice(1).map((p) => <p>{p}</p>)}
         </div>
-        <p class="text-lg text-ink/75 lg:col-span-5" data-reveal>{story.paragraphs[1]}</p>
+        <div class="lg:col-span-5 lg:col-start-8" data-reveal="mask">
+          <Media src={photos.interiorFitout} alt="Site team walking through a building under construction" class="aspect-[16/10]" sizes="(min-width: 1024px) 40vw, 100vw" />
+        </div>
       </div>
-      <div class="mt-16 grid gap-px overflow-hidden border border-ink/10 bg-ink/10 md:mt-20 md:grid-cols-2 lg:grid-cols-3">
+
+      <div class="mt-20 md:mt-28">
+        <Eyebrow class="mb-8 text-mute">Why Grascan Build</Eyebrow>
+        <SplitText text="Why Build Your|Career With Us?" accent={['Us?']} class="font-wide text-title" />
+      </div>
+      <div class="mt-12 grid gap-px overflow-hidden border border-ink/10 bg-ink/10 md:mt-16 md:grid-cols-2 lg:grid-cols-3">
         {
-          commitment.map((c, i) => (
+          careers.reasons.map((r, i) => (
             <article class="bg-bone p-8 md:p-10" data-reveal style={`--d:${i % 3}`}>
               <span class="block h-1 w-10 bg-signal" aria-hidden="true"></span>
-              <h3 class="mt-8 font-wide text-xl">{c.title}.</h3>
-              <p class="mt-4 text-ink/65">{c.text}</p>
+              <h3 class="mt-8 font-semiwide text-2xl font-bold">{r.title}</h3>
+              <p class="mt-4 text-ink/70">{r.text}</p>
             </article>
           ))
         }
@@ -43,17 +50,43 @@ const openings: { title: string; location: string; type: string; href: string }[
     </div>
   </section>
 
+  <!-- Who We Look For + Build What Comes Next -->
+  <section class="on-dark bg-ink py-24 text-bone md:py-32">
+    <div class="container-x grid gap-14 lg:grid-cols-12">
+      <div class="lg:col-span-6">
+        <SplitText text={careers.lookFor.title} class="font-wide text-title" />
+        <div class="mt-8 space-y-5 text-bone/75 md:text-lg" data-reveal>
+          {careers.lookFor.paragraphs.map((p) => <p>{p}</p>)}
+        </div>
+      </div>
+      <div class="lg:col-span-5 lg:col-start-8" data-reveal style="--d:2">
+        <h2 class="font-wide text-2xl uppercase">{careers.next.title}</h2>
+        <p class="mt-6 text-bone/75 md:text-lg">{careers.next.text}</p>
+        <p class="mt-6 font-semibold text-bone md:text-lg">{careers.next.closing}</p>
+        <div class="mt-10 flex flex-wrap gap-3">
+          <Button href="#opportunities">Career opportunities</Button>
+          <Button href={u('/contact?topic=careers#form')} variant="ghost-light">Contact us</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Career Opportunities -->
-  <section id="opportunities" class="scroll-mt-24 border-t border-ink/10 bg-concrete py-24 md:py-36">
+  <section id="opportunities" class="scroll-mt-(--header-h) bg-concrete py-24 md:py-36">
     <div class="container-x grid gap-12 lg:grid-cols-12">
       <div class="lg:col-span-5">
-        <Eyebrow class="mb-8 text-mute">Career opportunities</Eyebrow>
-        <SplitText text="Career|opportunities." class="font-wide text-title" />
+        <Eyebrow class="mb-8 text-mute">Career Opportunities</Eyebrow>
+        <SplitText text="Build Your Future|With Grascan Build." accent={['Build.']} class="font-wide text-title" />
+        <div class="mt-8 space-y-4 text-ink/75" data-reveal>
+          {op.paragraphs.map((p) => <p>{p}</p>)}
+        </div>
       </div>
       <div class="lg:col-span-6 lg:col-start-7" data-reveal>
+        <h3 class="font-semiwide text-2xl font-bold">{op.currentTitle}</h3>
+        <p class="mt-3 text-ink/70">{op.currentText}</p>
         {
           openings.length > 0 ? (
-            <ul class="border-t border-ink/10">
+            <ul class="mt-8 border-t border-ink/10">
               {openings.map((o) => (
                 <li class="border-b border-ink/10">
                   <a href={o.href} class="flex flex-wrap items-baseline justify-between gap-4 py-6 hover:text-signal">
@@ -64,13 +97,21 @@ const openings: { title: string; location: string; type: string; href: string }[
               ))}
             </ul>
           ) : (
-            <div class="border border-dashed border-ink/25 bg-bone p-8">
+            <div class="mt-8 border border-dashed border-ink/25 bg-bone p-8">
               <p class="eyebrow text-mute">No open positions right now</p>
-              <p class="mt-4 text-lg text-ink/75">Current opportunities will be posted here. To express your interest in joining Grascan Build, contact our team.</p>
-              <div class="mt-8"><Button href={u('/contact?topic=careers#form')} variant="dark">Contact our team</Button></div>
+              <p class="mt-4 text-ink/75 italic">{op.empty}</p>
             </div>
           )
         }
+
+        <div class="mt-12 border-t border-ink/15 pt-10">
+          <h3 class="font-semiwide text-2xl font-bold">{careers.interested.title}</h3>
+          <div class="mt-4 space-y-4 text-ink/75">
+            {careers.interested.paragraphs.map((p) => <p>{p}</p>)}
+          </div>
+          <p class="mt-6 font-semibold text-ink">{careers.interested.closing}</p>
+          <div class="mt-8"><Button href={u('/contact?topic=careers#form')} variant="dark">Contact our team</Button></div>
+        </div>
       </div>
     </div>
   </section>

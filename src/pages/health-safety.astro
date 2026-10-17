@@ -1,72 +1,83 @@
 ---
 /**
- * HEALTH & SAFETY — subsecciones de la estructura del documento.
- * TODO (cliente): el documento no incluye texto para "COR / ISO 45001", "Employee Safety Portal"
- * ni "Grascan Build Policies & Resources". Se muestran como "en preparación" hasta recibirlo.
+ * HEALTH & SAFETY (documento): Safety Is Fundamental to How We Build · Our Approach to Safety
+ * (1 COR / ISO 45001 · 2 Safety & Emergency Preparedness · 3 Employee Safety Portal ·
+ * 4 Subcontractor Safety · 5 Construction Site Safety · 6 Environmental & Hazard Management ·
+ * 7 Grascan Build Policies & Resources) · A Commitment Shared by Everyone.
+ * Textos en src/data/sections.ts.
  */
 import { u } from '@/lib/url';
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
 import SplitText from '@/components/SplitText.astro';
+import Media from '@/components/Media.astro';
 import Button from '@/components/Button.astro';
-import { safety, safetyTopics as t } from '@/data/services';
+import { healthSafety as hs } from '@/data/sections';
 import { photos } from '@/data/photos';
-
-type Block = { title: string; lead?: string; text: string };
-const sections: { id: string; title: string; blocks?: Block[]; pending?: string }[] = [
-  { id: 'cor', title: 'Certificate of Recognition (COR™) / ISO 45001', pending: 'Certification details for Grascan Build are being prepared and will be published here.' },
-  { id: 'preparedness', title: 'Safety & Emergency Preparedness', blocks: [t.management, t.training, t.emergency] },
-  { id: 'portal', title: 'Employee Safety Portal', pending: 'The employee safety portal is being set up. Access details will be shared with Grascan Build employees.' },
-  { id: 'subcontractors', title: 'Subcontractor Safety', blocks: [t.subcontractor] },
-  { id: 'site-safety', title: 'Construction Site Safety', blocks: [t.site] },
-  { id: 'quality', title: 'Quality Management', blocks: [t.quality] },
-  { id: 'environmental', title: 'Environmental & Hazard Management', blocks: [t.environmental] },
-  { id: 'policies', title: 'Grascan Build Policies & Resources', pending: 'Grascan Build policies and resources will be available here.' },
-];
 ---
 
-<Base darkHero title="Health & Safety" description={`${safety.intro[0]} ${safety.intro[1]}`}>
-  <PageHero image={photos.safetyWorker} eyebrow="Health & safety" title="Safety is|how we build." accent={['build.']} lead={safety.intro[0]}>
-    <p class="mt-6 max-w-2xl text-bone/70" data-reveal style="--d:4">{safety.intro[1]}</p>
+<Base darkHero title="Health & Safety" description={hs.intro[0]}>
+  <PageHero image={photos.facadeCrew} eyebrow="Health & Safety" title="Safety Is Fundamental|to How We Build." accent={['Build.']} lead={hs.intro[0]}>
     <nav aria-label="Health & Safety" class="mt-12 grid max-w-4xl border-t border-bone/15 sm:grid-cols-2" data-reveal style="--d:5">
-      {sections.map((s) => <a href={`#${s.id}`} class="border-b border-bone/15 py-3 pr-4 font-semibold text-bone/85 transition-colors hover:text-bone">{s.title}</a>)}
+      {hs.sections.map((s, i) => <a href={`#${s.id}`} class="border-b border-bone/15 py-3 pr-4 font-semibold text-bone/85 transition-colors hover:text-bone"><span class="mr-3 text-bone/50">{i + 1}.</span>{s.title}</a>)}
     </nav>
   </PageHero>
 
-  {
-    sections.map((s, i) => (
-      <section id={s.id} class:list={['scroll-mt-24 py-16 md:py-24', i % 2 === 1 && 'bg-concrete']}>
-        <div class="container-x grid gap-10 lg:grid-cols-12">
-          <div class="lg:col-span-5">
-            <Eyebrow class="mb-6 text-mute">{String(i + 1).padStart(2, '0')}</Eyebrow>
-            <h2 class="font-wide text-[clamp(1.4rem,2.6vw,2.4rem)] leading-tight" data-reveal>{s.title}</h2>
-          </div>
-          <div class="lg:col-span-6 lg:col-start-7">
-            {s.blocks &&
-              s.blocks.map((b, k) => (
-                <article class:list={['border-t border-ink/10 py-7', k === s.blocks!.length - 1 && 'border-b']} data-reveal style={`--d:${k}`}>
-                  {s.blocks!.length > 1 && <h3 class="font-semiwide text-xl font-bold text-signal">{b.title}</h3>}
-                  {b.lead && <p class="mt-3 font-semibold text-ink">{b.lead}</p>}
-                  <p class:list={['text-lg text-ink/75', (s.blocks!.length > 1 || b.lead) && 'mt-3']}>{b.text}</p>
-                </article>
-              ))}
-            {s.pending && (
-              <div class="border border-dashed border-ink/25 p-7" data-reveal>
-                <p class="eyebrow text-mute">Coming soon</p>
-                <p class="mt-3 text-ink/75">{s.pending}</p>
-              </div>
-            )}
-          </div>
+  <!-- Intro + principio -->
+  <section class="py-20 md:py-28">
+    <div class="container-x grid gap-12 lg:grid-cols-12 lg:items-center">
+      <div class="lg:col-span-6">
+        <div class="space-y-6 text-lg leading-relaxed text-ink/75" data-reveal>
+          {hs.intro.slice(1).map((p) => <p>{p}</p>)}
         </div>
-      </section>
-    ))
-  }
+        <p class="mt-10 border-l-2 border-signal pl-6 text-lead font-semibold text-ink" data-reveal style="--d:2">{hs.principle}</p>
+      </div>
+      <div class="lg:col-span-5 lg:col-start-8" data-reveal="mask">
+        <Media src={photos.trackCrew} alt="Crew in high-visibility safety equipment working on site at night" class="aspect-[4/5]" sizes="(min-width: 1024px) 40vw, 100vw" />
+      </div>
+    </div>
+  </section>
 
+  <!-- Our Approach to Safety: 1–7 -->
+  <section class="border-t border-ink/10 bg-concrete pt-20 md:pt-28">
+    <div class="container-x">
+      <Eyebrow class="mb-6 text-mute">Health & Safety</Eyebrow>
+      <SplitText text={hs.approachTitle} accent={['Safety']} class="font-wide text-title" />
+    </div>
+    <div class="mt-12 md:mt-16">
+      {
+        hs.sections.map((s, i) => (
+          <section id={s.id} class:list={['scroll-mt-(--header-h) py-14 md:py-20', i % 2 === 0 ? 'bg-bone' : 'bg-concrete']}>
+            <div class="container-x grid gap-8 lg:grid-cols-12">
+              <div class="lg:col-span-5">
+                <p class="font-wide text-4xl text-signal" data-reveal>{i + 1}.</p>
+                <h3 class="mt-5 font-wide text-[clamp(1.35rem,2.4vw,2.1rem)] leading-tight" data-reveal>{s.title}</h3>
+                <p class="mt-4 font-semiwide text-lg font-bold text-gray md:text-xl" data-reveal style="--d:1">{s.subtitle}</p>
+              </div>
+              <div class="space-y-5 text-ink/75 md:text-lg lg:col-span-6 lg:col-start-7" data-reveal>
+                {s.paragraphs.map((p) => <p>{p}</p>)}
+              </div>
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- A Commitment Shared by Everyone -->
   <section class="on-dark bg-ink py-24 text-bone md:py-32">
-    <div class="container-x flex flex-col items-start justify-between gap-10 md:flex-row md:items-end">
-      <SplitText text={safety.closing} class="max-w-3xl font-wide text-title" />
-      <div data-reveal style="--d:2"><Button href={u('/contact?topic=safety#form')}>Contact our team</Button></div>
+    <div class="container-x grid gap-12 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-6">
+        <SplitText text="A Commitment Shared|by Everyone" accent={['Everyone']} class="font-wide text-title" />
+        <div class="mt-8 space-y-4 text-bone/75 md:text-lg" data-reveal>
+          {hs.shared.paragraphs.map((p) => <p>{p}</p>)}
+        </div>
+      </div>
+      <div class="lg:col-span-5 lg:col-start-8" data-reveal style="--d:2">
+        <p class="font-wide text-[clamp(1.2rem,2.2vw,1.9rem)] uppercase leading-snug">{hs.shared.closing}</p>
+        <div class="mt-10"><Button href={u('/contact?topic=safety#form')}>Contact our team</Button></div>
+      </div>
     </div>
   </section>
 </Base>
