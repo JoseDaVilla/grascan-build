@@ -73,6 +73,10 @@ const jsonLd = {
           var sb = location.search.match(/[?&]steel-blue(=([^&]*))?/);
           if (sb) sb[2] === 'off' ? sessionStorage.removeItem('theme-steel') : sessionStorage.setItem('theme-steel', '1');
           if (sessionStorage.getItem('theme-steel')) d.classList.add('theme-steel');
+          // Prueba de texto justificado: ?text=justify (se mantiene al navegar); ?text=off la quita
+          var tj = location.search.match(/[?&]text=(justify|off)\b/);
+          if (tj) tj[1] === 'off' ? sessionStorage.removeItem('text-justify') : sessionStorage.setItem('text-justify', '1');
+          if (sessionStorage.getItem('text-justify')) d.classList.add('preview-justify');
         } catch (e) {}
         if (!intro) return;
         // En cada carga de la home (salvo reduced motion). Variante por URL: ?intro1 | ?intro2 | ?intro3 | ?intro4 | ?intro5

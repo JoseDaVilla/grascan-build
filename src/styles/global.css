@@ -784,3 +784,11 @@ h1.font-editorial,
 .hero-photo .font-editorial {
   font-weight: 800;
 }
+
+/* Prueba de texto justificado (?text=justify, ver Base.astro): párrafos del contenido, con guiones */
+/* sólo párrafos de texto corrido: fuera titulares, etiquetas y textos cortos de tarjetas */
+html.preview-justify main p:not([class*="font-"]):not(.eyebrow):not([class*="text-sm"]):not([class*="text-xs"]) {
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}

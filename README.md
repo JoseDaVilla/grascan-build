@@ -22,6 +22,8 @@ La **intro** sale en cada carga de la home, sólo con el logo a color. Hay tres 
 
 Variante de prueba con **fondo azul claro** (#BDDBFF) en todo el sitio: abrir `/?steel-blue` (se mantiene al navegar en esa pestaña); `/?steel-blue=off` vuelve al diseño normal.
 
+Prueba de **texto justificado**: `/?text=justify` (se mantiene al navegar en esa pestaña); `/?text=off` vuelve al texto alineado a la izquierda.
+
 ## Páginas
 
 | Ruta | Contenido |
