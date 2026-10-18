@@ -20,6 +20,8 @@ npm run preview   # sirve /dist
 
 La **intro** sale en cada carga de la home, sólo con el logo a color. Hay tres variantes por URL: `/?intro1` (plano: guías, contorno y torres planta por planta), `/?intro2` (logo 3D que se puede girar) `/?intro3` (partículas que forman el logo y golpe), `/?intro4` (partículas, golpe y el logo se vuelve 3D) y `/?intro5` (por defecto: la intro original aterriza en el navbar; hero de fotos). Se salta con clic o tecla; no sale con reduced motion.
 
+Variante de prueba con **fondo Steel Blue** en todo el sitio: abrir `/?steel-blue` (se mantiene al navegar en esa pestaña); `/?steel-blue=off` vuelve al diseño normal.
+
 ## Páginas
 
 | Ruta | Contenido |

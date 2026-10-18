@@ -69,6 +69,13 @@ const jsonLd = {
         d.classList.add('js');
         // Respaldo: si el JS principal no arrancó (error / navegador viejo), mostrar todo el contenido
         setTimeout(function () { if (!d.classList.contains('reveal-ready')) d.classList.remove('js'); }, 4000);
+        // Variante de prueba "fondo Steel Blue": ?steel-blue la activa (se mantiene al navegar en la
+        // pestaña) y ?steel-blue=off la quita. Estilos en global.css (html.theme-steel).
+        try {
+          var sb = location.search.match(/[?&]steel-blue(=([^&]*))?/);
+          if (sb) sb[2] === 'off' ? sessionStorage.removeItem('theme-steel') : sessionStorage.setItem('theme-steel', '1');
+          if (sessionStorage.getItem('theme-steel')) d.classList.add('theme-steel');
+        } catch (e) {}
         if (!intro) return;
         // En cada carga de la home (salvo reduced motion). Variante por URL: ?intro1 | ?intro2 | ?intro3 | ?intro4 | ?intro5
         // Con reduced motion: el hero de fotos de la variante por defecto, sin intro

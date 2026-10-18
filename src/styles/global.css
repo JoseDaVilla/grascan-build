@@ -758,3 +758,53 @@ textarea.input {
     animation: none;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/*  Variante de prueba: fondo Steel Blue (?steel-blue, ver Base.astro) */
+/*  Las secciones claras pasan a steel blue; header, footer, secciones */
+/*  oscuras y tarjetas blancas se mantienen. Textos y acentos se       */
+/*  oscurecen o aclaran para seguir siendo legibles sobre el azul.     */
+/* ------------------------------------------------------------------ */
+html.theme-steel {
+  --color-concrete: #94a6b6; /* superficies alternas y recuadros: steel blue más claro */
+  --color-mute: #24333f;
+  --color-signal-ink: #263746;
+  --color-gray: var(--color-bone); /* palabras destacadas en blanco */
+}
+html.theme-steel body,
+html.theme-steel main section.bg-bone,
+html.theme-steel main section.bg-concrete,
+html.theme-steel .doc-bar {
+  background: var(--color-steel);
+}
+/* las franjas que ya eran steel blue se oscurecen un punto para mantener el ritmo */
+html.theme-steel main section.on-steel {
+  background: #71869a;
+}
+/* texto con transparencia: más opaco para que se lea sobre azul */
+html.theme-steel main :where(section:not(.on-dark), .doc-section) [class*="text-ink/"] {
+  color: color-mix(in oklab, var(--color-ink) 92%, transparent);
+}
+/* acentos steel blue sobre fondo steel blue: pasan a blanco (o a gris dentro de tarjetas blancas) */
+html.theme-steel main :where(section:not(.on-dark)) .text-steel {
+  color: var(--color-bone);
+}
+html.theme-steel main :not(section).bg-bone .text-steel {
+  color: #56687a;
+}
+html.theme-steel main :where(section:not(.on-dark)) span.bg-steel,
+html.theme-steel .before\:bg-steel::before {
+  background: var(--color-ink);
+}
+html.theme-steel main :where(section:not(.on-dark)) .border-fog {
+  border-color: color-mix(in oklab, var(--color-ink) 22%, transparent);
+}
+html.theme-steel .doc-link.is-active {
+  border-color: var(--color-ink);
+}
+html.theme-steel .doc-link {
+  color: color-mix(in oklab, var(--color-ink) 85%, transparent);
+}
+html.theme-steel .doc-link.is-active {
+  color: var(--color-ink);
+}
