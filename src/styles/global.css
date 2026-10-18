@@ -12,6 +12,21 @@
   font-weight: 100 900;
   src: url("../assets/fonts/kumbh-sans.woff2") format("woff2");
 }
+/* Pruebas de texto de párrafo (?body=teachers | ?body=pathway): sólo se descargan si se usan */
+@font-face {
+  font-family: "Teachers";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 800;
+  src: url("../assets/fonts/teachers.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Pathway Extreme";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../assets/fonts/pathway-extreme.woff2") format("woff2");
+}
 @font-face {
   font-family: "Cossette Titre";
   font-style: normal;
@@ -73,6 +88,7 @@
   /* ---------------- Tipografía, tamaños y curvas ---------------- */
   --font-sans: "Kumbh Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-sub: "Cossette Titre", "Kumbh Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-sans); /* texto de párrafo (cambia con ?body=teachers | ?body=pathway) */
 
   --text-mega: clamp(2.5rem, 7.4vw, 7.4rem);
   --text-mega--line-height: 0.98;
@@ -168,7 +184,7 @@
   body {
     background: var(--color-bone);
     color: var(--color-ink);
-    font-family: var(--font-sans);
+    font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -807,4 +823,13 @@ html.theme-steel .doc-link {
 }
 html.theme-steel .doc-link.is-active {
   color: var(--color-ink);
+}
+
+/* Pruebas de fuente para el texto de párrafo (ver Base.astro). Los titulares siguen en Kumbh Sans
+   (font-editorial / font-wide) y los subtítulos en Cossette Titre (font-semiwide). */
+html.body-teachers {
+  --font-body: "Teachers", "Kumbh Sans", ui-sans-serif, system-ui, sans-serif;
+}
+html.body-pathway {
+  --font-body: "Pathway Extreme", "Kumbh Sans", ui-sans-serif, system-ui, sans-serif;
 }

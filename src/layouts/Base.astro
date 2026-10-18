@@ -75,6 +75,11 @@ const jsonLd = {
           var sb = location.search.match(/[?&]steel-blue(=([^&]*))?/);
           if (sb) sb[2] === 'off' ? sessionStorage.removeItem('theme-steel') : sessionStorage.setItem('theme-steel', '1');
           if (sessionStorage.getItem('theme-steel')) d.classList.add('theme-steel');
+          // Prueba de fuente de párrafo: ?body=teachers | ?body=pathway (se mantiene al navegar); ?body=off la quita
+          var bf = location.search.match(/[?&]body=(teachers|pathway|off)\b/);
+          if (bf) bf[1] === 'off' ? sessionStorage.removeItem('body-font') : sessionStorage.setItem('body-font', bf[1]);
+          var bodyFont = sessionStorage.getItem('body-font');
+          if (bodyFont) d.classList.add('body-' + bodyFont);
         } catch (e) {}
         if (!intro) return;
         // En cada carga de la home (salvo reduced motion). Variante por URL: ?intro1 | ?intro2 | ?intro3 | ?intro4 | ?intro5

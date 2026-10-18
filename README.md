@@ -22,6 +22,8 @@ La **intro** sale en cada carga de la home, sólo con el logo a color. Hay tres 
 
 Variante de prueba con **fondo Steel Blue** en todo el sitio: abrir `/?steel-blue` (se mantiene al navegar en esa pestaña); `/?steel-blue=off` vuelve al diseño normal.
 
+Prueba de **fuente de párrafo**: `/?body=teachers` (Teachers) o `/?body=pathway` (Pathway Extreme); se mantiene al navegar en esa pestaña y `/?body=off` vuelve a Kumbh Sans. Títulos y subtítulos no cambian.
+
 ## Páginas
 
 | Ruta | Contenido |

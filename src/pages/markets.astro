@@ -57,7 +57,7 @@ const toc = [
       <ol class="mt-12 grid gap-px overflow-hidden border border-fog bg-fog sm:grid-cols-2">
         {
           marketsApproach.principles.map((p, i) => (
-            <li class="bg-bone p-6 md:p-7" data-reveal style={`--d:${i % 2}`}>
+            <li class="bg-bone p-6 md:p-7 sm:[&:last-child:nth-child(odd)]:col-span-2" data-reveal style={`--d:${i % 2}`}>
               <p class="font-wide text-2xl text-steel">{n(i)}</p>
               <h3 class="mt-4 font-editorial text-base tracking-normal">{p.title}</h3>
               <p class="mt-3 text-sm leading-relaxed text-ink/75">{p.text}</p>

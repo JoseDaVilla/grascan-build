@@ -31,7 +31,7 @@ const toc = [
       <ol class="mt-12 grid gap-px overflow-hidden border border-fog bg-fog sm:grid-cols-2" data-reveal>
         {
           hs.sections.map((s, i) => (
-            <li>
+            <li class="sm:[&:last-child:nth-child(odd)]:col-span-2">
               <a href={`#${s.id}`} class="flex h-full gap-4 bg-bone p-5 transition-colors hover:bg-concrete">
                 <span class="w-6 shrink-0 font-wide text-steel">{n(i)}</span>
                 <span class="font-editorial text-sm tracking-normal text-ink">{s.title}</span>
