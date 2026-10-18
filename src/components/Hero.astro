@@ -9,7 +9,8 @@
  *    quedar de frente; luego flota, sigue al puntero y se puede arrastrar para girarlo (src/scripts/logo3d.ts).
  *  - ?intro3 "Partículas": partículas que llegan desde los bordes forman el logo, que golpea y queda sólido
  *    con onda expansiva y polvo (src/scripts/particles.ts).
- * Si el JS no arranca, las variantes 2 y 3 caen al logo plano. Con prefers-reduced-motion sale quieto.
+ *  - ?intro4 "Partículas → 3D": como la 3, pero en el golpe el logo se convierte en el modelo 3D de la 2.
+ * Si el JS no arranca, las variantes 2–4 caen al logo plano. Con prefers-reduced-motion sale quieto.
  * El texto del hero del documento va en la franja inmediatamente inferior (index.astro).
  */
 import Logo from './Logo.astro';
@@ -43,7 +44,8 @@ import Logo from './Logo.astro';
 <script>
   const mode = document.documentElement.dataset.intro;
   if (mode === '2') import('@/scripts/logo3d').then((m) => m.mountLogo3D()).catch(() => {});
-  if (mode === '3') import('@/scripts/particles').then((m) => m.mountParticles()).catch(() => {});
+  if (mode === '3' || mode === '4') import('@/scripts/particles').then((m) => m.mountParticles()).catch(() => {});
+  if (mode === '4') import('@/scripts/logo3d').then((m) => m.mountLogo3D('impact')).catch(() => {});
 </script>
 
 <style is:global>
@@ -150,10 +152,11 @@ import Logo from './Logo.astro';
     opacity: 0;
   }
 
-  /* ---------- Variantes 2 y 3 ---------- */
+  /* ---------- Variantes 2–4 ---------- */
   /* el logo plano espera al 3D / a las partículas; si el JS no arranca, aparece solo */
   html[data-intro='2'] .hero-fill,
-  html[data-intro='3'] .hero-fill {
+  html[data-intro='3'] .hero-fill,
+  html[data-intro='4'] .hero-fill {
     animation: fade-in 0.6s ease 1.2s both;
   }
   html.logo-3d .hero-fill {
@@ -167,6 +170,10 @@ import Logo from './Logo.astro';
   }
   html.logo-grabbing .hero-3d {
     cursor: grabbing;
+  }
+  /* variante 4: el 3D aparece en el golpe de las partículas */
+  html[data-intro='4']:not(.logo-hit) .hero-3d {
+    opacity: 0;
   }
   /* Partículas: el logo sólido llega con un golpe, onda expansiva y temblor */
   html.particles-on .hero-fill {

@@ -72,9 +72,9 @@ const jsonLd = {
         // Respaldo: si el JS principal no arrancó (error / navegador viejo), mostrar todo el contenido
         setTimeout(function () { if (!d.classList.contains('reveal-ready')) d.classList.remove('js'); }, 4000);
         if (!intro) return;
-        // En cada carga de la home (salvo reduced motion). Variante por URL: ?intro1 | ?intro2 | ?intro3
+        // En cada carga de la home (salvo reduced motion). Variante por URL: ?intro1 | ?intro2 | ?intro3 | ?intro4
         if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        var m = location.search.match(/[?&]intro([123])\b/);
+        var m = location.search.match(/[?&]intro([1-4])\b/);
         var mode = m ? m[1] : '2';
         d.dataset.intro = mode;
         d.classList.add('has-intro');

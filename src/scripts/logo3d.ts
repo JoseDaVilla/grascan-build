@@ -3,7 +3,9 @@
  * Las piezas del logo (src/lib/logo.ts) se extruyen con bordes redondeados y se pintan con los colores y
  * degradados del logo original sobre un material satinado con luz de estudio (RoomEnvironment).
  * Cámara en perspectiva calibrada en píxeles CSS: en z = 0 el logo ocupa exactamente la caja del <h1>.
- *  - Entrada: las piezas caen con resorte y el logo gira hasta quedar de frente.
+ *  - Entrada 'drop' (?intro2): las piezas caen con resorte y el logo gira hasta quedar de frente.
+ *  - Entrada 'impact' (?intro4): espera al golpe de las partículas (html.logo-hit) y aparece de frente
+ *    con el mismo "slam"; luego gira para mostrar su volumen.
  *  - Después: flota suave, se inclina con el puntero, se arrastra para girarlo (con inercia; un giro
  *    fuerte da vueltas completas y vuelve al frente) y se inclina hacia atrás al hacer scroll.
  */
@@ -31,7 +33,7 @@ const shapesOf = (d: string, evenodd: boolean) => {
   return new SVGLoader().parse(svg).paths.flatMap((p) => SVGLoader.createShapes(p));
 };
 
-export function mountLogo3D() {
+export function mountLogo3D(entry: 'drop' | 'impact' = 'drop') {
   const root = document.documentElement;
   const hero = document.querySelector<HTMLElement>('.hero');
   const stage = hero?.querySelector<HTMLElement>('.hero-stage');
@@ -157,8 +159,9 @@ export function mountLogo3D() {
   };
 
   // ---------- Interacción ----------
-  const ENTRY = 2600;
-  const t0 = performance.now() > 1500 ? performance.now() - 200 : 0; // si llega tarde, arranca desde el principio
+  const ENTRY = entry === 'drop' ? 2600 : 1500; // ms hasta el reposo
+  // 'drop' arranca con la página (o al cargar, si llega tarde); 'impact' en el golpe de las partículas
+  let t0: number | null = entry === 'drop' ? (performance.now() > 1500 ? performance.now() - 200 : 0) : null;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const spin = { a: 0, v: 0, dragging: false, lastX: 0, lastT: 0 }; // giro Y por arrastre (resorte con inercia)
   const tilt = { x: 0, y: 0, tx: 0, ty: 0 }; // inclinación hacia el puntero
@@ -207,23 +210,36 @@ export function mountLogo3D() {
 
   let prev = performance.now();
   const apply = (now: number) => {
+    if (t0 === null && (root.classList.contains('logo-hit') || root.classList.contains('intro-skip'))) t0 = now;
+    if (t0 === null) return -1; // 'impact': todavía no hubo golpe
     const t = root.classList.contains('intro-skip') ? Math.max(ENTRY + 1, now - t0) : now - t0;
     const dt = Math.min(3, (now - prev) / 16.67); // en frames de 60 fps
     prev = now;
 
-    // Entrada: cada torre cae desde arriba con resorte; el wordmark llega desde el fondo
-    towers.forEach((m, i) => {
-      const k = spring((t - 250 - i * 140) / 1000, 6.5, 9);
-      m.position.y = BASE - (1 - k) * 520;
-      m.rotation.z = (1 - k) * (i - 1) * 0.35;
-      (m.material as THREE.MeshPhysicalMaterial).opacity = easeOut(span(t, 250 + i * 140, 600 + i * 140));
-    });
-    reveal(word, span(t, 1150, 1850));
-    reveal(sub, span(t, 1400, 2100));
-    const turn = spring((t - 150) / 1000, 4.2, 5.5);
-    let rx = 0.5 * (1 - turn);
-    let ry = -1.1 * (1 - turn);
-    const scale = 0.86 + 0.14 * spring((t - 100) / 1000, 5, 6);
+    let rx: number, ry: number, scale: number, shade: number;
+    if (entry === 'drop') {
+      // cada torre cae desde arriba con resorte; el wordmark llega desde el fondo
+      towers.forEach((m, i) => {
+        const k = spring((t - 250 - i * 140) / 1000, 6.5, 9);
+        m.position.y = BASE - (1 - k) * 520;
+        m.rotation.z = (1 - k) * (i - 1) * 0.35;
+        (m.material as THREE.MeshPhysicalMaterial).opacity = easeOut(span(t, 250 + i * 140, 600 + i * 140));
+      });
+      reveal(word, span(t, 1150, 1850));
+      reveal(sub, span(t, 1400, 2100));
+      const turn = spring((t - 150) / 1000, 4.2, 5.5);
+      rx = 0.5 * (1 - turn);
+      ry = -1.1 * (1 - turn);
+      scale = 0.86 + 0.14 * spring((t - 100) / 1000, 5, 6);
+      shade = easeOut(span(t, 600, 1800));
+    } else {
+      // golpe: llega grande, se aplasta y rebota (como el slam CSS); luego gira y muestra el volumen
+      scale = t < 130 ? 1.1 - 0.13 * (t / 130) ** 2 : 0.97 + 0.03 * spring((t - 130) / 1000, 6, 11);
+      const s2 = Math.max(0, (t - 140) / 1000);
+      ry = 0.8 * Math.exp(-2.3 * s2) * Math.sin(5 * s2);
+      rx = -0.22 * Math.exp(-2.8 * s2) * Math.sin(6.5 * s2);
+      shade = easeOut(span(t, 0, 500));
+    }
 
     // Reposo: flota y se balancea suave
     const idle = reduce ? 0 : easeOut(span(t, ENTRY, ENTRY + 1500));
@@ -249,7 +265,7 @@ export function mountLogo3D() {
     pivot.position.set(base.x, base.y + float + sc * 60, 0);
     pivot.scale.setScalar(base.s * scale);
     pivot.rotation.set(rx + tilt.x, ry + tilt.y + spin.a, 0);
-    (shadow.material as THREE.MeshBasicMaterial).opacity = easeOut(span(t, 600, 1800)) * (1 - float / 40) * (1 - sc);
+    (shadow.material as THREE.MeshBasicMaterial).opacity = shade * (1 - float / 40) * (1 - sc);
     return t;
   };
 
@@ -257,19 +273,18 @@ export function mountLogo3D() {
   const frame = (now: number) => {
     raf = 0;
     const t = apply(now);
-    renderer.render(scene, camera);
+    if (t >= 0) renderer.render(scene, camera);
     const settling = spin.dragging || Math.abs(spin.v) > 0.0003 || Math.abs(spin.a - Math.round(spin.a / TAU) * TAU) > 0.0005;
     const tilting = Math.abs(tilt.tx - tilt.x) + Math.abs(tilt.ty - tilt.y) > 0.0005;
     const visible = scrollY < innerHeight * 1.2 && !document.hidden;
-    if (visible && (t < ENTRY + 1600 || !reduce || settling || tilting)) request();
+    if ((t < 0 && !document.hidden) || (visible && (t < ENTRY + 1600 || !reduce || settling || tilting))) request();
   };
   function request() {
     if (!raf) raf = requestAnimationFrame(frame);
   }
 
   layout();
-  apply(performance.now());
-  renderer.render(scene, camera);
+  if (apply(performance.now()) >= 0) renderer.render(scene, camera);
   root.classList.add('logo-3d');
   request();
 
