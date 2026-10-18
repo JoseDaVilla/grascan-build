@@ -4,80 +4,48 @@
  * (1 COR / ISO 45001 · 2 Safety & Emergency Preparedness · 3 Employee Safety Portal ·
  * 4 Subcontractor Safety · 5 Construction Site Safety · 6 Environmental & Hazard Management ·
  * 7 Grascan Build Policies & Resources) · A Commitment Shared by Everyone.
- * Textos en src/data/sections.ts.
+ * Formato documento (DocPage). Textos en src/data/sections.ts.
  */
 import { u } from '@/lib/url';
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
-import Eyebrow from '@/components/Eyebrow.astro';
-import SplitText from '@/components/SplitText.astro';
-import Media from '@/components/Media.astro';
+import DocPage from '@/components/DocPage.astro';
+import DocSection from '@/components/DocSection.astro';
 import Button from '@/components/Button.astro';
 import { healthSafety as hs } from '@/data/sections';
 import { photos } from '@/data/photos';
+
+const n = (i: number) => String(i + 1).padStart(2, '0');
+const toc = [
+  { id: 'overview', label: 'Overview' },
+  ...hs.sections.map((s, i) => ({ id: s.id, label: s.title, n: n(i) })),
+  { id: 'shared', label: 'A Commitment Shared by Everyone' },
+];
 ---
 
 <Base darkHero title="Health & Safety" description={hs.intro[0]}>
-  <PageHero image={photos.facadeCrew} eyebrow="Health & Safety" title="Safety Is Fundamental|to How We Build." accent={['Build.']} lead={hs.intro[0]}>
-    <nav aria-label="Health & Safety" class="mt-12 grid max-w-4xl border-t border-bone/15 sm:grid-cols-2" data-reveal style="--d:5">
-      {hs.sections.map((s, i) => <a href={`#${s.id}`} class="border-b border-bone/15 py-3 pr-4 font-semibold text-bone/85 transition-colors hover:text-bone"><span class="mr-3 text-bone/50">{i + 1}.</span>{s.title}</a>)}
-    </nav>
-  </PageHero>
+  <PageHero image={photos.facadeCrew} eyebrow="Health & Safety" title="Safety Is Fundamental|to How We Build." accent={['Build.']} lead={hs.intro[0]} />
 
-  <!-- Intro + principio -->
-  <section class="py-20 md:py-28">
-    <div class="container-x grid gap-12 lg:grid-cols-12 lg:items-center">
-      <div class="lg:col-span-6">
-        <div class="space-y-6 text-lg leading-relaxed text-ink/75" data-reveal>
-          {hs.intro.slice(1).map((p) => <p>{p}</p>)}
-        </div>
-        <p class="mt-10 border-l-2 border-signal pl-6 text-lead font-semibold text-ink" data-reveal style="--d:2">{hs.principle}</p>
-      </div>
-      <div class="lg:col-span-5 lg:col-start-8" data-reveal="mask">
-        <Media src={photos.trackCrew} alt="Crew in high-visibility safety equipment working on site at night" class="aspect-[4/5]" sizes="(min-width: 1024px) 40vw, 100vw" />
-      </div>
-    </div>
-  </section>
+  <DocPage toc={toc} label="Health & Safety">
+    <DocSection id="overview" kicker="Overview" title="Safety Is Fundamental to How We Build." paragraphs={hs.intro.slice(1)} closing={hs.principle} image={photos.trackCrew} imageAlt="Crew in high-visibility safety equipment working on site at night">
+      <ol class="mt-12 grid gap-px overflow-hidden border border-fog bg-fog sm:grid-cols-2" data-reveal>
+        {
+          hs.sections.map((s, i) => (
+            <li>
+              <a href={`#${s.id}`} class="flex h-full gap-4 bg-bone p-5 transition-colors hover:bg-concrete">
+                <span class="w-6 shrink-0 font-wide text-steel">{n(i)}</span>
+                <span class="font-editorial text-sm tracking-normal text-ink">{s.title}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </DocSection>
 
-  <!-- Our Approach to Safety: 1–7 -->
-  <section class="border-t border-ink/10 bg-concrete pt-20 md:pt-28">
-    <div class="container-x">
-      <Eyebrow class="mb-6 text-mute">Health & Safety</Eyebrow>
-      <SplitText text={hs.approachTitle} accent={['Safety']} class="font-editorial text-title" />
-    </div>
-    <div class="mt-12 md:mt-16">
-      {
-        hs.sections.map((s, i) => (
-          <section id={s.id} class:list={['scroll-mt-(--header-h) py-14 md:py-20', i % 2 === 0 ? 'bg-bone' : 'bg-concrete']}>
-            <div class="container-x grid gap-8 lg:grid-cols-12">
-              <div class="lg:col-span-5">
-                <p class="font-wide text-4xl text-signal" data-reveal>{i + 1}.</p>
-                <h3 class="mt-5 font-wide text-[clamp(1.35rem,2.4vw,2.1rem)] leading-tight" data-reveal>{s.title}</h3>
-                <p class="mt-4 font-semiwide text-lg font-bold text-gray md:text-xl" data-reveal style="--d:1">{s.subtitle}</p>
-              </div>
-              <div class="space-y-5 text-ink/75 md:text-lg lg:col-span-6 lg:col-start-7" data-reveal>
-                {s.paragraphs.map((p) => <p>{p}</p>)}
-              </div>
-            </div>
-          </section>
-        ))
-      }
-    </div>
-  </section>
+    {hs.sections.map((s, i) => <DocSection id={s.id} n={n(i)} kicker="Our Approach to Safety" title={s.title} subtitle={s.subtitle} paragraphs={s.paragraphs} />)}
 
-  <!-- A Commitment Shared by Everyone -->
-  <section class="on-dark bg-ink py-24 text-bone md:py-32">
-    <div class="container-x grid gap-12 lg:grid-cols-12 lg:items-end">
-      <div class="lg:col-span-6">
-        <SplitText text="A Commitment Shared|by Everyone" accent={['Everyone']} class="font-editorial text-title" />
-        <div class="mt-8 space-y-4 text-bone/75 md:text-lg" data-reveal>
-          {hs.shared.paragraphs.map((p) => <p>{p}</p>)}
-        </div>
-      </div>
-      <div class="lg:col-span-5 lg:col-start-8" data-reveal style="--d:2">
-        <p class="font-wide text-[clamp(1.2rem,2.2vw,1.9rem)] uppercase leading-snug">{hs.shared.closing}</p>
-        <div class="mt-10"><Button href={u('/contact?topic=safety#form')}>Contact our team</Button></div>
-      </div>
-    </div>
-  </section>
+    <DocSection id="shared" kicker="Health & Safety" title="A Commitment Shared by Everyone" paragraphs={hs.shared.paragraphs} closing={hs.shared.closing}>
+      <div class="mt-10" data-reveal><Button href={u('/contact?topic=safety#form')}>Contact our team</Button></div>
+    </DocSection>
+  </DocPage>
 </Base>

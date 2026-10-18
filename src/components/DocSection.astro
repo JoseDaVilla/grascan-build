@@ -1,0 +1,49 @@
+---
+/**
+ * Sección de una página en formato documento (ver DocPage): etiqueta numerada, título, subtítulo,
+ * el primer párrafo como resumen destacado, el resto a ancho de lectura y un cierre opcional en recuadro.
+ * Contenido extra (listas, imágenes, tarjetas) por el slot, después del texto.
+ */
+import type { ImageMetadata } from 'astro';
+import Media from './Media.astro';
+interface Props {
+  id: string;
+  n?: string;
+  kicker?: string;
+  title: string;
+  subtitle?: string;
+  paragraphs?: string[];
+  closing?: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  html?: boolean;
+}
+const { id, n, kicker, title, subtitle, paragraphs = [], closing, image, imageAlt = '', html = false } = Astro.props;
+const [lead, ...rest] = paragraphs;
+---
+
+<section id={id} class="doc-section scroll-mt-[calc(var(--header-h)+5rem)] border-t border-fog pt-10 md:pt-14 [&:not(:first-child)]:mt-20 md:[&:not(:first-child)]:mt-28">
+  {(n || kicker) && <p class="eyebrow text-signal-ink" data-reveal>{[n, kicker].filter(Boolean).join(' · ')}</p>}
+  <h2 class="mt-4 font-editorial text-title" data-reveal>{title}</h2>
+  {subtitle && <p class="mt-4 max-w-3xl font-semiwide text-xl leading-snug text-steel md:text-2xl" data-reveal style="--d:1">{subtitle}</p>}
+
+  {lead && (html ? <p class="mt-8 max-w-[62ch] text-lead text-ink [&_strong]:font-semibold" data-reveal style="--d:2" set:html={lead} /> : <p class="mt-8 max-w-[62ch] text-lead text-ink" data-reveal style="--d:2">{lead}</p>)}
+
+  {image && (
+    <div class="mt-10" data-reveal="mask">
+      <Media src={image} alt={imageAlt} class="aspect-[16/9]" imgClass="zoom-in" sizes="(min-width: 1024px) 60vw, 100vw" />
+    </div>
+  )}
+
+  {rest.length > 0 && (
+    <div class="mt-8 max-w-[68ch] space-y-5 leading-relaxed text-ink/75 md:text-[1.0625rem] [&_strong]:font-semibold [&_strong]:text-ink" data-reveal>
+      {rest.map((p) => (html ? <p set:html={p} /> : <p>{p}</p>))}
+    </div>
+  )}
+
+  <slot />
+
+  {closing && (
+    <p class="mt-10 max-w-[68ch] border-l-4 border-steel bg-concrete px-6 py-5 font-semiwide text-lg leading-snug text-ink" data-reveal>{closing}</p>
+  )}
+</section>

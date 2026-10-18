@@ -1,0 +1,103 @@
+---
+/**
+ * Formato documento para páginas informativas (Services, Markets, Why Grascan Build, Health & Safety):
+ * índice fijo a la izquierda (escritorio) o barra deslizable bajo el header (móvil), con la sección
+ * activa resaltada; a la derecha el contenido en <DocSection>, a un ancho cómodo de lectura.
+ */
+interface Props { toc: { id: string; label: string; n?: string }[]; label: string }
+const { toc, label } = Astro.props;
+---
+
+<!-- Móvil / tablet: barra de secciones deslizable, pegada bajo el header -->
+<nav aria-label={label} class="doc-bar sticky z-30 border-b border-fog bg-bone/95 backdrop-blur lg:hidden">
+  <ol class="container-x flex gap-2 overflow-x-auto py-3 [scrollbar-width:none]">
+    {
+      toc.map((t) => (
+        <li class="shrink-0">
+          <a href={`#${t.id}`} class="doc-link block whitespace-nowrap border border-fog px-3.5 py-2 text-sm font-semibold text-ink/70 transition-colors" data-doc-link={t.id}>
+            {t.n && <span class="mr-1.5 text-steel">{t.n}</span>}
+            {t.label}
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<div class="container-x py-16 md:py-24 lg:grid lg:grid-cols-12 lg:gap-12">
+  <!-- Escritorio: índice fijo -->
+  <aside class="hidden lg:col-span-3 lg:block">
+    <nav aria-label={label} class="sticky top-[calc(var(--header-h)+2.5rem)]">
+      <p class="eyebrow mb-5 text-signal-ink">On this page</p>
+      <ol class="border-l border-fog">
+        {
+          toc.map((t) => (
+            <li>
+              <a href={`#${t.id}`} class="doc-link -ml-px flex gap-3 border-l-2 border-transparent py-2.5 pl-5 text-[0.95rem] leading-snug text-ink/60 transition-colors hover:text-ink" data-doc-link={t.id}>
+                {t.n && <span class="w-6 shrink-0 font-wide text-steel">{t.n}</span>}
+                <span>{t.label}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+  </aside>
+
+  <div class="lg:col-span-8 lg:col-start-5">
+    <slot />
+  </div>
+</div>
+
+<style is:global>
+  /* la barra móvil sigue al header: debajo cuando se ve, arriba del todo cuando se oculta */
+  .doc-bar {
+    top: 0;
+    transition: top 500ms var(--ease-expo);
+  }
+  #site-header:not(.is-hidden) ~ main .doc-bar {
+    top: var(--header-h);
+  }
+  .doc-link.is-active {
+    color: var(--color-ink);
+    border-color: var(--color-steel);
+  }
+  .doc-bar .doc-link.is-active {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: var(--color-bone);
+  }
+  .doc-bar .doc-link.is-active span {
+    color: var(--color-fog);
+  }
+</style>
+
+<script>
+  // Resalta en el índice la sección que se está leyendo y mantiene visible su chip en móvil
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-doc-link]')];
+  const ids = [...new Set(links.map((a) => a.dataset.docLink!))];
+  const sections = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+  let current = '';
+  const update = () => {
+    const line = innerHeight * 0.3;
+    let id = sections[0]?.id ?? '';
+    for (const s of sections) if (s.getBoundingClientRect().top <= line) id = s.id;
+    if (id === current) return;
+    current = id;
+    links.forEach((a) => {
+      const on = a.dataset.docLink === id;
+      a.classList.toggle('is-active', on);
+      if (on && a.closest('.doc-bar')) a.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+    });
+  };
+  let tick = false;
+  addEventListener('scroll', () => {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(() => {
+      tick = false;
+      update();
+    });
+  }, { passive: true });
+  update();
+</script>

@@ -36,7 +36,7 @@ const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() 
         <div class="space-y-6 text-lg leading-relaxed text-ink/75" data-reveal>
           {about.paragraphs.map((p, i) => <p class:list={[i === 0 && 'text-lead text-ink']}>{p}</p>)}
         </div>
-        <p class="mt-12 border-l-2 border-signal pl-6 font-wide text-[clamp(1.2rem,2vw,1.7rem)] leading-snug text-ink" data-reveal>{about.closing}</p>
+        <p class="mt-12 border-l-4 border-steel bg-concrete px-6 py-5 font-semiwide text-[clamp(1.1rem,1.8vw,1.45rem)] leading-snug text-ink" data-reveal>{about.closing}</p>
       </div>
     </div>
   </section>
@@ -69,16 +69,16 @@ const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() 
     </div>
   </section>
 
-  <!-- Our Commitment (oscuro) -->
-  <section class="on-dark bg-ink py-24 text-bone md:py-36">
+  <!-- Our Commitment (claro) -->
+  <section class="bg-bone py-24 md:py-36">
     <div class="container-x">
       <SplitText text="Our Commitment" class="font-editorial text-title" />
-      <div class="mt-14 grid gap-px overflow-hidden bg-bone/12 md:mt-20 md:grid-cols-2 lg:grid-cols-3">
+      <div class="mt-14 grid gap-px overflow-hidden border border-fog bg-fog md:mt-20 md:grid-cols-2 lg:grid-cols-3">
         {
           commitment.map((c, i) => (
-            <article class="bg-ink p-8 md:p-10" data-reveal style={`--d:${i % 3}`}>
-              <h3 class="font-wide text-xl">{c.title}.</h3>
-              <p class="mt-4 text-bone/65">{c.text}</p>
+            <article class="bg-bone p-8 md:p-10" data-reveal style={`--d:${i % 3}`}>
+              <h3 class="font-editorial text-lg tracking-normal">{c.title}.</h3>
+              <p class="mt-4 text-ink/70">{c.text}</p>
             </article>
           ))
         }
