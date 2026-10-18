@@ -10,15 +10,40 @@
  *  - ?intro3 "Partículas": partículas que llegan desde los bordes forman el logo, que golpea y queda sólido
  *    con onda expansiva y polvo (src/scripts/particles.ts).
  *  - ?intro4 "Partículas → 3D": como la 3, pero en el golpe el logo se convierte en el modelo 3D de la 2.
+ *  - ?intro5 "Navbar": la intro original (el logo se construye a color sobre blanco) pero aterriza en el
+ *    navbar: el blanco se encoge hasta ser la barra y el logo vuela al logo del header (nunca cambia de
+ *    color). Debajo queda un hero de fotos con titular, al estilo de grascan.com.
  * Si el JS no arranca, las variantes 2–4 caen al logo plano. Con prefers-reduced-motion sale quieto.
  * El texto del hero del documento va en la franja inmediatamente inferior (index.astro).
  */
+import { Image } from 'astro:assets';
+import { u } from '@/lib/url';
+import { site } from '@/site.config';
+import { photos } from '@/data/photos';
 import Logo from './Logo.astro';
+import Button from './Button.astro';
+
+// Variante 5: fotos del hero (fundido en bucle, sólo CSS)
+const slides = [photos.torontoNight, photos.officeTowers, photos.commercialPavilion, photos.twinTowers];
 ---
 
 <section class="hero relative bg-bone">
   <div class="hero-stage relative flex h-[100svh] min-h-[32rem] flex-col overflow-clip">
     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,var(--color-concrete)_100%)]" aria-hidden="true"></div>
+    <!-- Variante 5: hero de fotos (oculto en el resto; las imágenes lazy no se descargan si no se muestran) -->
+    <div class="hero-photo on-dark absolute inset-0 hidden bg-ink text-bone">
+      {slides.map((src, i) => <Image src={src} alt="" widths={[768, 1280, 1920, 2400]} sizes="100vw" loading="lazy" class="hero-slide absolute inset-0 h-full w-full object-cover" style={`--i:${i}`} />)}
+      <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/25"></div>
+      <div class="container-x relative flex h-full flex-col justify-end pb-24 pt-(--header-h) md:pb-28">
+        <p class="photo-in eyebrow text-bone/75" style="--k:0">Buildings & Development</p>
+        <p class="photo-in mt-5 max-w-4xl font-wide text-[clamp(1.9rem,5vw,4.4rem)] uppercase leading-[1.04]" style="--k:1">Backed by Grascan Construction since {site.founded}.</p>
+        <p class="photo-in mt-5 font-semiwide text-lg text-bone/75 md:text-xl" style="--k:2">Built on experience. Ready for what's next.</p>
+        <div class="photo-in mt-9 flex flex-wrap gap-3" style="--k:3">
+          <Button href={u('/contact?topic=project#form')}>Start a project</Button>
+          <Button href={u('/services')} variant="ghost-light">Our services</Button>
+        </div>
+      </div>
+    </div>
     <canvas class="hero-3d pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
     <canvas class="hero-fx pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
 
@@ -39,6 +64,17 @@ import Logo from './Logo.astro';
       <svg viewBox="0 0 24 24" class="hero-chevron size-7" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M6 6l6 6 6-6M6 12l6 6 6-6" /></svg>
     </a>
   </div>
+
+  <!-- Variante 5: pantalla de intro que aterriza en el navbar -->
+  <div class="intro5" aria-hidden="true">
+    <div class="i5-bg"></div>
+    <div class="i5-stage">
+      <div class="i5-logo">
+        <Logo variant="full" tone="original" class="block w-full" />
+      </div>
+      <span class="i5-line"></span>
+    </div>
+  </div>
 </section>
 
 <script>
@@ -46,6 +82,19 @@ import Logo from './Logo.astro';
   if (mode === '2') import('@/scripts/logo3d').then((m) => m.mountLogo3D()).catch(() => {});
   if (mode === '3' || mode === '4') import('@/scripts/particles').then((m) => m.mountParticles()).catch(() => {});
   if (mode === '4') import('@/scripts/logo3d').then((m) => m.mountLogo3D('impact')).catch(() => {});
+  if (mode === '5') {
+    // A dónde vuela el logo: su icono cae justo sobre el icono del logo del header
+    const from = document.querySelector<HTMLElement>('.i5-logo');
+    const to = document.querySelector<SVGElement>('#site-header .header-logo');
+    if (from && to) {
+      const a = from.getBoundingClientRect();
+      const b = to.getBoundingClientRect();
+      // icono: centro en (49.8%, 39%) del lockup apilado y en (7.5%, 50%) del horizontal; alto 78% vs 100%
+      from.style.setProperty('--i5-dx', `${b.left + b.width * 0.075 - (a.left + a.width * 0.498)}px`);
+      from.style.setProperty('--i5-dy', `${b.top + b.height * 0.5 - (a.top + a.height * 0.39)}px`);
+      from.style.setProperty('--i5-s', String(b.height / (a.height * 0.78)));
+    }
+  }
 </script>
 
 <style is:global>
@@ -202,6 +251,173 @@ import Logo from './Logo.astro';
   }
   html.particles-on.logo-hit .hero-shock {
     animation: shock 0.9s cubic-bezier(0.16, 1, 0.3, 1) calc(0.13s + var(--k, 0) * 0.12s) both;
+  }
+
+  /* ---------- Variante 5: aterriza en el navbar ---------- */
+  .intro5 {
+    display: none;
+  }
+  html[data-intro='5'] .hero-photo {
+    display: block;
+  }
+  html[data-intro='5'] .hero-mark,
+  html[data-intro='5'] .hero-3d,
+  html[data-intro='5'] .hero-fx {
+    display: none;
+  }
+  html[data-intro='5'] .hero-cue {
+    color: color-mix(in oklab, var(--color-bone) 80%, transparent);
+  }
+  .hero-slide {
+    opacity: 0;
+    animation: slide 24s linear infinite;
+    animation-delay: calc(var(--i) * 6s - 0.5s);
+  }
+  @keyframes slide {
+    0% {
+      opacity: 0;
+      transform: scale(1.08);
+    }
+    6%,
+    25% {
+      opacity: 1;
+    }
+    31%,
+    100% {
+      opacity: 0;
+      transform: scale(1);
+    }
+  }
+  /* navbar blanco sólido con el logo a color visible: es donde aterriza la intro */
+  html[data-intro='5'] #site-header .header-bg {
+    background: var(--color-bone);
+    border-color: color-mix(in oklab, var(--color-ink) 8%, transparent);
+  }
+  html[data-intro='5'] #site-header.hero-logo .header-logo {
+    opacity: 1 !important; /* gana a la regla del header que lo oculta sobre el hero */
+  }
+  html[data-intro='5'].has-intro #site-header {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  html[data-intro='5'].has-intro .photo-in {
+    animation: photo-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) calc(2.35s + var(--k) * 0.14s) both;
+  }
+  html[data-intro='5'].has-intro .intro5 {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    animation: i5-hide 0s linear 2.75s forwards;
+  }
+  .i5-bg {
+    position: absolute;
+    inset: 0;
+    background: var(--color-bone);
+    animation:
+      i5-collapse 0.9s cubic-bezier(0.76, 0, 0.24, 1) 1.65s both,
+      i5-out 0.3s ease 2.4s forwards; /* ya es la barra: se funde con el navbar real de debajo */
+  }
+  .i5-stage {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+  }
+  .i5-logo {
+    width: min(62vw, 21rem);
+    transform-origin: 49.8% 39%;
+    animation: i5-land 0.9s cubic-bezier(0.76, 0, 0.24, 1) 1.65s both;
+  }
+  @media (min-width: 48rem) {
+    .i5-logo {
+      width: 24rem;
+    }
+  }
+  /* construcción original: las torres crecen desde la base y el wordmark se revela;
+     en vuelo el wordmark apilado se va y sólo el icono cae sobre el del header */
+  .i5-logo .logo-bar {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: i5-rise 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .i5-logo .logo-bar-1 { animation-delay: 0.2s; }
+  .i5-logo .logo-bar-2 { animation-delay: 0.32s; }
+  .i5-logo .logo-bar-3 { animation-delay: 0.44s; }
+  .i5-logo .logo-word {
+    animation:
+      wipe 0.9s cubic-bezier(0.76, 0, 0.24, 1) 0.65s both,
+      i5-out 0.35s ease 1.7s forwards;
+  }
+  .i5-logo .logo-sub {
+    animation:
+      i5-fade 0.8s ease 1s both,
+      i5-out 0.35s ease 1.7s forwards;
+  }
+  .i5-line {
+    display: block;
+    margin-top: 2.5rem;
+    width: min(50vw, 14rem);
+    height: 1px;
+    background: color-mix(in oklab, var(--color-signal) 35%, transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation:
+      i5-load 1.3s cubic-bezier(0.65, 0, 0.35, 1) 0.1s forwards,
+      i5-out 0.4s ease 1.45s forwards;
+  }
+  html.intro-skip .intro5 {
+    display: none !important;
+  }
+  html.intro-skip .photo-in {
+    animation: none !important;
+  }
+  @keyframes i5-rise {
+    from {
+      transform: scaleY(0);
+    }
+  }
+  @keyframes i5-fade {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+  @keyframes i5-load {
+    to {
+      transform: scaleX(1);
+    }
+  }
+  @keyframes i5-out {
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes i5-collapse {
+    to {
+      clip-path: inset(0 0 calc(100% - var(--header-h)) 0);
+    }
+  }
+  @keyframes i5-land {
+    80% {
+      opacity: 1;
+    }
+    to {
+      transform: translate(var(--i5-dx, 0px), var(--i5-dy, 0px)) scale(var(--i5-s, 0.2));
+      opacity: 0;
+    }
+  }
+  @keyframes i5-hide {
+    to {
+      visibility: hidden;
+    }
+  }
+  @keyframes photo-in {
+    from {
+      opacity: 0;
+      translate: 0 18px;
+    }
   }
 
   @keyframes guide-in {
