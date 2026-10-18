@@ -41,7 +41,7 @@ const desktop = menu.filter((m) => m.href !== '/contact');
               </a>
               {item.children && (
                 <div class:list={['nav-panel absolute top-full pt-0', item.children.length > 8 ? 'left-1/2 -translate-x-1/2' : idx >= desktop.length - 2 ? 'right-0' : 'left-0']}>
-                  <ul class:list={['grid whitespace-normal border-t-2 border-signal bg-bone py-3 text-ink shadow-[0_24px_48px_-16px_rgb(38_55_70/0.28)]', item.children.length > 8 ? 'w-[34rem] grid-cols-2 px-3' : 'w-max min-w-72 max-w-[24rem] px-2']}>
+                  <ul class:list={['grid whitespace-normal border-t-2 border-signal bg-bone py-3 text-ink shadow-[0_24px_48px_-16px_rgb(6_35_72/0.28)]', item.children.length > 8 ? 'w-[34rem] grid-cols-2 px-3' : 'w-max min-w-72 max-w-[24rem] px-2']}>
                     <li class:list={[item.children.length > 8 && 'col-span-2']}>
                       <a href={u(item.href)} class="mb-1 block border-b border-ink/10 px-3 pb-3 pt-1 text-xs font-semibold uppercase tracking-[0.08em] text-mute hover:text-signal">{item.label} overview</a>
                     </li>

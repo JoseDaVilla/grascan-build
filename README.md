@@ -3,9 +3,9 @@
 Sitio corporativo de **Grascan Build** (construcción privada), construido con **Astro 7 + Tailwind CSS 4**: HTML estático, ~5 KB de JS propio y animaciones con CSS/SVG.
 
 - **Logo**: vectorizado a partir del original (sin fondo) en `src/lib/logo.ts`; componente `src/components/Logo.astro` con variantes `full`, `horizontal` y `mark`, y animación de construcción (las torres crecen y el wordmark se revela). Se usa en la intro, header, footer, favicon e imagen OG.
-- **Paleta** (propuesta de la agencia): Steel Blue `#8296A8` (protagonista), Architectural White `#F7F8F9` (fondos), Deep Slate `#263746` (titulares y navegación) y Silver Grey `#C5CDD4` (líneas y detalles). El logo mantiene sus colores originales (tokens `logo-*`).
+- **Paleta** (agencia, oct. 2026): navys `#062348` `#092957` `#092F5E` `#0C315F`, blanco `#FFFFFF`, gris `#777E89` y azul claro `#BDDBFF`. El logo mantiene sus colores originales (tokens `logo-*`).
 - **Contenido y estructura**: según el documento del cliente *Website GRASCAN BUILD* (copia en `client-assets/`, no versionada). Textos de Home/About/Services en `src/data/services.ts`; Markets, Why Grascan Build, Health & Safety y Careers en `src/data/sections.ts`. Pendiente del cliente: email, teléfono y dirección ("waiting for info"), proyectos (la página existe vacía, como pide el documento) y textos legales.
-- **Tipografía** (sólo las del documento del cliente, self-hosted en `src/assets/fonts/`): **Kumbh Sans** para titulares (`font-editorial`, `font-wide`) y texto, y **Cossette Titre** para subtítulos y titulares de tarjetas (`font-semiwide`). Etiquetas espaciadas: `eyebrow` (Kumbh Sans).
+- **Tipografía**: **Manrope** (variable, self-hosted en `src/assets/fonts/`): ExtraBold 800 para H1, Bold 700 para H2 (`font-editorial`, mayúsculas), SemiBold 600 para subtítulos (`font-semiwide`), Medium 500 para botones y Regular 400 para el texto; etiquetas espaciadas con `eyebrow`.
 - **Fotos**: las enviadas por el cliente, optimizadas en `src/assets/photos/` (nombres descriptivos), catálogo en `src/data/photos.ts` (slides del hero, mercados, servicios, Why Grascan Build). Los originales quedan en `client-assets/`.
 - **Menú**: árbol completo en `menu` (`src/site.config.ts`): submenús por hover en escritorio y menú hamburguesa con desplegables en móvil.
 
@@ -20,9 +20,7 @@ npm run preview   # sirve /dist
 
 La **intro** sale en cada carga de la home, sólo con el logo a color. Hay tres variantes por URL: `/?intro1` (plano: guías, contorno y torres planta por planta), `/?intro2` (logo 3D que se puede girar) `/?intro3` (partículas que forman el logo y golpe), `/?intro4` (partículas, golpe y el logo se vuelve 3D) y `/?intro5` (por defecto: la intro original aterriza en el navbar; hero de fotos). Se salta con clic o tecla; no sale con reduced motion.
 
-Variante de prueba con **fondo Steel Blue** en todo el sitio: abrir `/?steel-blue` (se mantiene al navegar en esa pestaña); `/?steel-blue=off` vuelve al diseño normal.
-
-Prueba de **fuente de párrafo**: `/?body=teachers` (Teachers) o `/?body=pathway` (Pathway Extreme); se mantiene al navegar en esa pestaña y `/?body=off` vuelve a Kumbh Sans. Títulos y subtítulos no cambian.
+Variante de prueba con **fondo azul claro** (#BDDBFF) en todo el sitio: abrir `/?steel-blue` (se mantiene al navegar en esa pestaña); `/?steel-blue=off` vuelve al diseño normal.
 
 ## Páginas
 
@@ -62,16 +60,16 @@ ilustraciones SVG, escena del hero, intro, favicon, imagen Open Graph y `theme-c
 
 | Token | Uso |
 | --- | --- |
-| `steel` | **Steel Blue** (#8296A8): franjas de color de la home (`on-steel`), números y acentos grandes |
-| `signal` | **Deep Slate** (#263746): botones, iconos, líneas y acentos sobre blanco |
-| `gray` | Palabras destacadas en titulares (steel blue; blanco dentro de `on-steel`) |
-| `ink` / `ink-2` / `graphite` | Deep slate: texto principal, navegación y secciones oscuras |
-| `bone` / `concrete` / `fog` / `mute` | Architectural White, blanco algo más gris, Silver Grey y gris azulado de texto secundario |
+| `steel` / `signal` | Navy medio (#0C315F): botones, iconos, números, líneas y acentos sobre blanco |
+| `sky` | Azul claro (#BDDBFF): franjas de color de la home (`on-steel`) y acento sobre oscuro |
+| `gray` | Gris (#777E89): palabras destacadas en titulares (azul claro sobre oscuro) |
+| `ink` / `ink-2` / `graphite` | Navys (#062348 / #092957 / #092F5E): texto principal, navegación y secciones oscuras |
+| `bone` / `concrete` / `fog` / `mute` | Blanco, azul claro muy aclarado, líneas y gris de texto secundario (#777E89 oscurecido para AA) |
 | `signal-soft` / `on-signal` | Acento sobre secciones oscuras y texto sobre botones |
 | `logo-navy` / `logo-ink` / `logo-gray` / `logo-gray-2` | Colores originales del logo (no cambian con la paleta) |
 | `danger` | Errores de formulario |
 
-Las secciones oscuras llevan la clase `on-dark` y las franjas steel blue `on-steel`: ambas ajustan automáticamente acentos y textos dentro de ellas.
+Las secciones oscuras llevan la clase `on-dark` y las franjas azul claro `on-steel`: ambas ajustan automáticamente acentos y textos dentro de ellas.
 
 Reglas para mantenerlo así:
 - No escribir colores HEX/RGB en componentes: usar las clases (`text-signal`, `fill-bone/40`, `stroke-ink`) o `var(--color-…)` en CSS.
@@ -113,7 +111,7 @@ Si se despliega en otro hosting, poner la URL de Formspree / Basin / API propia 
 - **Mobile first**: estilos base pensados para móvil y ampliados con `sm/md/lg/xl`; el contenido que en escritorio aparece al pasar el cursor está siempre visible en táctil; titulares con menor anchura tipográfica en móvil; licitaciones en tarjetas en móvil y tabla en escritorio; objetivos táctiles ≥ 44 px.
 
 - Lighthouse (móvil, home): **Performance 99 · Best Practices 100 · SEO 100 · Accesibilidad 96**, CLS 0.
-- Fuentes self-hosted (Kumbh Sans variable y Cossette Titre), precargadas.
+- Fuente self-hosted (Manrope variable), precargada.
 - CSS inlined por página, un único bundle JS (`src/scripts/main.ts`), prefetch de enlaces al pasar el cursor.
 - Transiciones entre páginas con View Transitions nativas (sin JS).
 - Animaciones: intro 100 % CSS, trazado de SVG con `pathLength`, reveals con IntersectionObserver, scroll-driven animations (con fallback). Todo respeta `prefers-reduced-motion`.

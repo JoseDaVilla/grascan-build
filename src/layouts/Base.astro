@@ -1,8 +1,7 @@
 ---
 import { u } from '@/lib/url';
 import '@/styles/global.css';
-import bodyFontUrl from '@/assets/fonts/kumbh-sans.woff2?url';
-import subFontUrl from '@/assets/fonts/cossette-titre-700.woff2?url';
+import bodyFontUrl from '@/assets/fonts/manrope.woff2?url';
 import { site } from '@/site.config';
 import { palette } from '@/lib/palette';
 import Header from '@/components/Header.astro';
@@ -50,7 +49,6 @@ const jsonLd = {
     <link rel="icon" href={u('/favicon.svg')} type="image/svg+xml" />
     <link rel="sitemap" href={u('/sitemap-index.xml')} />
     <link rel="preload" href={bodyFontUrl} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={subFontUrl} as="font" type="font/woff2" crossorigin />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.legalName} />
@@ -69,17 +67,12 @@ const jsonLd = {
         d.classList.add('js');
         // Respaldo: si el JS principal no arrancó (error / navegador viejo), mostrar todo el contenido
         setTimeout(function () { if (!d.classList.contains('reveal-ready')) d.classList.remove('js'); }, 4000);
-        // Variante de prueba "fondo Steel Blue": ?steel-blue la activa (se mantiene al navegar en la
+        // Variante de prueba "fondo azul claro" (#BDDBFF): ?steel-blue la activa (se mantiene al navegar en la
         // pestaña) y ?steel-blue=off la quita. Estilos en global.css (html.theme-steel).
         try {
           var sb = location.search.match(/[?&]steel-blue(=([^&]*))?/);
           if (sb) sb[2] === 'off' ? sessionStorage.removeItem('theme-steel') : sessionStorage.setItem('theme-steel', '1');
           if (sessionStorage.getItem('theme-steel')) d.classList.add('theme-steel');
-          // Prueba de fuente de párrafo: ?body=teachers | ?body=pathway (se mantiene al navegar); ?body=off la quita
-          var bf = location.search.match(/[?&]body=(teachers|pathway|off)\b/);
-          if (bf) bf[1] === 'off' ? sessionStorage.removeItem('body-font') : sessionStorage.setItem('body-font', bf[1]);
-          var bodyFont = sessionStorage.getItem('body-font');
-          if (bodyFont) d.classList.add('body-' + bodyFont);
         } catch (e) {}
         if (!intro) return;
         // En cada carga de la home (salvo reduced motion). Variante por URL: ?intro1 | ?intro2 | ?intro3 | ?intro4 | ?intro5

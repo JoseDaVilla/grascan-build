@@ -1,45 +1,16 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ */
-/*  Fuentes (self-hosted, subset latin). Sólo las del documento del     */
-/*  cliente: Kumbh Sans ("I really like this one") para títulos y       */
-/*  texto, y Cossette Titre para subtítulos. El logo es vectorial.      */
+/*  Fuente: Manrope (variable 200–800, self-hosted, subset latin).      */
+/*  ExtraBold 800 para H1, Bold 700 para H2, Medium 500 para botones;   */
+/*  subtítulos 600, texto 400. El logo es vectorial (no usa fuentes).   */
 /* ------------------------------------------------------------------ */
 @font-face {
-  font-family: "Kumbh Sans";
+  font-family: "Manrope";
   font-style: normal;
   font-display: swap;
-  font-weight: 100 900;
-  src: url("../assets/fonts/kumbh-sans.woff2") format("woff2");
-}
-/* Pruebas de texto de párrafo (?body=teachers | ?body=pathway): sólo se descargan si se usan */
-@font-face {
-  font-family: "Teachers";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400 800;
-  src: url("../assets/fonts/teachers.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Pathway Extreme";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 100 900;
-  src: url("../assets/fonts/pathway-extreme.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Cossette Titre";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url("../assets/fonts/cossette-titre-400.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Cossette Titre";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 700;
-  src: url("../assets/fonts/cossette-titre-700.woff2") format("woff2");
+  font-weight: 200 800;
+  src: url("../assets/fonts/manrope.woff2") format("woff2");
 }
 
 /* ================================================================== */
@@ -53,28 +24,28 @@
 /*  leen de este archivo en build (src/lib/palette.ts).                */
 /* ================================================================== */
 @theme static {
-  /* PALETA (propuesta de la agencia, oct. 2026):
-     01 Steel Blue #8296A8 (protagonista) · 02 Architectural White #F7F8F9 (fondos)
-     03 Deep Slate #263746 (titulares y navegación) · 04 Silver Grey #C5CDD4 (líneas y detalles) */
+  /* PALETA (agencia, oct. 2026):
+     #062348 · #092957 · #092F5E · #0C315F (navys) · #FFFFFF · #777E89 (gris) · #BDDBFF (azul claro) */
 
   /* Colores principales */
-  --color-steel: #8296a8; /* STEEL BLUE: franjas de color, acentos grandes */
-  --color-signal: #263746; /* DEEP SLATE: botones, iconos, líneas, acentos sobre blanco */
-  --color-gray: #8296a8; /* palabras destacadas en titulares (steel blue) */
-  --color-signal-soft: #c5cdd4; /* SILVER GREY: acento sobre fondos oscuros (.on-dark) */
-  --color-signal-ink: #4c6276; /* steel blue oscurecido: texto pequeño de acento sobre blanco (AA) */
-  --color-on-signal: #ffffff; /* texto sobre botones/bloques deep slate */
+  --color-steel: #0c315f; /* navy medio: números, iconos, líneas y acentos sobre blanco */
+  --color-sky: #bddbff; /* AZUL CLARO: franjas de color de la home (on-steel) y acento sobre oscuro */
+  --color-signal: #0c315f; /* botones, iconos, líneas */
+  --color-gray: #777e89; /* GRIS: palabras destacadas en titulares */
+  --color-signal-soft: #bddbff; /* acento sobre fondos oscuros (.on-dark) */
+  --color-signal-ink: #0c315f; /* texto pequeño de acento sobre blanco (AA) */
+  --color-on-signal: #ffffff; /* texto sobre botones navy */
 
-  /* Oscuros (texto principal y secciones oscuras) */
-  --color-ink: #263746; /* deep slate: texto, navegación y secciones oscuras */
-  --color-ink-2: #1f2d3a; /* deep slate más profundo: superficies sobre oscuro */
-  --color-graphite: #3b4d5e; /* bordes sobre oscuro */
+  /* Navys (texto principal y secciones oscuras) */
+  --color-ink: #062348; /* navy más oscuro: texto, navegación y secciones oscuras */
+  --color-ink-2: #092957; /* navy: superficies sobre fondo oscuro */
+  --color-graphite: #092f5e; /* navy: bordes y bloques sobre oscuro */
 
   /* Blancos y grises */
-  --color-bone: #f7f8f9; /* ARCHITECTURAL WHITE: fondo principal / texto sobre oscuro */
-  --color-concrete: #eceff2; /* blanco un punto más gris: secciones alternas */
-  --color-fog: #c5cdd4; /* silver grey: líneas, bordes y detalles */
-  --color-mute: #56687a; /* gris azulado: texto secundario (AA sobre blanco) */
+  --color-bone: #ffffff; /* BLANCO: fondo principal / texto sobre oscuro */
+  --color-concrete: #f2f7fe; /* azul claro muy aclarado: secciones alternas y recuadros */
+  --color-fog: #d3e1f1; /* líneas, bordes y detalles */
+  --color-mute: #636a75; /* gris #777E89 oscurecido: texto secundario (AA sobre blanco) */
 
   /* Logo (colores originales del logo del cliente; no cambian con la paleta de la web) */
   --color-logo-navy: #082e5d;
@@ -86,9 +57,7 @@
   --color-danger: #b42318; /* errores de formulario (único tono fuera del logo, por accesibilidad) */
 
   /* ---------------- Tipografía, tamaños y curvas ---------------- */
-  --font-sans: "Kumbh Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-sub: "Cossette Titre", "Kumbh Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-sans); /* texto de párrafo (cambia con ?body=teachers | ?body=pathway) */
+  --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --text-mega: clamp(2.5rem, 7.4vw, 7.4rem);
   --text-mega--line-height: 0.98;
@@ -108,46 +77,48 @@
   --breakpoint-3xl: 112rem;
 }
 
-/* Contexto oscuro: dentro de una sección deep slate (o foto con capa oscura) el acento pasa a
-   silver grey y las palabras destacadas a steel blue. Úsalo en secciones bg-ink / bg-ink-2. */
+/* Contexto oscuro: dentro de una sección navy (o foto con capa oscura) acentos y palabras destacadas
+   pasan a azul claro. Úsalo en secciones bg-ink / bg-ink-2. */
 @utility on-dark {
   --color-signal: var(--color-signal-soft);
   --color-signal-ink: var(--color-signal-soft);
   --color-on-signal: var(--color-ink);
-  --color-gray: var(--color-steel);
+  --color-gray: var(--color-sky);
+  --color-steel: var(--color-sky);
   --color-mute: var(--color-signal-soft);
   color: var(--color-bone);
 }
-/* Franja steel blue: texto deep slate, palabras destacadas en blanco */
+/* Franja azul claro (#BDDBFF): texto navy, palabras destacadas en gris (#777E89 oscurecido para contrastar) */
 @utility on-steel {
-  --color-gray: var(--color-bone);
-  --color-mute: #2f4152;
+  --color-gray: #59616d;
+  --color-mute: #2a3f5c;
   --color-signal-ink: var(--color-ink);
-  background: var(--color-steel);
+  background: var(--color-sky);
   color: var(--color-ink);
 }
 
 /* Sólo dispositivos con puntero fino: en táctil el contenido "hover" queda visible */
 @custom-variant can-hover (@media (hover: hover) and (pointer: fine));
 
-/* Titulares pequeños, números y etiquetas destacadas: Kumbh Sans negrita */
+/* Titulares pequeños, números y etiquetas destacadas: Manrope Bold */
 @utility font-wide {
   font-family: var(--font-sans);
   font-weight: 700;
   letter-spacing: -0.01em;
 }
-/* Titulares de sección: Kumbh Sans negrita, mayúsculas, apretada (estilo "BUILT FOR WHAT'S NEXT.") */
+/* Titulares de sección (H2): Manrope Bold 700, mayúsculas, apretada ("BUILDING WHAT'S NEXT.").
+   Los H1 (hero y cabeceras de página) van en ExtraBold 800: ver la regla h1.font-editorial más abajo. */
 @utility font-editorial {
   font-family: var(--font-sans);
   font-weight: 700;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
 }
-/* Subtítulos y titulares de tarjetas: Cossette Titre (SUBTITLES del documento del cliente) */
+/* Subtítulos y titulares de tarjetas: Manrope SemiBold */
 @utility font-semiwide {
-  font-family: var(--font-sub);
-  font-weight: 700;
-  letter-spacing: 0.01em;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 @utility container-x {
   width: 100%;
@@ -184,7 +155,7 @@
   body {
     background: var(--color-bone);
     color: var(--color-ink);
-    font-family: var(--font-body);
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -365,7 +336,7 @@
   isolation: isolate;
   border-radius: 2px;
   padding: 1rem 1.6rem;
-  font-weight: 600;
+  font-weight: 500; /* Manrope Medium para botones */
   font-size: 0.95rem;
   letter-spacing: 0.01em;
   line-height: 1;
@@ -776,60 +747,40 @@ textarea.input {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Variante de prueba: fondo Steel Blue (?steel-blue, ver Base.astro) */
-/*  Las secciones claras pasan a steel blue; header, footer, secciones */
-/*  oscuras y tarjetas blancas se mantienen. Textos y acentos se       */
-/*  oscurecen o aclaran para seguir siendo legibles sobre el azul.     */
+/*  Variante de prueba: fondo azul claro (?steel-blue, ver Base.astro) */
+/*  Las secciones claras pasan a #BDDBFF; header, footer, secciones    */
+/*  oscuras y tarjetas blancas se mantienen.                           */
 /* ------------------------------------------------------------------ */
 html.theme-steel {
-  --color-concrete: #94a6b6; /* superficies alternas y recuadros: steel blue más claro */
-  --color-mute: #24333f;
-  --color-signal-ink: #263746;
-  --color-gray: var(--color-bone); /* palabras destacadas en blanco */
+  --color-concrete: #d3e7ff;
+  --color-mute: #1f3455;
+  --color-signal-ink: var(--color-ink);
+  --color-gray: #59616d;
 }
 html.theme-steel body,
 html.theme-steel main section.bg-bone,
 html.theme-steel main section.bg-concrete,
 html.theme-steel .doc-bar {
-  background: var(--color-steel);
+  background: var(--color-sky);
 }
-/* las franjas que ya eran steel blue se oscurecen un punto para mantener el ritmo */
+/* las franjas que ya eran azul claro se oscurecen un punto para mantener el ritmo */
 html.theme-steel main section.on-steel {
-  background: #71869a;
+  background: #a6cdfb;
 }
-/* texto con transparencia: más opaco para que se lea sobre azul */
-html.theme-steel main :where(section:not(.on-dark), .doc-section) [class*="text-ink/"] {
-  color: color-mix(in oklab, var(--color-ink) 92%, transparent);
-}
-/* acentos steel blue sobre fondo steel blue: pasan a blanco (o a gris dentro de tarjetas blancas) */
-html.theme-steel main :where(section:not(.on-dark)) .text-steel {
-  color: var(--color-bone);
-}
-html.theme-steel main :not(section).bg-bone .text-steel {
-  color: #56687a;
-}
-html.theme-steel main :where(section:not(.on-dark)) span.bg-steel,
-html.theme-steel .before\:bg-steel::before {
-  background: var(--color-ink);
-}
-html.theme-steel main :where(section:not(.on-dark)) .border-fog {
-  border-color: color-mix(in oklab, var(--color-ink) 22%, transparent);
-}
-html.theme-steel .doc-link.is-active {
-  border-color: var(--color-ink);
-}
+html.theme-steel main :where(section:not(.on-dark), .doc-section) [class*="text-ink/"],
 html.theme-steel .doc-link {
-  color: color-mix(in oklab, var(--color-ink) 85%, transparent);
+  color: color-mix(in oklab, var(--color-ink) 90%, transparent);
 }
 html.theme-steel .doc-link.is-active {
   color: var(--color-ink);
+  border-color: var(--color-ink);
+}
+html.theme-steel main :where(section:not(.on-dark)) .border-fog {
+  border-color: color-mix(in oklab, var(--color-ink) 18%, transparent);
 }
 
-/* Pruebas de fuente para el texto de párrafo (ver Base.astro). Los titulares siguen en Kumbh Sans
-   (font-editorial / font-wide) y los subtítulos en Cossette Titre (font-semiwide). */
-html.body-teachers {
-  --font-body: "Teachers", "Kumbh Sans", ui-sans-serif, system-ui, sans-serif;
-}
-html.body-pathway {
-  --font-body: "Pathway Extreme", "Kumbh Sans", ui-sans-serif, system-ui, sans-serif;
+/* H1 (hero y cabeceras de página): Manrope ExtraBold 800 */
+h1.font-editorial,
+.hero-photo .font-editorial {
+  font-weight: 800;
 }
