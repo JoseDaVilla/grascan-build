@@ -8,7 +8,6 @@ import { site } from '@/site.config';
 import { palette } from '@/lib/palette';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
-import Intro from '@/components/Intro.astro';
 
 interface Props {
   title?: string;
@@ -70,22 +69,23 @@ const jsonLd = {
       (function () {
         var d = document.documentElement;
         d.classList.add('js');
+        // Respaldo: si el JS principal no arrancó (error / navegador viejo), mostrar todo el contenido
+        setTimeout(function () { if (!d.classList.contains('reveal-ready')) d.classList.remove('js'); }, 4000);
         if (!intro) return;
-        try {
-          var force = /[?&]intro\b/.test(location.search);
-          var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-          if ((force || !sessionStorage.getItem('intro-seen')) && !reduce) {
-            d.classList.add('has-intro');
-            sessionStorage.setItem('intro-seen', '1');
-            setTimeout(function () { d.classList.add('intro-done'); }, 2900);
-          }
-        } catch (e) {}
+        // En cada carga de la home (salvo reduced motion). Variante por URL: ?intro1 | ?intro2 | ?intro3
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var m = location.search.match(/[?&]intro([123])\b/);
+        var mode = m ? m[1] : '2';
+        d.dataset.intro = mode;
+        if (mode !== '3') {
+          d.classList.add('has-intro');
+          setTimeout(function () { d.classList.add('intro-done'); }, 3200);
+        }
       })();
     </script>
   </head>
   <body class="min-h-dvh overflow-x-clip">
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:bg-signal focus:px-5 focus:py-3 focus:text-on-signal">Skip to content</a>
-    {intro && <Intro />}
     <Header darkHero={darkHero} heroLogo={heroLogo} />
     <main id="main">
       <slot />

@@ -18,7 +18,7 @@ npm run build     # genera /dist (estático)
 npm run preview   # sirve /dist
 ```
 
-Para volver a ver la **intro** (sale una vez por sesión): abrir `/?intro`.
+La **intro** sale en cada carga de la home, sólo con el logo a color. Hay tres variantes por URL: `/?intro1` (plano: guías, contorno y torres planta por planta), `/?intro2` (logo 3D, por defecto) y `/?intro3` (el scroll construye el logo 3D). Se salta con clic o tecla; no sale con reduced motion.
 
 ## Páginas
 

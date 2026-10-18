@@ -61,15 +61,6 @@ export const photos = {
   commercialPavilion,
 };
 
-/** Slides del hero (en orden). */
-export const heroSlides = [
-  { src: torontoNight, alt: 'Night construction along the Toronto waterfront with the city skyline' },
-  { src: officeTowers, alt: 'Modern commercial office towers' },
-  { src: commercialPavilion, alt: 'Glass commercial building at dusk' },
-  { src: twinTowers, alt: 'Glass towers reaching into the sky' },
-  { src: curtainWall, alt: 'Curtain wall facade of a high-rise building' },
-];
-
 /** Foto por slug de mercado (Markets / What We Build). */
 export const marketPhotos: Record<string, ImageMetadata> = {
   institutional: institutionalCampus,

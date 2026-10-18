@@ -5,33 +5,52 @@
  * - Contadores animados
  * - Filtros genéricos (proyectos, noticias, media)
  * - Lightbox para galerías
- * - Skip de la intro
+ * - Saltar la intro del hero
  */
 
 const root = document.documentElement;
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---------------- Intro: relevo al hero + skip ---------------- */
+/* ---------------- Intro del hero: saltar con clic / tecla ---------------- */
 if (root.classList.contains('has-intro') && !root.classList.contains('intro-done')) {
-  // A los 1.5 s el logo de la intro viaja a la posición exacta del logo del hero
-  const glide = setTimeout(() => {
-    const from = document.querySelector<HTMLElement>('#intro .intro-logo');
-    const to = document.querySelector<SVGElement>('.hero h1 svg');
-    if (!from || !to) return;
-    const a = from.getBoundingClientRect();
-    const b = to.getBoundingClientRect();
-    if (b.bottom < 0 || b.top > innerHeight) return; // hero fuera de pantalla: sólo fundido
-    from.style.setProperty('--intro-dx', `${b.left + b.width / 2 - (a.left + a.width / 2)}px`);
-    from.style.setProperty('--intro-dy', `${b.top + b.height / 2 - (a.top + a.height / 2)}px`);
-  }, 1500);
-  const skip = () => {
-    clearTimeout(glide);
-    root.classList.add('intro-skip');
-    setTimeout(() => root.classList.add('intro-done'), 500);
-  };
-  document.getElementById('intro')?.addEventListener('click', skip, { once: true });
+  const skip = () => root.classList.add('intro-skip', 'intro-done');
+  document.querySelector('.hero')?.addEventListener('click', skip, { once: true });
   addEventListener('keydown', skip, { once: true });
 }
+
+/* ---------------- Reveal on scroll ---------------- */
+// Va primero: si algo posterior falla, el contenido igual aparece.
+const pending = new Set<Element>();
+const reveal = (el: Element) => {
+  el.classList.add('is-in');
+  pending.delete(el);
+  io.unobserve(el);
+};
+const io = new IntersectionObserver(
+  (entries) => {
+    for (const entry of entries) if (entry.isIntersecting) reveal(entry.target);
+  },
+  { rootMargin: '0px 0px -8% 0px', threshold: 0 },
+);
+document.querySelectorAll('[data-reveal], [data-split], .draw, [data-count]').forEach((el) => {
+  pending.add(el);
+  io.observe(el);
+});
+// Scroll rápido en móvil (fling, anclas): lo que quedó arriba sin cruzar el viewport se muestra igual
+let revealTick = false;
+addEventListener(
+  'scroll',
+  () => {
+    if (revealTick || !pending.size) return;
+    revealTick = true;
+    requestAnimationFrame(() => {
+      revealTick = false;
+      pending.forEach((el) => el.getBoundingClientRect().top < innerHeight && reveal(el));
+    });
+  },
+  { passive: true },
+);
+root.classList.add('reveal-ready');
 
 /* ---------------- Header ---------------- */
 const header = document.getElementById('site-header');
@@ -110,20 +129,6 @@ addEventListener('resize', () => {
   clearTimeout(fitTimer);
   fitTimer = window.setTimeout(fitHeadlines, 150);
 });
-
-/* ---------------- Reveal on scroll ---------------- */
-const io = new IntersectionObserver(
-  (entries) => {
-    for (const entry of entries) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-in');
-        io.unobserve(entry.target);
-      }
-    }
-  },
-  { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
-);
-document.querySelectorAll('[data-reveal], [data-split], .draw, [data-count]').forEach((el) => io.observe(el));
 
 /* ---------------- Counters ---------------- */
 const counterIO = new IntersectionObserver(
@@ -269,25 +274,3 @@ document.querySelectorAll<HTMLButtonElement>('[data-map-src]').forEach((btn) =>
     btn.replaceWith(iframe);
   }),
 );
-
-/* ---------------- Slideshow del hero ---------------- */
-document.querySelectorAll<HTMLElement>('[data-slideshow]').forEach((show) => {
-  const slides = [...show.querySelectorAll<HTMLElement>('[data-slide]')];
-  const dots = [...show.querySelectorAll<HTMLButtonElement>('[data-slide-dot]')];
-  if (slides.length < 2) return;
-  let current = 0;
-  let timer: number | undefined;
-  const go = (n: number) => {
-    current = (n + slides.length) % slides.length;
-    slides.forEach((s, i) => s.classList.toggle('is-active', i === current));
-    dots.forEach((d, i) => d.classList.toggle('is-active', i === current));
-  };
-  const start = () => {
-    if (reduceMotion) return;
-    clearInterval(timer);
-    timer = window.setInterval(() => go(current + 1), 6000);
-  };
-  dots.forEach((d, i) => d.addEventListener('click', () => { go(i); start(); }));
-  document.addEventListener('visibilitychange', () => (document.hidden ? clearInterval(timer) : start()));
-  start();
-});

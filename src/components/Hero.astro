@@ -1,71 +1,81 @@
 ---
 /**
- * Hero de la home, estilo corporativo: logo centrado sobre fotos que pasan por detrás (fundido cada 6 s).
- * Jerarquía: logo GRASCAN BUILD · BUILDINGS & DEVELOPMENT · Backed by Grascan Construction since 1987
- * (mediano) · slogan "Built on experience. Ready for what's next." (menor).
- * El resto del texto del hero del documento va en la franja inmediatamente inferior (index.astro).
+ * Hero de la home: sólo el logo Grascan Build con sus colores originales, sobre blanco. El logo nunca
+ * cambia de color ni de sitio: la intro ocurre en el propio hero. Tres variantes para presentar al
+ * cliente (las elige Base.astro según la URL y queda en html[data-intro]):
+ *  - ?intro1 "Plano": líneas guía de plano a lo ancho de la pantalla, el contorno se dibuja, las torres
+ *    se levantan planta por planta y el wordmark se revela (sólo CSS).
+ *  - ?intro2 "3D" (por defecto): logo extruido en three.js que gira hasta quedar de frente mientras las
+ *    torres se levantan; luego reacciona al puntero y al scroll (src/scripts/logo3d.ts).
+ *  - ?intro3 "Construcción": hero fijo durante el scroll; el scroll construye las torres en 3D planta por
+ *    planta sobre su esqueleto y el logo gira hasta quedar de frente.
+ * Sin WebGL, las variantes 3D caen al logo plano. Con prefers-reduced-motion el logo sale quieto.
+ * El texto del hero del documento va en la franja inmediatamente inferior (index.astro).
  */
-import { Image } from 'astro:assets';
-import { site } from '@/site.config';
-import { heroSlides } from '@/data/photos';
 import Logo from './Logo.astro';
 ---
 
-<section class="hero on-dark relative flex min-h-[100svh] flex-col overflow-hidden bg-ink text-bone" data-slideshow>
-  <div class="absolute inset-0" aria-hidden="true">
-    {
-      heroSlides.map((s, i) => (
-        <div class:list={['hero-slide absolute inset-0', i === 0 && 'is-active']} data-slide>
-          <Image src={s.src} alt="" widths={[768, 1280, 1920, 2400]} sizes="100vw" loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} class="h-full w-full object-cover" />
-        </div>
-      ))
-    }
-    <div class="absolute inset-0 bg-ink/75"></div>
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgb(4_18_38/0.55)_100%)]"></div>
-  </div>
+<section class="hero relative bg-bone">
+  <div class="hero-stage relative flex h-[100svh] min-h-[32rem] flex-col overflow-clip">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,var(--color-concrete)_100%)]" aria-hidden="true"></div>
+    <canvas class="hero-3d pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
 
-  <div class="container-x relative flex flex-1 flex-col items-center justify-center pt-(--header-h) pb-24 text-center">
-    <h1 class="hero-fade" style="--k:0">
-      <Logo variant="full" class="mx-auto w-[min(62vw,21rem)] !text-bone md:w-[24rem]" />
-    </h1>
+    <div class="container-x relative flex flex-1 items-center justify-center pt-(--header-h) pb-24">
+      <h1 class="hero-mark relative w-[min(66vw,22rem)] md:w-[26rem]">
+        <span class="guide guide-h" style="--y:0%;--k:0" aria-hidden="true"></span>
+        <span class="guide guide-h" style="--y:78%;--k:1" aria-hidden="true"></span>
+        <span class="guide guide-v" style="--x:20.1%;--k:2" aria-hidden="true"></span>
+        <span class="guide guide-v" style="--x:79.6%;--k:3" aria-hidden="true"></span>
+        <Logo variant="full" tone="original" class="hero-fill relative block w-full" />
+        <Logo variant="full" outline class="hero-outline absolute inset-0 block w-full" />
+      </h1>
+    </div>
 
-    <p class="hero-fade mt-10 font-semibold uppercase tracking-[0.32em] text-bone text-[clamp(0.85rem,1.6vw,1.2rem)] md:mt-12" style="--k:1">Buildings & Development</p>
-
-    <span class="hero-fade mt-8 block h-px w-16 bg-bone/50" style="--k:1" aria-hidden="true"></span>
-
-    <p class="hero-fade mt-8 text-[clamp(1rem,1.7vw,1.35rem)] font-medium uppercase tracking-[0.12em] text-bone/90" style="--k:2">Backed by Grascan Construction since {site.founded}</p>
-
-    <p class="hero-fade mt-4 font-wide text-[clamp(0.8rem,1.2vw,1rem)] uppercase tracking-[0.06em] text-bone/60" style="--k:3">Built on experience. Ready for what's next.</p>
-  </div>
-
-  <a href="#intro-statement" class="hero-fade absolute bottom-8 left-1/2 -translate-x-1/2 p-2 text-bone/80 transition-colors hover:text-bone" style="--k:4" aria-label="Scroll to content">
-    <svg viewBox="0 0 24 24" class="hero-chevron size-7" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M6 6l6 6 6-6M6 12l6 6 6-6" /></svg>
-  </a>
-
-  <div class="absolute bottom-9 right-[clamp(1rem,4vw,3.5rem)] z-10 hidden gap-2 md:flex" role="group" aria-label="Slides">
-    {heroSlides.map((s, i) => (
-      <button type="button" class:list={['hero-dot h-[3px] w-8 bg-bone/30 transition-colors', i === 0 && 'is-active']} data-slide-dot={i} aria-label={`Show slide ${i + 1}: ${s.alt}`}></button>
-    ))}
+    <a href="#intro-statement" class="hero-cue absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 p-2 text-signal/70 transition-colors hover:text-signal" aria-label="Scroll to content">
+      <span class="hero-cue-label eyebrow hidden text-[0.7rem] text-mute">Scroll to build</span>
+      <svg viewBox="0 0 24 24" class="hero-chevron size-7" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M6 6l6 6 6-6M6 12l6 6 6-6" /></svg>
+    </a>
   </div>
 </section>
 
-<style>
-  .hero-slide {
+<script>
+  const mode = document.documentElement.dataset.intro;
+  if (mode === '2' || mode === '3') {
+    import('@/scripts/logo3d').then((m) => m.mountLogo3D(mode === '3' ? 'scroll' : 'load')).catch(() => {});
+  }
+</script>
+
+<style is:global>
+  /* Estado final / sin intro: sólo el logo a color */
+  .hero .guide,
+  .hero-outline {
     opacity: 0;
-    transition: opacity 1.6s ease;
   }
-  .hero-slide.is-active {
-    opacity: 1;
+  .hero .guide {
+    position: absolute;
+    pointer-events: none;
+    background: color-mix(in oklab, var(--color-signal) 22%, transparent);
   }
-  .hero-slide :global(img) {
-    transform: scale(1.06);
-    transition: transform 8s linear;
+  .hero .guide-h {
+    top: var(--y);
+    left: 50%;
+    width: 200vw;
+    height: 1px;
+    translate: -50% 0;
   }
-  .hero-slide.is-active :global(img) {
-    transform: scale(1);
+  .hero .guide-v {
+    left: var(--x);
+    top: 50%;
+    width: 1px;
+    height: 200svh;
+    translate: 0 -50%;
   }
-  .hero-dot.is-active {
-    background: var(--color-bone);
+  .hero-outline path {
+    fill: none !important;
+    stroke: var(--color-signal);
+    stroke-width: 2;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
   }
   .hero-chevron {
     animation: nudge 2.4s ease-in-out infinite;
@@ -75,19 +85,133 @@ import Logo from './Logo.astro';
       transform: translateY(5px);
     }
   }
-  .js .hero-fade {
-    opacity: 0;
-    animation: hero-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: calc(var(--intro-delay, 0ms) + 250ms + var(--k) * 160ms);
+
+  /* Header y cue esperan a que termine la intro (variantes 1 y 2) */
+  html.has-intro:not(.intro-done) {
+    overflow: hidden;
   }
-  @keyframes hero-in {
+  html.has-intro #site-header,
+  html.has-intro .hero-cue {
+    transition: opacity 0.8s ease;
+  }
+  html.has-intro:not(.intro-done) #site-header,
+  html.has-intro:not(.intro-done) .hero-cue {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* ---------- Variante 1: Plano ---------- */
+  html[data-intro='1'].has-intro .hero .guide {
+    animation:
+      guide-in 1s cubic-bezier(0.65, 0, 0.35, 1) calc(var(--k) * 120ms) both,
+      fade-out 0.6s ease 2.3s forwards;
+  }
+  html[data-intro='1'].has-intro .hero .guide-h {
+    --from: scaleX(0);
+  }
+  html[data-intro='1'].has-intro .hero .guide-v {
+    --from: scaleY(0);
+  }
+  html[data-intro='1'].has-intro .hero-outline {
+    opacity: 1;
+    animation: fade-out 0.6s ease 2.3s forwards;
+  }
+  html[data-intro='1'].has-intro .hero-outline path {
+    animation: draw-line 1s cubic-bezier(0.65, 0, 0.35, 1) both;
+  }
+  html[data-intro='1'].has-intro .hero-outline .logo-bar-1 { animation-delay: 0.2s; }
+  html[data-intro='1'].has-intro .hero-outline .logo-bar-2 { animation-delay: 0.3s; }
+  html[data-intro='1'].has-intro .hero-outline .logo-bar-3 { animation-delay: 0.4s; }
+  html[data-intro='1'].has-intro .hero-outline .logo-word { animation-delay: 0.5s; }
+  html[data-intro='1'].has-intro .hero-outline .logo-sub { animation-delay: 0.6s; }
+  /* las torres se levantan planta por planta (steps) desde la base */
+  html[data-intro='1'].has-intro .hero-fill .logo-bar {
+    animation: rise 0.75s steps(8, end) both;
+  }
+  html[data-intro='1'].has-intro .hero-fill .logo-bar-1 { animation-delay: 1.1s; }
+  html[data-intro='1'].has-intro .hero-fill .logo-bar-2 { animation-delay: 1.25s; }
+  html[data-intro='1'].has-intro .hero-fill .logo-bar-3 { animation-delay: 1.4s; }
+  html[data-intro='1'].has-intro .hero-fill .logo-word {
+    animation: wipe 0.7s cubic-bezier(0.76, 0, 0.24, 1) 1.8s both;
+  }
+  html[data-intro='1'].has-intro .hero-fill .logo-sub {
+    animation: wipe 0.6s cubic-bezier(0.76, 0, 0.24, 1) 2s both;
+  }
+  /* saltar: directo al estado final */
+  html.intro-skip .hero .guide,
+  html.intro-skip .hero-outline,
+  html.intro-skip .hero-outline path,
+  html.intro-skip .hero-fill path {
+    animation: none !important;
+  }
+  html.intro-skip .hero .guide,
+  html.intro-skip .hero-outline {
+    opacity: 0;
+  }
+
+  /* ---------- Variantes 2 y 3: 3D ---------- */
+  /* el logo plano espera al 3D; si WebGL no arranca, aparece solo */
+  html[data-intro='2'] .hero-fill,
+  html[data-intro='3'] .hero-fill {
+    animation: fade-in 0.6s ease 1.2s both;
+  }
+  html.logo-3d .hero-fill {
+    visibility: hidden;
+  }
+  /* variante 3: el hero queda fijo mientras el scroll construye el logo */
+  html[data-intro='3'] .hero {
+    height: 280svh;
+  }
+  html[data-intro='3'] .hero-stage {
+    position: sticky;
+    top: 0;
+  }
+  html[data-intro='3'].logo-3d .hero-cue-label {
+    display: block;
+  }
+  html[data-intro='3'].hero-pinned #site-header.hero-logo .header-logo {
+    opacity: 0;
+  }
+
+  @keyframes guide-in {
     from {
-      opacity: 0;
-      translate: 0 18px;
+      transform: var(--from);
+      opacity: 1;
     }
     to {
+      transform: none;
       opacity: 1;
-      translate: 0 0;
+    }
+  }
+  @keyframes draw-line {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes rise {
+    from {
+      clip-path: inset(100% 0 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  @keyframes wipe {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes fade-out {
+    to {
+      opacity: 0;
     }
   }
 </style>
