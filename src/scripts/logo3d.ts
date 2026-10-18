@@ -4,7 +4,7 @@
  * original (vertex colors, sin luces: vista de frente = logo plano idéntico). Cámara ortográfica en
  * píxeles CSS, así el logo 3D ocupa exactamente la caja del <h1> del hero.
  *  - 'load'  (?intro2): al cargar gira desde una vista en perspectiva y las torres se levantan; luego
- *    se inclina con el puntero y al hacer scroll.
+ *    queda balanceándose suave, se inclina con el puntero y al hacer scroll.
  *  - 'scroll' (?intro3): hero fijo; el scroll construye las torres planta por planta sobre su
  *    esqueleto de líneas y el logo gira hasta quedar de frente.
  */
@@ -124,6 +124,7 @@ export function mountLogo3D(mode: Mode) {
   const LOAD_END = 2800;
   const t0 = performance.now() > 1500 ? performance.now() - 300 : 0; // si llega tarde, arranca igual desde el principio
   const tilt = { x: 0, y: 0, tx: 0, ty: 0 };
+  const reduceIdle = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const progress = () => {
     if (mode === 'load') return root.classList.contains('intro-skip') ? 1 : clamp((performance.now() - t0) / LOAD_END);
@@ -144,8 +145,11 @@ export function mountLogo3D(mode: Mode) {
       towers.forEach((m, i) => (m.scale.y = Math.max(0.001, easeOut(span(t, 500 + i * 180, 1400 + i * 180)))));
       reveal(word, span(t, 1450, 2150));
       reveal(sub, span(t, 1750, 2450));
-      // al salir del hero, el logo se inclina hacia atrás
-      rx += clamp(scrollY / innerHeight) * 0.5;
+      // en reposo se balancea suave (que se note el volumen) y al salir del hero se inclina hacia atrás
+      const idle = easeInOut(span(performance.now() - t0, LOAD_END, LOAD_END + 1200)) * (reduceIdle ? 0 : 1);
+      const k = (performance.now() - t0 - LOAD_END) / 1000;
+      ry += idle * 0.32 * Math.sin(k * 0.9);
+      rx += idle * 0.1 * Math.sin(k * 0.6) + clamp(scrollY / innerHeight) * 0.5;
     } else {
       const turn = easeInOut(span(p, 0, 0.78));
       rx = 0.6 * (1 - turn);
@@ -183,7 +187,8 @@ export function mountLogo3D(mode: Mode) {
     apply(p);
     renderer.render(scene, camera);
     const moving = Math.abs(tilt.tx - tilt.x) + Math.abs(tilt.ty - tilt.y) > 0.0005;
-    if ((mode === 'load' && p < 1) || moving || p !== last) request();
+    const swaying = mode === 'load' && !reduceIdle && scrollY < innerHeight * 1.2 && !document.hidden;
+    if ((mode === 'load' && p < 1) || swaying || moving || p !== last) request();
     last = p;
   };
   const request = () => {
@@ -201,6 +206,7 @@ export function mountLogo3D(mode: Mode) {
     request();
   });
   addEventListener('scroll', request, { passive: true });
+  document.addEventListener('visibilitychange', request);
   if (matchMedia('(pointer: fine)').matches) {
     addEventListener('pointermove', (e) => {
       if (scrollY > innerHeight * (mode === 'scroll' ? 3 : 1)) return;
