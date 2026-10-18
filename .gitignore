@@ -9,3 +9,4 @@ npm-debug.log*
 
 # Material original del cliente (PDF, fotos sin optimizar). Las versiones usadas viven en src/assets.
 client-assets/
+.playwright-cli/
