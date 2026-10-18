@@ -23,7 +23,7 @@ const { eyebrow, title, lead, accent = [], image } = Astro.props;
   <div class="container-x relative">
     <div class="lg:max-w-[62%]">
       <Eyebrow class="mb-6 text-bone/70">{eyebrow}</Eyebrow>
-      <SplitText as="h1" text={title} accent={accent} class="max-w-5xl font-wide text-display" />
+      <SplitText as="h1" text={title} accent={accent} class="max-w-5xl font-editorial text-display" />
       {lead && <p class="mt-8 max-w-2xl text-lead text-bone/85 md:mt-10" data-reveal style="--d:4">{lead}</p>}
       <slot />
     </div>

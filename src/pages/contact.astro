@@ -40,7 +40,7 @@ const topics = [
     <div class="container-x grid gap-16 lg:grid-cols-12">
       <div class="lg:col-span-4">
         <Eyebrow class="mb-8 text-mute">Send a message</Eyebrow>
-        <h2 class="font-wide text-title">{contactCopy.start.lead}</h2>
+        <h2 class="font-editorial text-title">{contactCopy.start.lead}</h2>
         <p class="mt-6 text-ink/70">{strip(contactCopy.intro[1])}</p>
       </div>
       <form name="contact" method="POST" action={site.formEndpoint || u('/thanks')} data-netlify="true" netlify-honeypot="bot-field" class="lg:col-span-7 lg:col-start-6">

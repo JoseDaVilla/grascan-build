@@ -5,14 +5,14 @@
  * cliente (las elige Base.astro según la URL y queda en html[data-intro]):
  *  - ?intro1 "Plano": líneas guía de plano a lo ancho de la pantalla, el contorno se dibuja, las torres
  *    se levantan planta por planta y el wordmark se revela (sólo CSS).
- *  - ?intro2 "3D" (por defecto): logo 3D satinado en three.js; las piezas caen con resorte y gira hasta
+ *  - ?intro2 "3D": logo 3D satinado en three.js; las piezas caen con resorte y gira hasta
  *    quedar de frente; luego flota, sigue al puntero y se puede arrastrar para girarlo (src/scripts/logo3d.ts).
  *  - ?intro3 "Partículas": partículas que llegan desde los bordes forman el logo, que golpea y queda sólido
  *    con onda expansiva y polvo (src/scripts/particles.ts).
  *  - ?intro4 "Partículas → 3D": como la 3, pero en el golpe el logo se convierte en el modelo 3D de la 2.
- *  - ?intro5 "Navbar": la intro original (el logo se construye a color sobre blanco) pero aterriza en el
+ *  - ?intro5 "Navbar" (por defecto): la intro original (el logo se construye a color sobre blanco) pero aterriza en el
  *    navbar: el blanco se encoge hasta ser la barra y el logo vuela al logo del header (nunca cambia de
- *    color). Debajo queda un hero de fotos con titular, al estilo de grascan.com.
+ *    color). Dura ~1.8 s. Debajo queda un hero de fotos con titular, al estilo de grascan.com.
  * Si el JS no arranca, las variantes 2–4 caen al logo plano. Con prefers-reduced-motion sale quieto.
  * El texto del hero del documento va en la franja inmediatamente inferior (index.astro).
  */
@@ -301,22 +301,22 @@ const slides = [photos.torontoNight, photos.officeTowers, photos.commercialPavil
     pointer-events: auto;
   }
   html[data-intro='5'].has-intro .photo-in {
-    animation: photo-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) calc(2.35s + var(--k) * 0.14s) both;
+    animation: photo-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) calc(1.45s + var(--k) * 0.12s) both;
   }
   html[data-intro='5'].has-intro .intro5 {
     display: block;
     position: fixed;
     inset: 0;
     z-index: 60;
-    animation: i5-hide 0s linear 2.75s forwards;
+    animation: i5-hide 0s linear 1.85s forwards;
   }
   .i5-bg {
     position: absolute;
     inset: 0;
     background: var(--color-bone);
     animation:
-      i5-collapse 0.9s cubic-bezier(0.76, 0, 0.24, 1) 1.65s both,
-      i5-out 0.3s ease 2.4s forwards; /* ya es la barra: se funde con el navbar real de debajo */
+      i5-collapse 0.7s cubic-bezier(0.76, 0, 0.24, 1) 1s both,
+      i5-out 0.25s ease 1.6s forwards; /* ya es la barra: se funde con el navbar real de debajo */
   }
   .i5-stage {
     position: absolute;
@@ -328,7 +328,7 @@ const slides = [photos.torontoNight, photos.officeTowers, photos.commercialPavil
   .i5-logo {
     width: min(62vw, 21rem);
     transform-origin: 49.8% 39%;
-    animation: i5-land 0.9s cubic-bezier(0.76, 0, 0.24, 1) 1.65s both;
+    animation: i5-land 0.7s cubic-bezier(0.76, 0, 0.24, 1) 1s both;
   }
   @media (min-width: 48rem) {
     .i5-logo {
@@ -340,20 +340,20 @@ const slides = [photos.torontoNight, photos.officeTowers, photos.commercialPavil
   .i5-logo .logo-bar {
     transform-box: fill-box;
     transform-origin: 50% 100%;
-    animation: i5-rise 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: i5-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
-  .i5-logo .logo-bar-1 { animation-delay: 0.2s; }
-  .i5-logo .logo-bar-2 { animation-delay: 0.32s; }
-  .i5-logo .logo-bar-3 { animation-delay: 0.44s; }
+  .i5-logo .logo-bar-1 { animation-delay: 0.1s; }
+  .i5-logo .logo-bar-2 { animation-delay: 0.18s; }
+  .i5-logo .logo-bar-3 { animation-delay: 0.26s; }
   .i5-logo .logo-word {
     animation:
-      wipe 0.9s cubic-bezier(0.76, 0, 0.24, 1) 0.65s both,
-      i5-out 0.35s ease 1.7s forwards;
+      wipe 0.6s cubic-bezier(0.76, 0, 0.24, 1) 0.35s both,
+      i5-out 0.3s ease 1.05s forwards;
   }
   .i5-logo .logo-sub {
     animation:
-      i5-fade 0.8s ease 1s both,
-      i5-out 0.35s ease 1.7s forwards;
+      i5-fade 0.5s ease 0.6s both,
+      i5-out 0.3s ease 1.05s forwards;
   }
   .i5-line {
     display: block;
@@ -364,8 +364,8 @@ const slides = [photos.torontoNight, photos.officeTowers, photos.commercialPavil
     transform: scaleX(0);
     transform-origin: left;
     animation:
-      i5-load 1.3s cubic-bezier(0.65, 0, 0.35, 1) 0.1s forwards,
-      i5-out 0.4s ease 1.45s forwards;
+      i5-load 0.85s cubic-bezier(0.65, 0, 0.35, 1) 0.05s forwards,
+      i5-out 0.3s ease 0.9s forwards;
   }
   html.intro-skip .intro5 {
     display: none !important;

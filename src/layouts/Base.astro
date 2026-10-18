@@ -73,12 +73,13 @@ const jsonLd = {
         setTimeout(function () { if (!d.classList.contains('reveal-ready')) d.classList.remove('js'); }, 4000);
         if (!intro) return;
         // En cada carga de la home (salvo reduced motion). Variante por URL: ?intro1 | ?intro2 | ?intro3 | ?intro4 | ?intro5
-        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        // Con reduced motion: el hero de fotos de la variante por defecto, sin intro
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) { d.dataset.intro = '5'; return; }
         var m = location.search.match(/[?&]intro([1-5])\b/);
-        var mode = m ? m[1] : '2';
+        var mode = m ? m[1] : '5';
         d.dataset.intro = mode;
         d.classList.add('has-intro');
-        setTimeout(function () { d.classList.add('intro-done'); }, 3200);
+        setTimeout(function () { d.classList.add('intro-done'); }, mode === '5' ? 1900 : 3200);
       })();
     </script>
   </head>

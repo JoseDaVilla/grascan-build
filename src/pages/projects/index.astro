@@ -45,7 +45,7 @@ const strip = (html: string) => html.replace(/<[^>]+>/g, '');
           <div class="grid gap-12 lg:grid-cols-12 lg:items-center">
             <div class="lg:col-span-5" data-reveal>
               <p class="eyebrow text-mute">Portfolio coming soon</p>
-              <h2 class="mt-5 font-wide text-title">{projectsCopy.ourProjects.title}</h2>
+              <h2 class="mt-5 font-editorial text-title">{projectsCopy.ourProjects.title}</h2>
               <p class="mt-6 text-lg text-ink/75">{projectsCopy.ourProjects.text}</p>
               <p class="eyebrow mt-10 text-mute">What we build</p>
               <ul class="mt-4 flex flex-wrap gap-2">
@@ -66,7 +66,7 @@ const strip = (html: string) => html.replace(/<[^>]+>/g, '');
   <section class="on-dark bg-ink py-24 text-bone md:py-32">
     <div class="container-x flex flex-col items-start justify-between gap-10 md:flex-row md:items-end">
       <div class="max-w-3xl">
-        <h2 class="font-wide text-title" data-reveal>{contactCopy.start.lead}</h2>
+        <h2 class="font-editorial text-title" data-reveal>{contactCopy.start.lead}</h2>
         <p class="mt-6 text-bone/70" data-reveal style="--d:1">{contactCopy.start.text}</p>
       </div>
       <div data-reveal style="--d:2"><Button href={u('/contact?topic=project#form')}>Start a project</Button></div>
