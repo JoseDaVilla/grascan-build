@@ -18,7 +18,7 @@ npm run build     # genera /dist (estático)
 npm run preview   # sirve /dist
 ```
 
-La **intro** sale en cada carga de la home, sólo con el logo a color. Hay tres variantes por URL: `/?intro1` (plano: guías, contorno y torres planta por planta), `/?intro2` (logo 3D, por defecto) y `/?intro3` (el scroll construye el logo 3D). Se salta con clic o tecla; no sale con reduced motion.
+La **intro** sale en cada carga de la home, sólo con el logo a color. Hay tres variantes por URL: `/?intro1` (plano: guías, contorno y torres planta por planta), `/?intro2` (logo 3D que se puede girar, por defecto) y `/?intro3` (partículas que forman el logo y golpe). Se salta con clic o tecla; no sale con reduced motion.
 
 ## Páginas
 

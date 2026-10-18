@@ -77,10 +77,8 @@ const jsonLd = {
         var m = location.search.match(/[?&]intro([123])\b/);
         var mode = m ? m[1] : '2';
         d.dataset.intro = mode;
-        if (mode !== '3') {
-          d.classList.add('has-intro');
-          setTimeout(function () { d.classList.add('intro-done'); }, 3200);
-        }
+        d.classList.add('has-intro');
+        setTimeout(function () { d.classList.add('intro-done'); }, 3200);
       })();
     </script>
   </head>

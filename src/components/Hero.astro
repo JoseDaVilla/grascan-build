@@ -5,11 +5,11 @@
  * cliente (las elige Base.astro según la URL y queda en html[data-intro]):
  *  - ?intro1 "Plano": líneas guía de plano a lo ancho de la pantalla, el contorno se dibuja, las torres
  *    se levantan planta por planta y el wordmark se revela (sólo CSS).
- *  - ?intro2 "3D" (por defecto): logo extruido en three.js que gira hasta quedar de frente mientras las
- *    torres se levantan; luego reacciona al puntero y al scroll (src/scripts/logo3d.ts).
- *  - ?intro3 "Construcción": hero fijo durante el scroll; el scroll construye las torres en 3D planta por
- *    planta sobre su esqueleto y el logo gira hasta quedar de frente.
- * Sin WebGL, las variantes 3D caen al logo plano. Con prefers-reduced-motion el logo sale quieto.
+ *  - ?intro2 "3D" (por defecto): logo 3D satinado en three.js; las piezas caen con resorte y gira hasta
+ *    quedar de frente; luego flota, sigue al puntero y se puede arrastrar para girarlo (src/scripts/logo3d.ts).
+ *  - ?intro3 "Partículas": partículas que llegan desde los bordes forman el logo, que golpea y queda sólido
+ *    con onda expansiva y polvo (src/scripts/particles.ts).
+ * Si el JS no arranca, las variantes 2 y 3 caen al logo plano. Con prefers-reduced-motion sale quieto.
  * El texto del hero del documento va en la franja inmediatamente inferior (index.astro).
  */
 import Logo from './Logo.astro';
@@ -19,8 +19,9 @@ import Logo from './Logo.astro';
   <div class="hero-stage relative flex h-[100svh] min-h-[32rem] flex-col overflow-clip">
     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,var(--color-concrete)_100%)]" aria-hidden="true"></div>
     <canvas class="hero-3d pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
+    <canvas class="hero-fx pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
 
-    <div class="container-x relative flex flex-1 items-center justify-center pt-(--header-h) pb-24">
+    <div class="container-x pointer-events-none relative flex flex-1 items-center justify-center pt-(--header-h) pb-24">
       <h1 class="hero-mark relative w-[min(66vw,22rem)] md:w-[26rem]">
         <span class="guide guide-h" style="--y:0%;--k:0" aria-hidden="true"></span>
         <span class="guide guide-h" style="--y:78%;--k:1" aria-hidden="true"></span>
@@ -28,11 +29,12 @@ import Logo from './Logo.astro';
         <span class="guide guide-v" style="--x:79.6%;--k:3" aria-hidden="true"></span>
         <Logo variant="full" tone="original" class="hero-fill relative block w-full" />
         <Logo variant="full" outline class="hero-outline absolute inset-0 block w-full" />
+        <span class="hero-shock" aria-hidden="true"></span>
+        <span class="hero-shock" style="--k:1" aria-hidden="true"></span>
       </h1>
     </div>
 
-    <a href="#intro-statement" class="hero-cue absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 p-2 text-signal/70 transition-colors hover:text-signal" aria-label="Scroll to content">
-      <span class="hero-cue-label eyebrow hidden text-[0.7rem] text-mute">Scroll to build</span>
+    <a href="#intro-statement" class="hero-cue absolute bottom-8 left-1/2 -translate-x-1/2 p-2 text-signal/70 transition-colors hover:text-signal" aria-label="Scroll to content">
       <svg viewBox="0 0 24 24" class="hero-chevron size-7" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M6 6l6 6 6-6M6 12l6 6 6-6" /></svg>
     </a>
   </div>
@@ -40,9 +42,8 @@ import Logo from './Logo.astro';
 
 <script>
   const mode = document.documentElement.dataset.intro;
-  if (mode === '2' || mode === '3') {
-    import('@/scripts/logo3d').then((m) => m.mountLogo3D(mode === '3' ? 'scroll' : 'load')).catch(() => {});
-  }
+  if (mode === '2') import('@/scripts/logo3d').then((m) => m.mountLogo3D()).catch(() => {});
+  if (mode === '3') import('@/scripts/particles').then((m) => m.mountParticles()).catch(() => {});
 </script>
 
 <style is:global>
@@ -149,8 +150,8 @@ import Logo from './Logo.astro';
     opacity: 0;
   }
 
-  /* ---------- Variantes 2 y 3: 3D ---------- */
-  /* el logo plano espera al 3D; si WebGL no arranca, aparece solo */
+  /* ---------- Variantes 2 y 3 ---------- */
+  /* el logo plano espera al 3D / a las partículas; si el JS no arranca, aparece solo */
   html[data-intro='2'] .hero-fill,
   html[data-intro='3'] .hero-fill {
     animation: fade-in 0.6s ease 1.2s both;
@@ -158,19 +159,42 @@ import Logo from './Logo.astro';
   html.logo-3d .hero-fill {
     visibility: hidden;
   }
-  /* variante 3: el hero queda fijo mientras el scroll construye el logo */
-  html[data-intro='3'] .hero {
-    height: 280svh;
+  /* 3D: se arrastra para girarlo (en móvil el scroll vertical sigue funcionando) */
+  html.logo-3d .hero-3d {
+    pointer-events: auto;
+    touch-action: pan-y;
+    cursor: grab;
   }
-  html[data-intro='3'] .hero-stage {
-    position: sticky;
-    top: 0;
+  html.logo-grabbing .hero-3d {
+    cursor: grabbing;
   }
-  html[data-intro='3'].logo-3d .hero-cue-label {
-    display: block;
-  }
-  html[data-intro='3'].hero-pinned #site-header.hero-logo .header-logo {
+  /* Partículas: el logo sólido llega con un golpe, onda expansiva y temblor */
+  html.particles-on .hero-fill {
+    animation: none;
     opacity: 0;
+  }
+  html.particles-on.logo-hit .hero-fill {
+    opacity: 1;
+    transform-origin: 50% 78%;
+    animation: slam 0.55s cubic-bezier(0.5, 0, 0.75, 0) both;
+  }
+  html.particles-on.logo-hit .hero-mark {
+    animation: shake 0.42s linear 0.13s both;
+  }
+  .hero-shock {
+    position: absolute;
+    left: 50%;
+    top: 78%;
+    width: 100%;
+    aspect-ratio: 1;
+    border: 1.5px solid var(--color-signal);
+    border-radius: 50%;
+    opacity: 0;
+    translate: -50% -50%;
+    pointer-events: none;
+  }
+  html.particles-on.logo-hit .hero-shock {
+    animation: shock 0.9s cubic-bezier(0.16, 1, 0.3, 1) calc(0.13s + var(--k, 0) * 0.12s) both;
   }
 
   @keyframes guide-in {
@@ -202,6 +226,35 @@ import Logo from './Logo.astro';
     }
     to {
       clip-path: inset(0 0 0 0);
+    }
+  }
+  @keyframes slam {
+    0% {
+      transform: scale(1.1);
+    }
+    24% {
+      transform: scale(0.97);
+      animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    100% {
+      transform: none;
+    }
+  }
+  @keyframes shake {
+    0%, 100% { translate: 0 0; }
+    20% { translate: -5px 3px; }
+    40% { translate: 4px -2px; }
+    60% { translate: -3px 1px; }
+    80% { translate: 2px 0; }
+  }
+  @keyframes shock {
+    from {
+      opacity: 0.55;
+      transform: scale(0.2, 0.06);
+    }
+    to {
+      opacity: 0;
+      transform: scale(2.6, 0.7);
     }
   }
   @keyframes fade-in {
