@@ -5,7 +5,7 @@ Sitio corporativo de **Grascan Build** (construcción privada), construido con *
 - **Logo**: vectorizado a partir del original (sin fondo) en `src/lib/logo.ts`; componente `src/components/Logo.astro` con variantes `full`, `horizontal` y `mark`, y animación de construcción (las torres crecen y el wordmark se revela). Se usa en la intro, header, footer, favicon e imagen OG.
 - **Paleta** (propuesta de la agencia): Steel Blue `#8296A8` (protagonista), Architectural White `#F7F8F9` (fondos), Deep Slate `#263746` (titulares y navegación) y Silver Grey `#C5CDD4` (líneas y detalles). El logo mantiene sus colores originales (tokens `logo-*`).
 - **Contenido y estructura**: según el documento del cliente *Website GRASCAN BUILD* (copia en `client-assets/`, no versionada). Textos de Home/About/Services en `src/data/services.ts`; Markets, Why Grascan Build, Health & Safety y Careers en `src/data/sections.ts`. Pendiente del cliente: email, teléfono y dirección ("waiting for info"), proyectos (la página existe vacía, como pide el documento) y textos legales.
-- **Tipografía**: sólo **Kumbh Sans** (variable, self-hosted en `src/assets/fonts/`): titulares en negrita y mayúsculas (`font-editorial`), titulares pequeños (`font-wide`), subtítulos (`font-semiwide`), etiquetas espaciadas (`eyebrow`).
+- **Tipografía** (sólo las del documento del cliente, self-hosted en `src/assets/fonts/`): **Kumbh Sans** para titulares (`font-editorial`, `font-wide`) y texto, y **Cossette Titre** para subtítulos y titulares de tarjetas (`font-semiwide`). Etiquetas espaciadas: `eyebrow` (Kumbh Sans).
 - **Fotos**: las enviadas por el cliente, optimizadas en `src/assets/photos/` (nombres descriptivos), catálogo en `src/data/photos.ts` (slides del hero, mercados, servicios, Why Grascan Build). Los originales quedan en `client-assets/`.
 - **Menú**: árbol completo en `menu` (`src/site.config.ts`): submenús por hover en escritorio y menú hamburguesa con desplegables en móvil.
 
@@ -109,7 +109,7 @@ Si se despliega en otro hosting, poner la URL de Formspree / Basin / API propia 
 - **Mobile first**: estilos base pensados para móvil y ampliados con `sm/md/lg/xl`; el contenido que en escritorio aparece al pasar el cursor está siempre visible en táctil; titulares con menor anchura tipográfica en móvil; licitaciones en tarjetas en móvil y tabla en escritorio; objetivos táctiles ≥ 44 px.
 
 - Lighthouse (móvil, home): **Performance 99 · Best Practices 100 · SEO 100 · Accesibilidad 96**, CLS 0.
-- Fuente self-hosted (Kumbh Sans variable), precargada.
+- Fuentes self-hosted (Kumbh Sans variable y Cossette Titre), precargadas.
 - CSS inlined por página, un único bundle JS (`src/scripts/main.ts`), prefetch de enlaces al pasar el cursor.
 - Transiciones entre páginas con View Transitions nativas (sin JS).
 - Animaciones: intro 100 % CSS, trazado de SVG con `pathLength`, reveals con IntersectionObserver, scroll-driven animations (con fallback). Todo respeta `prefers-reduced-motion`.

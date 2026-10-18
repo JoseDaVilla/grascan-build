@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ */
-/*  Fuente (self-hosted, subset latin): Kumbh Sans variable 100–900.    */
-/*  Titulares en negrita y mayúsculas, texto en regular. El logo es     */
-/*  vectorial (no depende de fuentes).                                 */
+/*  Fuentes (self-hosted, subset latin). Sólo las del documento del     */
+/*  cliente: Kumbh Sans ("I really like this one") para títulos y       */
+/*  texto, y Cossette Titre para subtítulos. El logo es vectorial.      */
 /* ------------------------------------------------------------------ */
 @font-face {
   font-family: "Kumbh Sans";
@@ -11,6 +11,20 @@
   font-display: swap;
   font-weight: 100 900;
   src: url("../assets/fonts/kumbh-sans.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Cossette Titre";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../assets/fonts/cossette-titre-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Cossette Titre";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("../assets/fonts/cossette-titre-700.woff2") format("woff2");
 }
 
 /* ================================================================== */
@@ -58,6 +72,7 @@
 
   /* ---------------- Tipografía, tamaños y curvas ---------------- */
   --font-sans: "Kumbh Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sub: "Cossette Titre", "Kumbh Sans", ui-sans-serif, system-ui, sans-serif;
 
   --text-mega: clamp(2.5rem, 7.4vw, 7.4rem);
   --text-mega--line-height: 0.98;
@@ -112,11 +127,11 @@
   letter-spacing: -0.025em;
   text-transform: uppercase;
 }
-/* Subtítulos y titulares de tarjetas */
+/* Subtítulos y titulares de tarjetas: Cossette Titre (SUBTITLES del documento del cliente) */
 @utility font-semiwide {
-  font-family: var(--font-sans);
-  font-weight: 600;
-  letter-spacing: -0.005em;
+  font-family: var(--font-sub);
+  font-weight: 700;
+  letter-spacing: 0.01em;
 }
 @utility container-x {
   width: 100%;
@@ -729,40 +744,7 @@ textarea.input {
 /* ------------------------------------------------------------------ */
 /*  Reduced motion                                                     */
 /* ------------------------------------------------------------------ */
-/* Cinta en movimiento (marquee): dos copias de la lista que se desplazan en bucle */
-.marquee {
-  display: flex;
-  width: max-content;
-}
-.marquee-track {
-  display: flex;
-  flex-shrink: 0;
-  align-items: baseline;
-  animation: marquee 40s linear infinite;
-}
-.marquee:hover .marquee-track {
-  animation-play-state: paused;
-}
-@keyframes marquee {
-  to {
-    transform: translateX(-100%);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .marquee {
-    width: auto;
-    flex-wrap: wrap;
-    padding-inline: clamp(1rem, 4vw, 3.5rem);
-  }
-  .marquee-track {
-    animation: none;
-    flex-wrap: wrap;
-    row-gap: 1rem;
-  }
-  .marquee-track[aria-hidden] {
-    display: none;
-  }
 
   *,
   *::before,
