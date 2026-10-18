@@ -62,11 +62,11 @@ export function mountParticles() {
     return g;
   };
   const parts: [string, CanvasFillRule, string | CanvasGradient][] = [
-    [logo.gray, 'nonzero', lin(121, 0, 193, 0, [[0, v('--color-mute')], [1, v('--color-slate')]])],
-    [logo.navy, 'nonzero', lin(0, 0, 0, 461, [[0, v('--color-ink')], [0.45, v('--color-signal')], [1, v('--color-signal')]])],
-    [logo.g, 'evenodd', lin(338, 106, 479, 461, [[0, v('--color-signal')], [0.55, v('--color-signal')], [1, v('--color-ink')]])],
-    [logo.word, 'evenodd', v('--color-signal')],
-    [logo.build, 'evenodd', v('--color-slate')],
+    [logo.gray, 'nonzero', lin(121, 0, 193, 0, [[0, v('--color-logo-gray')], [1, v('--color-logo-gray-2')]])],
+    [logo.navy, 'nonzero', lin(0, 0, 0, 461, [[0, v('--color-logo-ink')], [0.45, v('--color-logo-navy')], [1, v('--color-logo-navy')]])],
+    [logo.g, 'evenodd', lin(338, 106, 479, 461, [[0, v('--color-logo-navy')], [0.55, v('--color-logo-navy')], [1, v('--color-logo-ink')]])],
+    [logo.word, 'evenodd', v('--color-logo-navy')],
+    [logo.build, 'evenodd', v('--color-logo-gray-2')],
   ];
   parts.forEach(([d, rule, fill]) => {
     o.fillStyle = fill;
@@ -123,7 +123,7 @@ export function mountParticles() {
       vx: ((x - cx) / (a.width / 2)) * sp * 2 + (Math.random() - 0.5) * 1.5, // se abre hacia los lados
       vy: -(1.5 + Math.random() * 4.5), // salta hacia arriba
       size: 1 + Math.random() * 2.2,
-      color: i % 4 === 0 ? v('--color-slate') : v('--color-signal'),
+      color: i % 4 === 0 ? v('--color-logo-gray-2') : v('--color-logo-navy'),
     };
   });
 

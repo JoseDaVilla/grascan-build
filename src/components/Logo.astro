@@ -20,7 +20,7 @@ const original = tone === 'original';
 const uid = Math.random().toString(36).slice(2, 8);
 const len = outline ? 1 : undefined;
 const fills = original
-  ? { gray: `fill:url(#lg-gray-${uid})`, navy: `fill:url(#lg-navy-${uid})`, g: `fill:url(#lg-g-${uid})`, word: 'fill:var(--color-signal)', sub: 'fill:var(--color-slate)' }
+  ? { gray: `fill:url(#lg-gray-${uid})`, navy: `fill:url(#lg-navy-${uid})`, g: `fill:url(#lg-g-${uid})`, word: 'fill:var(--color-logo-navy)', sub: 'fill:var(--color-logo-gray-2)' }
   : { gray: undefined, navy: undefined, g: undefined, word: undefined, sub: undefined };
 ---
 <svg
@@ -34,16 +34,16 @@ const fills = original
     original && (
       <defs>
         <linearGradient id={`lg-gray-${uid}`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="var(--color-mute)" />
-          <stop offset="1" stop-color="var(--color-slate)" />
+          <stop offset="0" stop-color="var(--color-logo-gray)" />
+          <stop offset="1" stop-color="var(--color-logo-gray-2)" />
         </linearGradient>
         <linearGradient id={`lg-navy-${uid}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="var(--color-ink)" />
-          <stop offset="0.45" stop-color="var(--color-signal)" />
+          <stop offset="0" stop-color="var(--color-logo-ink)" />
+          <stop offset="0.45" stop-color="var(--color-logo-navy)" />
         </linearGradient>
         <linearGradient id={`lg-g-${uid}`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0.55" stop-color="var(--color-signal)" />
-          <stop offset="1" stop-color="var(--color-ink)" />
+          <stop offset="0.55" stop-color="var(--color-logo-navy)" />
+          <stop offset="1" stop-color="var(--color-logo-ink)" />
         </linearGradient>
       </defs>
     )

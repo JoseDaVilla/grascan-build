@@ -3,9 +3,9 @@
 Sitio corporativo de **Grascan Build** (construcción privada), construido con **Astro 7 + Tailwind CSS 4**: HTML estático, ~5 KB de JS propio y animaciones con CSS/SVG.
 
 - **Logo**: vectorizado a partir del original (sin fondo) en `src/lib/logo.ts`; componente `src/components/Logo.astro` con variantes `full`, `horizontal` y `mark`, y animación de construcción (las torres crecen y el wordmark se revela). Se usa en la intro, header, footer, favicon e imagen OG.
-- **Paleta**: la del documento del cliente *GRASCAN BUILD* (Coolors): blancos/grises `#FFFFFF` `#C4CBD4` `#7D858F` `#6F7680` `#5E646D` y navys `#082E5D` `#06274F` `#051D3A` `#1C324C` `#31455C`.
+- **Paleta** (propuesta de la agencia): Steel Blue `#8296A8` (protagonista), Architectural White `#F7F8F9` (fondos), Deep Slate `#263746` (titulares y navegación) y Silver Grey `#C5CDD4` (líneas y detalles). El logo mantiene sus colores originales (tokens `logo-*`).
 - **Contenido y estructura**: según el documento del cliente *Website GRASCAN BUILD* (copia en `client-assets/`, no versionada). Textos de Home/About/Services en `src/data/services.ts`; Markets, Why Grascan Build, Health & Safety y Careers en `src/data/sections.ts`. Pendiente del cliente: email, teléfono y dirección ("waiting for info"), proyectos (la página existe vacía, como pide el documento) y textos legales.
-- **Tipografía** (documento del cliente, self-hosted desde Google Fonts en `src/assets/fonts/`): títulos en **Goldman** (utilidad `font-wide`), subtítulos y etiquetas en **Cossette Titre** (`font-semiwide`, `eyebrow`), texto en **Kumbh Sans**.
+- **Tipografía**: sólo **Kumbh Sans** (variable, self-hosted en `src/assets/fonts/`): titulares en negrita y mayúsculas (`font-editorial`), titulares pequeños (`font-wide`), subtítulos (`font-semiwide`), etiquetas espaciadas (`eyebrow`).
 - **Fotos**: las enviadas por el cliente, optimizadas en `src/assets/photos/` (nombres descriptivos), catálogo en `src/data/photos.ts` (slides del hero, mercados, servicios, Why Grascan Build). Los originales quedan en `client-assets/`.
 - **Menú**: árbol completo en `menu` (`src/site.config.ts`): submenús por hover en escritorio y menú hamburguesa con desplegables en móvil.
 
@@ -58,14 +58,16 @@ ilustraciones SVG, escena del hero, intro, favicon, imagen Open Graph y `theme-c
 
 | Token | Uso |
 | --- | --- |
-| `signal` | **Navy de marca** (#082E5D): botones, acentos, iconos |
-| `gray` / `slate` | **Grises de marca** (#6F7680 / #7D858F): palabras destacadas y detalles |
-| `ink` / `ink-2` / `steel` / `graphite` | Navys de la paleta (#051D3A / #06274F / #1C324C / #31455C): texto principal y secciones oscuras |
-| `bone` / `concrete` / `fog` / `mute` | Blanco, #C4CBD4 aclarado, #C4CBD4 y #5E646D |
-| `signal-soft` / `on-signal` | Acento sobre secciones navy y texto sobre botones navy |
+| `steel` | **Steel Blue** (#8296A8): franjas de color de la home (`on-steel`), números y acentos grandes |
+| `signal` | **Deep Slate** (#263746): botones, iconos, líneas y acentos sobre blanco |
+| `gray` | Palabras destacadas en titulares (steel blue; blanco dentro de `on-steel`) |
+| `ink` / `ink-2` / `graphite` | Deep slate: texto principal, navegación y secciones oscuras |
+| `bone` / `concrete` / `fog` / `mute` | Architectural White, blanco algo más gris, Silver Grey y gris azulado de texto secundario |
+| `signal-soft` / `on-signal` | Acento sobre secciones oscuras y texto sobre botones |
+| `logo-navy` / `logo-ink` / `logo-gray` / `logo-gray-2` | Colores originales del logo (no cambian con la paleta) |
 | `danger` | Errores de formulario |
 
-Las secciones navy llevan la clase `on-dark`, que cambia automáticamente el acento a gris claro dentro de ellas.
+Las secciones oscuras llevan la clase `on-dark` y las franjas steel blue `on-steel`: ambas ajustan automáticamente acentos y textos dentro de ellas.
 
 Reglas para mantenerlo así:
 - No escribir colores HEX/RGB en componentes: usar las clases (`text-signal`, `fill-bone/40`, `stroke-ink`) o `var(--color-…)` en CSS.
@@ -107,7 +109,7 @@ Si se despliega en otro hosting, poner la URL de Formspree / Basin / API propia 
 - **Mobile first**: estilos base pensados para móvil y ampliados con `sm/md/lg/xl`; el contenido que en escritorio aparece al pasar el cursor está siempre visible en táctil; titulares con menor anchura tipográfica en móvil; licitaciones en tarjetas en móvil y tabla en escritorio; objetivos táctiles ≥ 44 px.
 
 - Lighthouse (móvil, home): **Performance 99 · Best Practices 100 · SEO 100 · Accesibilidad 96**, CLS 0.
-- Fuentes self-hosted (Goldman, Cossette Titre y Kumbh Sans variable), precargadas.
+- Fuente self-hosted (Kumbh Sans variable), precargada.
 - CSS inlined por página, un único bundle JS (`src/scripts/main.ts`), prefetch de enlaces al pasar el cursor.
 - Transiciones entre páginas con View Transitions nativas (sin JS).
 - Animaciones: intro 100 % CSS, trazado de SVG con `pathLength`, reveals con IntersectionObserver, scroll-driven animations (con fallback). Todo respeta `prefers-reduced-motion`.

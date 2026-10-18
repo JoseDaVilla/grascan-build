@@ -55,10 +55,10 @@ export function mountLogo3D(entry: 'drop' | 'impact' = 'drop') {
 
   const css = getComputedStyle(root);
   const color = (v: string) => new THREE.Color(css.getPropertyValue(v).trim());
-  const ink = color('--color-ink');
-  const signal = color('--color-signal');
-  const mute = color('--color-mute');
-  const slate = color('--color-slate');
+  const ink = color('--color-logo-ink');
+  const signal = color('--color-logo-navy');
+  const mute = color('--color-logo-gray');
+  const slate = color('--color-logo-gray-2');
   const mix = (a: THREE.Color, b: THREE.Color, t: number) => a.clone().lerp(b, clamp(t));
 
   // Degradados del logo original (mismos que Logo.astro tone="original")

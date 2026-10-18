@@ -20,4 +20,6 @@ export const palette = {
   mute: pick('mute'),
   gray: pick('gray'),
   signal: pick('signal'),
+  logoNavy: pick('logo-navy'),
+  logoGray: pick('logo-gray-2'),
 };

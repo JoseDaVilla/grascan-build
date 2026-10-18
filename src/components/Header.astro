@@ -21,7 +21,11 @@ const desktop = menu.filter((m) => m.href !== '/contact');
   <div class="header-bg absolute inset-0 -z-10 border-b border-ink/0 transition-all duration-500"></div>
   <div class="container-x flex h-(--header-h) items-center justify-between gap-6">
     <a href={u('/')} class="relative z-10 shrink-0" aria-label={`${site.legalName}, home`}>
-      <Logo variant="horizontal" class="header-logo h-10 w-auto md:h-11" />
+      <!-- Logo a color original; la versión blanca sólo sobre heroes oscuros y con el menú móvil abierto -->
+      <span class="header-logo relative block">
+        <Logo variant="horizontal" tone="original" class="logo-color block h-10 w-auto md:h-11" />
+        <Logo variant="horizontal" class="logo-white absolute inset-0 block h-10 w-auto !text-bone md:h-11" />
+      </span>
     </a>
 
     <nav aria-label="Main" class="hidden h-full xl:block">
@@ -132,9 +136,20 @@ const desktop = menu.filter((m) => m.href !== '/contact');
     color: var(--color-bone);
     --color-gray: var(--color-signal-soft);
   }
-  #site-header.header-dark:not(.is-scrolled) :global(.header-logo),
-  #site-header.menu-open :global(.header-logo) {
-    color: var(--color-bone);
+  #site-header :global(.logo-white) {
+    opacity: 0;
+    transition: opacity 400ms ease;
+  }
+  #site-header :global(.logo-color) {
+    transition: opacity 400ms ease;
+  }
+  #site-header.header-dark:not(.is-scrolled) :global(.logo-white),
+  #site-header.menu-open :global(.logo-white) {
+    opacity: 1;
+  }
+  #site-header.header-dark:not(.is-scrolled) :global(.logo-color),
+  #site-header.menu-open :global(.logo-color) {
+    opacity: 0;
   }
   #site-header.header-dark:not(.is-scrolled) :global(.btn-ghost),
   #site-header.menu-open :global(.btn-ghost) {

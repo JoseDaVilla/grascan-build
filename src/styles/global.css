@@ -1,10 +1,9 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ */
-/*  Fonts (self-hosted desde Google Fonts, subset latin)               */
-/*  Según el documento del cliente: TITLES = Goldman ·                  */
-/*  SUBTITLES = Cossette Titre · BODY = Kumbh Sans ("I really like      */
-/*  this one").                                                        */
+/*  Fuente (self-hosted, subset latin): Kumbh Sans variable 100–900.    */
+/*  Titulares en negrita y mayúsculas, texto en regular. El logo es     */
+/*  vectorial (no depende de fuentes).                                 */
 /* ------------------------------------------------------------------ */
 @font-face {
   font-family: "Kumbh Sans";
@@ -12,34 +11,6 @@
   font-display: swap;
   font-weight: 100 900;
   src: url("../assets/fonts/kumbh-sans.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Goldman";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url("../assets/fonts/goldman-400.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Goldman";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 700;
-  src: url("../assets/fonts/goldman-700.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Cossette Titre";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url("../assets/fonts/cossette-titre-400.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Cossette Titre";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 700;
-  src: url("../assets/fonts/cossette-titre-700.woff2") format("woff2");
 }
 
 /* ================================================================== */
@@ -53,45 +24,48 @@
 /*  leen de este archivo en build (src/lib/palette.ts).                */
 /* ================================================================== */
 @theme static {
-  /* PALETA GRASCAN BUILD (documento del cliente "GRASCAN BUILD" · Coolors):
-     blancos/grises  #FFFFFF · #C4CBD4 · #7D858F · #6F7680 · #5E646D
-     navys           #082E5D · #06274F · #051D3A · #1C324C · #31455C */
+  /* PALETA (propuesta de la agencia, oct. 2026):
+     01 Steel Blue #8296A8 (protagonista) · 02 Architectural White #F7F8F9 (fondos)
+     03 Deep Slate #263746 (titulares y navegación) · 04 Silver Grey #C5CDD4 (líneas y detalles) */
 
-  /* Colores de marca */
-  --color-signal: #082e5d; /* NAVY de marca: botones, acentos, iconos, líneas */
-  --color-gray: #6f7680; /* GRIS de marca: detalles, palabras destacadas */
-  --color-slate: #7d858f; /* gris medio: separadores y detalles sobre oscuro */
-  --color-signal-soft: #c4cbd4; /* gris azulado claro: acento sobre fondos navy (.on-dark) */
-  --color-signal-ink: #082e5d; /* acento para texto pequeño sobre blanco (AA) */
-  --color-on-signal: #ffffff; /* texto sobre botones/bloques navy */
+  /* Colores principales */
+  --color-steel: #8296a8; /* STEEL BLUE: franjas de color, acentos grandes */
+  --color-signal: #263746; /* DEEP SLATE: botones, iconos, líneas, acentos sobre blanco */
+  --color-gray: #8296a8; /* palabras destacadas en titulares (steel blue) */
+  --color-signal-soft: #c5cdd4; /* SILVER GREY: acento sobre fondos oscuros (.on-dark) */
+  --color-signal-ink: #4c6276; /* steel blue oscurecido: texto pequeño de acento sobre blanco (AA) */
+  --color-on-signal: #ffffff; /* texto sobre botones/bloques deep slate */
 
-  /* Navy (texto principal y secciones oscuras) */
-  --color-ink: #051d3a; /* navy más oscuro: texto y fondo de secciones oscuras */
-  --color-ink-2: #06274f; /* navy profundo: superficies sobre fondo oscuro */
-  --color-steel: #1c324c; /* navy pizarra: hover / bloques destacados sobre oscuro */
-  --color-graphite: #31455c; /* navy pizarra claro: bordes sobre oscuro */
+  /* Oscuros (texto principal y secciones oscuras) */
+  --color-ink: #263746; /* deep slate: texto, navegación y secciones oscuras */
+  --color-ink-2: #1f2d3a; /* deep slate más profundo: superficies sobre oscuro */
+  --color-graphite: #3b4d5e; /* bordes sobre oscuro */
 
-  /* Blanco y grises */
-  --color-bone: #ffffff; /* fondo principal (blanco) / texto sobre oscuro */
-  --color-concrete: #eef0f3; /* #C4CBD4 muy aclarado: secciones alternas */
-  --color-fog: #c4cbd4; /* gris azulado claro: bordes suaves */
-  --color-mute: #5e646d; /* gris oscuro: texto secundario (AA) */
+  /* Blancos y grises */
+  --color-bone: #f7f8f9; /* ARCHITECTURAL WHITE: fondo principal / texto sobre oscuro */
+  --color-concrete: #eceff2; /* blanco un punto más gris: secciones alternas */
+  --color-fog: #c5cdd4; /* silver grey: líneas, bordes y detalles */
+  --color-mute: #56687a; /* gris azulado: texto secundario (AA sobre blanco) */
+
+  /* Logo (colores originales del logo del cliente; no cambian con la paleta de la web) */
+  --color-logo-navy: #082e5d;
+  --color-logo-ink: #051d3a;
+  --color-logo-gray: #5e646d;
+  --color-logo-gray-2: #7d858f;
 
   /* Estados */
   --color-danger: #b42318; /* errores de formulario (único tono fuera del logo, por accesibilidad) */
 
   /* ---------------- Tipografía, tamaños y curvas ---------------- */
   --font-sans: "Kumbh Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-display: "Goldman", "Kumbh Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-sub: "Cossette Titre", "Kumbh Sans", ui-sans-serif, system-ui, sans-serif;
 
-  --text-mega: clamp(2.9rem, 9.5vw, 9.5rem);
-  --text-mega--line-height: 1;
+  --text-mega: clamp(2.5rem, 7.4vw, 7.4rem);
+  --text-mega--line-height: 0.98;
   --text-mega--letter-spacing: 0;
-  --text-display: clamp(2.3rem, 6vw, 5.9rem);
+  --text-display: clamp(2.1rem, 5vw, 4.8rem);
   --text-display--line-height: 1;
   --text-display--letter-spacing: 0;
-  --text-title: clamp(1.95rem, 3.9vw, 3.7rem);
+  --text-title: clamp(1.75rem, 3.3vw, 3.1rem);
   --text-title--line-height: 1.04;
   --text-title--letter-spacing: 0;
   --text-lead: clamp(1.15rem, 1.6vw, 1.5rem);
@@ -103,36 +77,46 @@
   --breakpoint-3xl: 112rem;
 }
 
-/* Contexto oscuro: dentro de una sección navy el acento pasa a azul claro y el gris se aclara.
-   Úsalo en el contenedor de cualquier sección con fondo bg-ink / bg-ink-2 / bg-signal. */
+/* Contexto oscuro: dentro de una sección deep slate (o foto con capa oscura) el acento pasa a
+   silver grey y las palabras destacadas a steel blue. Úsalo en secciones bg-ink / bg-ink-2. */
 @utility on-dark {
   --color-signal: var(--color-signal-soft);
   --color-signal-ink: var(--color-signal-soft);
   --color-on-signal: var(--color-ink);
-  --color-gray: var(--color-signal-soft);
+  --color-gray: var(--color-steel);
+  --color-mute: var(--color-signal-soft);
   color: var(--color-bone);
+}
+/* Franja steel blue: texto deep slate, palabras destacadas en blanco */
+@utility on-steel {
+  --color-gray: var(--color-bone);
+  --color-mute: #2f4152;
+  --color-signal-ink: var(--color-ink);
+  background: var(--color-steel);
+  color: var(--color-ink);
 }
 
 /* Sólo dispositivos con puntero fino: en táctil el contenido "hover" queda visible */
 @custom-variant can-hover (@media (hover: hover) and (pointer: fine));
 
-/* Títulos: Goldman (TITLES del documento) */
+/* Titulares pequeños, números y etiquetas destacadas: Kumbh Sans negrita */
 @utility font-wide {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-synthesis: none;
-  letter-spacing: 0;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
-/* Titulares grandes de sección: Kumbh Sans fina y apretada, tono editorial (Goldman queda para acentos) */
+/* Titulares de sección: Kumbh Sans negrita, mayúsculas, apretada (estilo "BUILT FOR WHAT'S NEXT.") */
 @utility font-editorial {
   font-family: var(--font-sans);
-  font-weight: 300;
-  letter-spacing: -0.035em;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
 }
-/* Subtítulos y titulares de tarjetas: Cossette Titre (SUBTITLES del documento) */
+/* Subtítulos y titulares de tarjetas */
 @utility font-semiwide {
-  font-family: var(--font-sub);
-  letter-spacing: 0.01em;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.005em;
 }
 @utility container-x {
   width: 100%;
@@ -140,12 +124,12 @@
   max-width: 96rem;
   padding-inline: clamp(1rem, 4vw, 3.5rem);
 }
-/* Etiqueta pequeña: sans, seminegrita, sin adornos */
+/* Etiqueta pequeña: mayúsculas espaciadas (color con text-*) */
 @utility eyebrow {
-  font-family: var(--font-sub);
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
@@ -512,6 +496,20 @@
 /* Scroll-driven word highlight (progressive enhancement) */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
+    /* Fotos que se revelan con un zoom suave al entrar en pantalla */
+    .zoom-in {
+      animation: zoom-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 55%;
+    }
+    @keyframes zoom-in {
+      from {
+        scale: 1.2;
+      }
+      to {
+        scale: 1;
+      }
+    }
     .scrub-word {
       opacity: 0.2;
       animation: scrub linear both;
@@ -559,10 +557,10 @@
 }
 .prose h2 {
   margin-top: 2.2em;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 1.6rem;
   line-height: 1.15;
-  font-weight: 400;
+  font-weight: 700;
   color: var(--color-ink);
 }
 .prose h3 {
@@ -731,7 +729,41 @@ textarea.input {
 /* ------------------------------------------------------------------ */
 /*  Reduced motion                                                     */
 /* ------------------------------------------------------------------ */
+/* Cinta en movimiento (marquee): dos copias de la lista que se desplazan en bucle */
+.marquee {
+  display: flex;
+  width: max-content;
+}
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  align-items: baseline;
+  animation: marquee 40s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .marquee {
+    width: auto;
+    flex-wrap: wrap;
+    padding-inline: clamp(1rem, 4vw, 3.5rem);
+  }
+  .marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    row-gap: 1rem;
+  }
+  .marquee-track[aria-hidden] {
+    display: none;
+  }
+
   *,
   *::before,
   *::after {
