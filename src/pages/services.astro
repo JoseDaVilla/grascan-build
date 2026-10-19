@@ -9,7 +9,6 @@ import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import DocPage from '@/components/DocPage.astro';
 import DocSection from '@/components/DocSection.astro';
-import ServiceIcon from '@/components/ServiceIcon.astro';
 import Button from '@/components/Button.astro';
 import { services, servicesIntro, contactCopy } from '@/data/services';
 import { photos, servicePhotos } from '@/data/photos';
@@ -28,8 +27,7 @@ const toc = [{ id: 'overview', label: 'Overview' }, ...services.map((s, i) => ({
         {
           services.map((s, i) => (
             <li class="sm:[&:last-child:nth-child(odd)]:col-span-2">
-              <a href={`#${s.slug}`} class="group flex h-full items-start gap-4 bg-bone p-6 transition-colors hover:bg-concrete">
-                <ServiceIcon name={s.icon} class="size-9 shrink-0 text-steel" />
+              <a href={`#${s.slug}`} class="group block h-full bg-bone p-6 transition-colors hover:bg-concrete">
                 <span>
                   <span class="block text-xs font-semibold tracking-[0.2em] text-signal-ink">{n(i)}</span>
                   <span class="mt-1 block font-editorial text-base tracking-normal text-ink">{s.title}</span>

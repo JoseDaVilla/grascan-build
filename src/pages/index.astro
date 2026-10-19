@@ -14,7 +14,6 @@ import Eyebrow from '@/components/Eyebrow.astro';
 import Button from '@/components/Button.astro';
 import ProjectCard from '@/components/ProjectCard.astro';
 import NewsCard from '@/components/NewsCard.astro';
-import ServiceIcon from '@/components/ServiceIcon.astro';
 import ContactBlock from '@/components/ContactBlock.astro';
 import Media from '@/components/Media.astro';
 import Icon from '@/components/Icon.astro';
@@ -177,10 +176,9 @@ const safetyList = Object.values(safetyTopics);
         {
           capabilities.map((s, i) => (
             <li data-reveal style={`--d:${i % 3}`}>
-              <a href={u(`/services#${s.slug}`)} class="group grid grid-cols-[auto_1fr] gap-5 border-b border-ink/20 py-7 transition-colors hover:bg-bone/10 md:grid-cols-[auto_minmax(0,5fr)_minmax(0,6fr)] md:gap-10 md:px-4 md:py-9">
-                <ServiceIcon name={s.icon} class="size-11 text-ink md:size-12" />
+              <a href={u(`/services#${s.slug}`)} class="group grid gap-3 border-b border-ink/20 py-7 transition-colors hover:bg-bone/10 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-10 md:px-4 md:py-9">
                 <span class="block self-center font-editorial text-[clamp(1.15rem,2vw,1.7rem)] leading-tight transition-transform duration-500 ease-(--ease-expo) group-hover:translate-x-2">{s.title}</span>
-                <span class="col-span-2 self-center text-ink/80 md:col-span-1 md:text-lg">{s.text}</span>
+                <span class="self-center text-ink/80 md:text-lg">{s.text}</span>
               </a>
             </li>
           ))
