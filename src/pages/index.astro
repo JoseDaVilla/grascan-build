@@ -50,14 +50,15 @@ const safetyList = Object.values(safetyTopics);
     Home en franjas: blanco · azul claro · edificio de fondo (capa navy), en ese ritmo.
     Textos alineados a la izquierda; algunos titulares a la derecha y escalas distintas (title · display · mega).
     Animaciones: textos que suben (data-reveal / SplitText), fotos que se revelan con zoom (zoom-in)
-    y fondos con parallax.
+    y fondos con parallax; frase de bienvenida que se enciende palabra por palabra (data-scrub) y titulares
+    gigantes que se deslizan a su sitio (data-drift). Ver src/scripts/scrollfx.ts.
   -->
 
   <!-- 1 · BLANCO — Texto del hero (documento): frase centrada y texto en dos columnas -->
   <section id="intro-statement" class="scroll-mt-(--header-h) bg-bone py-24 md:py-36">
     <div class="container-x">
       <p class="eyebrow text-signal-ink" data-reveal>Buildings & Development</p>
-      <p class="mt-6 max-w-5xl font-editorial text-[clamp(1.6rem,3.4vw,3.1rem)] leading-[1.06] text-ink" data-reveal style="--d:1">{heroCopy.lead}</p>
+      <p class="mt-6 max-w-5xl font-editorial text-[clamp(1.6rem,3.4vw,3.1rem)] leading-[1.06] text-ink" data-scrub>{heroCopy.lead}</p>
       <span class="mt-12 block h-px w-16 bg-steel" aria-hidden="true"></span>
       <div class="mt-12 grid max-w-6xl gap-8 leading-relaxed text-ink/70 md:grid-cols-2 md:gap-x-14 md:text-lg [&_strong]:font-semibold [&_strong]:text-ink" data-reveal style="--d:2">
         {heroCopy.paragraphs.map((p, i) => <p class:list={[i === 0 && 'text-lead text-ink/85 md:col-span-2 md:max-w-4xl']} set:html={p} />)}
@@ -130,7 +131,7 @@ const safetyList = Object.values(safetyTopics);
     <Media src={photos.curvedTower} alt="" class="absolute inset-0" imgClass="parallax" sizes="100vw" />
     <div class="absolute inset-0 bg-ink/75"></div>
     <div class="container-x relative">
-      <SplitText text="Building on|experience." accent={['experience.']} class="font-editorial text-mega" />
+      <SplitText text="Building on|experience." accent={['experience.']} class="font-editorial text-mega" data-drift="left" />
       <p class="mt-10 max-w-3xl text-lead text-bone/85" data-reveal style="--d:2">{boe.text}</p>
     </div>
   </section>
@@ -170,7 +171,7 @@ const safetyList = Object.values(safetyTopics);
   <section id="what-we-do" class="on-steel scroll-mt-(--header-h) py-24 md:py-36">
     <div class="container-x">
       <p class="eyebrow text-ink" data-reveal>What We Do</p>
-      <SplitText text="Our Capabilities" accent={['Capabilities']} class="mt-6 font-editorial text-mega" />
+      <SplitText text="Our Capabilities" accent={['Capabilities']} class="mt-6 font-editorial text-mega" data-drift="left" />
 
       <ul class="mt-16 border-t border-ink/20 md:mt-24">
         {
@@ -209,7 +210,7 @@ const safetyList = Object.values(safetyTopics);
     <div class="container-x">
       <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
         <div class="lg:col-span-8">
-          <SplitText text="Featured|Projects" accent={['Projects']} class="font-editorial text-mega" />
+          <SplitText text="Featured|Projects" accent={['Projects']} class="font-editorial text-mega" data-drift="right" />
         </div>
         <div class="text-ink/70 md:text-lg lg:col-span-4 [&_strong]:text-ink" data-reveal>
           <p set:html={projectsCopy.intro} />
@@ -319,7 +320,7 @@ const safetyList = Object.values(safetyTopics);
       <!-- on-dark sólo en el texto: las tarjetas de contacto mantienen sus colores sobre blanco -->
       <div class="on-dark">
       <p class="eyebrow text-bone/70" data-reveal>Contact</p>
-      <SplitText text="Let's build|what's next." accent={["next."]} class="mt-6 font-editorial text-mega" />
+      <SplitText text="Let's build|what's next." accent={["next."]} class="mt-6 font-editorial text-mega" data-drift="left" />
       <div class="mt-10 max-w-2xl space-y-4 text-bone/90 md:text-lg [&_strong]:text-bone" data-reveal>
         {contactCopy.intro.map((p) => <p set:html={p} />)}
       </div>

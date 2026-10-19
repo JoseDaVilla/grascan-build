@@ -792,3 +792,32 @@ html.preview-justify main p:not([class*="font-"]):not(.eyebrow):not([class*="tex
   hyphens: auto;
   -webkit-hyphens: auto;
 }
+
+/* ------------------------------------------------------------------ */
+/*  Efectos de scroll (src/scripts/scrollfx.ts)                         */
+/* ------------------------------------------------------------------ */
+/* con Lenis el scroll suave lo hace JS: sin scroll-behavior del navegador */
+html.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 70;
+  height: 2px;
+  background: var(--color-sky);
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+.scrub-w {
+  transition: opacity 0.2s linear;
+}
+[data-drift] {
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress {
+    display: none;
+  }
+}

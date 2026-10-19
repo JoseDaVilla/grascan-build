@@ -6,6 +6,7 @@
  * - Filtros genéricos (proyectos, noticias, media)
  * - Lightbox para galerías
  * - Saltar la intro del hero
+ * - Efectos de scroll (scrollfx.ts, cargado al final)
  */
 
 const root = document.documentElement;
@@ -274,3 +275,7 @@ document.querySelectorAll<HTMLButtonElement>('[data-map-src]').forEach((btn) =>
     btn.replaceWith(iframe);
   }),
 );
+
+/* ---------------- Efectos de scroll ---------------- */
+// Al final y aparte: si fallan, lo anterior ya funciona.
+import('./scrollfx').catch(() => {});
