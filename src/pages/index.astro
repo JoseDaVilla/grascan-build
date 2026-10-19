@@ -72,11 +72,12 @@ const safetyList = Object.values(safetyTopics);
   <!-- 3 · EDIFICIO — Built on experience: titular a la izquierda sobre fachada de vidrio -->
   <section id="experience" class="on-dark relative scroll-mt-(--header-h) overflow-hidden bg-ink pt-28 pb-36 text-bone md:py-40">
     <Media src={photos.glassFacade} alt="" class="absolute inset-0" imgClass="parallax" sizes="100vw" />
-    <div class="absolute inset-0 bg-ink/80"></div>
+    <!-- la foto se ve junto al titular y la capa se vuelve casi sólida bajo los párrafos (contraste) -->
+    <div class="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/90 to-ink/95"></div>
     <div class="container-x relative">
       <SplitText text="Built on experience.|Focused on what|comes next." accent={['next.']} class="max-w-5xl font-editorial text-display" />
       <div class="mt-14 grid gap-10 md:mt-20 lg:grid-cols-12">
-        <div class="space-y-6 text-lg leading-relaxed text-bone/80 lg:col-span-6 lg:col-start-7" data-reveal>
+        <div class="space-y-6 text-lg leading-relaxed text-bone/90 lg:col-span-6 lg:col-start-7" data-reveal>
           {story.paragraphs.map((p) => <p>{p}</p>)}
           <p class="border-t border-bone/20 pt-6 font-semiwide text-xl text-bone">{story.proposition}</p>
         </div>
@@ -191,11 +192,11 @@ const safetyList = Object.values(safetyTopics);
   <!-- 9 · EDIFICIO — Where We Build: texto a la izquierda sobre torres -->
   <section id="where-we-build" class="on-dark relative overflow-hidden bg-ink pt-28 pb-36 text-bone md:py-40">
     <Media src={photos.officeTowers} alt="" class="absolute inset-0" imgClass="parallax" sizes="100vw" />
-    <div class="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/80 to-ink/40"></div>
+    <div class="absolute inset-0 bg-ink/90 md:bg-transparent md:bg-gradient-to-r md:from-ink/95 md:via-ink/85 md:to-ink/40"></div>
     <div class="container-x relative">
       <div class="max-w-2xl">
         <SplitText text="Where|We Build" accent={['Build']} class="font-editorial text-display" />
-        <div class="mt-8 space-y-5 leading-relaxed text-bone/80 md:text-lg" data-reveal style="--d:2">
+        <div class="mt-8 space-y-5 leading-relaxed text-bone/90 md:text-lg" data-reveal style="--d:2">
           {whereWeBuild.paragraphs.map((p) => <p>{p}</p>)}
         </div>
         <p class="mt-8 border-l-2 border-steel pl-6 font-semiwide text-xl text-bone" data-reveal style="--d:3">{whereWeBuild.closing}</p>
@@ -313,13 +314,13 @@ const safetyList = Object.values(safetyTopics);
   <!-- 13 · EDIFICIO — Contact: titular gigante centrado sobre edificio y tarjetas de contacto -->
   <section id="contact" class="relative overflow-hidden bg-ink py-24 md:py-36">
     <Media src={photos.twinTowers} alt="" class="absolute inset-0" imgClass="parallax" sizes="100vw" />
-    <div class="absolute inset-0 bg-ink/85"></div>
+    <div class="absolute inset-0 bg-ink/90"></div>
     <div class="container-x relative">
       <!-- on-dark sólo en el texto: las tarjetas de contacto mantienen sus colores sobre blanco -->
       <div class="on-dark">
       <p class="eyebrow text-bone/70" data-reveal>Contact</p>
       <SplitText text="Let's build|what's next." accent={["next."]} class="mt-6 font-editorial text-mega" />
-      <div class="mt-10 max-w-2xl space-y-4 text-bone/80 md:text-lg [&_strong]:text-bone" data-reveal>
+      <div class="mt-10 max-w-2xl space-y-4 text-bone/90 md:text-lg [&_strong]:text-bone" data-reveal>
         {contactCopy.intro.map((p) => <p set:html={p} />)}
       </div>
       </div>
