@@ -87,7 +87,9 @@ const { toc, label } = Astro.props;
     links.forEach((a) => {
       const on = a.dataset.docLink === id;
       a.classList.toggle('is-active', on);
-      if (on && a.closest('.doc-bar')) a.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+      // sólo desplaza la barra en horizontal (scrollIntoView también movía la página y cortaba el scroll)
+      const bar = on ? a.closest('.doc-bar ol') : null;
+      if (bar) bar.scrollTo({ left: a.offsetLeft - (bar.clientWidth - a.offsetWidth) / 2, behavior: 'smooth' });
     });
   };
   let tick = false;

@@ -210,26 +210,33 @@
   }
 }
 
-/* Cross-document view transitions (sin JS) */
+/* Cross-document view transitions (sin JS): fundido rápido entre páginas para que se sientan
+   instantáneas. El header queda fijo (no parpadea) y sólo el contenido hace fade out / fade in. */
 @view-transition {
   navigation: auto;
 }
+#site-header {
+  view-transition-name: site-header;
+}
+::view-transition-group(site-header) {
+  animation-duration: 200ms;
+  z-index: 1;
+}
 ::view-transition-old(root) {
-  animation: 280ms cubic-bezier(0.76, 0, 0.24, 1) both vt-out;
+  animation: 140ms ease-in both vt-out;
 }
 ::view-transition-new(root) {
-  animation: 520ms cubic-bezier(0.16, 1, 0.3, 1) both vt-in;
+  animation: 260ms cubic-bezier(0.16, 1, 0.3, 1) 60ms both vt-in;
 }
 @keyframes vt-out {
   to {
     opacity: 0;
-    transform: translateY(-12px);
   }
 }
 @keyframes vt-in {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(10px);
   }
 }
 
@@ -238,11 +245,11 @@
 /* ------------------------------------------------------------------ */
 .js [data-reveal] {
   opacity: 0;
-  transform: translateY(32px);
+  transform: translateY(20px);
   transition:
-    opacity 900ms var(--ease-expo),
-    transform 1100ms var(--ease-expo);
-  transition-delay: calc(var(--d, 0) * 90ms);
+    opacity 500ms var(--ease-expo),
+    transform 650ms var(--ease-expo);
+  transition-delay: calc(var(--d, 0) * 55ms);
 }
 .js [data-reveal="fade"] {
   transform: none;
@@ -251,7 +258,7 @@
   transform: scale(0.96);
 }
 .js [data-reveal="left"] {
-  transform: translateX(-40px);
+  transform: translateX(-24px);
 }
 .js [data-reveal].is-in {
   opacity: 1;
@@ -273,8 +280,8 @@
 }
 .js [data-split] .split-word {
   transform: translateY(110%);
-  transition: transform 1100ms cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: calc(var(--base, 0ms) + var(--i, 0) * 70ms);
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--base, 0ms) + var(--i, 0) * 40ms);
 }
 .js [data-split].is-in .split-word {
   transform: none;
@@ -287,8 +294,8 @@
 }
 .js [data-reveal="mask"] > * {
   clip-path: inset(100% 0 0 0);
-  transition: clip-path 1300ms cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: calc(var(--d, 0) * 90ms);
+  transition: clip-path 800ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--d, 0) * 55ms);
 }
 .js [data-reveal="mask"].is-in > * {
   clip-path: inset(0 0 0 0);
@@ -743,6 +750,9 @@ textarea.input {
   }
   .marquee-track {
     animation: none;
+  }
+  @view-transition {
+    navigation: none;
   }
 }
 

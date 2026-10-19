@@ -34,6 +34,16 @@ const jsonLd = {
   ...(site.email && { email: site.email }),
   ...(site.phone && { telephone: site.phone }),
 };
+
+const homePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const speculation = {
+  prerender: [
+    {
+      where: { and: [{ href_matches: `${homePath}*` }, { not: { href_matches: homePath } }, { not: { href_matches: `${homePath}\\?*` } }, { not: { href_matches: `${homePath}#*` } }, { not: { selector_matches: '[download], [target="_blank"]' } }] },
+      eagerness: 'moderate',
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -59,6 +69,9 @@ const jsonLd = {
     <meta name="twitter:card" content="summary_large_image" />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <!-- Navegación instantánea (Chrome/Edge): prerenderiza la página al pasar el mouse por el enlace.
+         La home queda fuera para que su intro se vea al llegar. -->
+    <script type="speculationrules" set:html={JSON.stringify(speculation)} />
 
     <!-- Antes del primer paint: activa animaciones JS y decide si mostrar la intro -->
     <script is:inline define:vars={{ intro }}>
